@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:include="~{fragments/head}"></th:block>
 </head>
@@ -37,20 +36,20 @@
 
                         <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
                          !#lists.contains(user.authorities, 'ROLE_MODERATOR') && !#lists.contains(user.authorities, 'ROLE_ADMIN')}">
-                            <form th:action="@{/users/set-moderator/{id}(id=${user.id})}" method="post">
+                            <form th:action="@{/users/set-moderator/{id}(id=${user.id})}" th:method="post">
                                 <button class="btn btn-dark btn-width">MODERATOR</button>
                             </form>
-                            <form th:action="@{/users/set-admin/{id}(id=${user.id})}" method="post">
+                            <form th:action="@{/users/set-admin/{id}(id=${user.id})}" th:method="post">
                                 <button class="btn btn-dark btn-width">ADMIN</button>
                             </form>
                         </th:block>
 
                         <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
                          #lists.contains(user.authorities, 'ROLE_MODERATOR') && !#lists.contains(user.authorities, 'ROLE_ADMIN')}">
-                            <form th:action="@{/users/set-user/{id}(id=${user.id})}" method="post">
+                            <form th:action="@{/users/set-user/{id}(id=${user.id})}" th:method="post">
                                 <button class="btn btn-dark btn-width">USER</button>
                             </form>
-                            <form th:action="@{/users/set-admin/{id}(id=${user.id})}" method="post">
+                            <form th:action="@{/users/set-admin/{id}(id=${user.id})}" th:method="post">
                                 <button class="btn btn-dark btn-width">ADMIN</button>
                             </form>
                         </th:block>
@@ -58,10 +57,10 @@
                         <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
                          #lists.contains(user.authorities, 'ROLE_MODERATOR') && #lists.contains(user.authorities, 'ROLE_ADMIN') &&
                          !#lists.contains(user.authorities, 'ROLE_ROOT')}">
-                            <form th:action="@{/users/set-user/{id}(id=${user.id})}" method="post">
+                            <form th:action="@{/users/set-user/{id}(id=${user.id})}" th:method="post">
                                 <button class="btn btn-dark btn-width">USER</button>
                             </form>
-                            <form th:action="@{/users/set-moderator/{id}(id=${user.id})}" method="post">
+                            <form th:action="@{/users/set-moderator/{id}(id=${user.id})}" th:method="post">
                                 <button class="btn btn-dark btn-width">MODERATOR</button>
                             </form>
                         </th:block>

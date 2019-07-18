@@ -27,14 +27,14 @@
 
     <th:block sec:authorize="isAuthenticated()">
             <nav class="navbar navbar-expand-lg navbar-light bg-light rounded font-weight-bold">
-                <a class="navbar-brand" th:href="@{/home}">✳✶  🎀  𝒫𝓇🍑𝒹𝓊𝒸𝓉 𝒮𝒽💙𝓅  🎀  ✶✳</a>
+                <a class="navbar-brand" th:href="@{/users/home}">𝗢𝗻𝗹𝗶𝗻𝗲 𝗦𝘁𝗼𝗿𝗲</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#userNavBar" aria-controls="userNavBar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse d-flex justify-content-end" id="userNavBar">
                     <ul class="navbar-nav">
                         <li class="nav-item active">
-                            <a class="nav-link" th:href="@{/home}">Home</a>
+                            <a class="nav-link" th:href="@{/users/home}">Home</a>
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link" th:href="@{/users/profile}">Profile</a>
@@ -47,11 +47,11 @@
                                     Moderator
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="moderatorDropdown">
-                                    <a class="dropdown-item" th:href="@{/categories/add}">Add Category</a>
-                                    <a class="dropdown-item" th:href="@{/products/add}">Add Product</a>
+                                    <a class="dropdown-item" th:href="@{/categories/add-category}">Add Category</a>
+                                    <a class="dropdown-item" th:href="@{/products/add-product}">Add Product</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" th:href="@{/categories/all}">All Categories</a>
-                                    <a class="dropdown-item" th:href="@{/products/all}">All Products</a>
+                                    <a class="dropdown-item" th:href="@{/categories/all-categories}">All Categories</a>
+                                    <a class="dropdown-item" th:href="@{/products/all-products}">All Products</a>
                                 </div>
                             </div>
                         </li>

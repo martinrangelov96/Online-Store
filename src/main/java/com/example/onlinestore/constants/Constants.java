@@ -7,4 +7,8 @@ public final class Constants {
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
     public static final String ROLE_ROOT = "ROLE_ROOT";
 
+    public static final String USER_STRING = "user";
+    public static final String MODERATOR_STRING = "moderator";
+    public static final String ADMIN_STRING = "admin";
+
 }

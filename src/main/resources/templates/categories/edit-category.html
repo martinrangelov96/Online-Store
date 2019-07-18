@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{/fragments/head}"></th:block>
+</head>
+<body>
+<header>
+    <th:block th:include="~{/fragments/navbar}"></th:block>
+</header>
+<main class="mt-3">
+    <h1 class="text-center text-dark">Edit Category</h1>
+    <hr class="hr-2 bg-dark w-25">
+    <form id="edit-category-form" class="form w-25 mx-auto" th:action="@{/categories/edit-category/{id}(id=${category.id})}" th:method="patch">
+        <div class="form-group">
+            <label for="edit-category-name" class="font-weight-bold">Name</label>
+            <input type="text" class="form-control text-center" id="edit-category-name" name="name" th:value="${category.name}">
+        </div>
+        <hr class="hr-2 bg-dark">
+        <div class="button-holder d-flex justify-content-center">
+            <button type="submit" class="btn btn-info">Edit Category</button>
+        </div>
+    </form>
+</main>
+<footer>
+    <th:block th:include="~{/fragments/footer}"></th:block>
+</footer>
+</body>
+</html>

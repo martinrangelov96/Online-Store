@@ -1,5 +1,6 @@
 package com.example.onlinestore.web.controllers;
 
+import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.models.binding.UserEditBindingModel;
 import com.example.onlinestore.domain.models.binding.UserRegisterBindingModel;
 import com.example.onlinestore.domain.models.service.UserServiceModel;
@@ -16,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.example.onlinestore.constants.Constants.*;
 
 @Controller
 @RequestMapping("/users")
@@ -111,6 +114,30 @@ public class UserController extends BaseController {
         modelAndView.addObject("users", users);
 
         return view("/users/all-users", modelAndView);
+    }
+
+    @PostMapping("/set-user/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView setUser(@PathVariable String id) {
+        this.userService.setRole(id, USER_STRING);
+
+        return redirect("/users/all-users");
+    }
+
+    @PostMapping("/set-moderator/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView setModerator(@PathVariable String id) {
+        this.userService.setRole(id, MODERATOR_STRING);
+
+        return redirect("/users/all-users");
+    }
+
+    @PostMapping("/set-admin/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView setAdmin(@PathVariable String id) {
+        this.userService.setRole(id, ADMIN_STRING);
+
+        return redirect("/users/all-users");
     }
 
 
