@@ -10,8 +10,10 @@ import com.example.onlinestore.services.CategoryService;
 import com.example.onlinestore.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -150,6 +152,12 @@ public class UserController extends BaseController {
         this.userService.setRole(id, ADMIN_STRING);
 
         return redirect("/users/all-users");
+    }
+
+    //If an user leave a field empty, this method sets its' value to 'null' instead of '' (empty String)
+    @InitBinder
+    private void initBinder(WebDataBinder webDataBinder) {
+        webDataBinder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 
 }

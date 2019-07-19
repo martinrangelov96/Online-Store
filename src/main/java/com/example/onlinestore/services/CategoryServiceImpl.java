@@ -2,6 +2,7 @@ package com.example.onlinestore.services;
 
 import com.example.onlinestore.domain.entities.Category;
 import com.example.onlinestore.domain.models.service.CategoryServiceModel;
+import com.example.onlinestore.errors.CategoryNotFoundException;
 import com.example.onlinestore.repository.CategoryRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryServiceModel findCategoryById(String id) {
         Category category = this.categoryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Category with this id does not exist!"));
+                .orElseThrow(() -> new CategoryNotFoundException("Category with this id does not exist!"));
 
         CategoryServiceModel categoryServiceModel = this.modelMapper.map(category, CategoryServiceModel.class);
 
@@ -54,7 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryServiceModel editCategory(String id, CategoryServiceModel categoryServiceModel) {
         Category category = this.categoryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Category with this id does not exist!"));
+                .orElseThrow(() -> new CategoryNotFoundException("Category with this id does not exist!"));
 
         category.setName(categoryServiceModel.getName());
 
@@ -66,7 +67,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryServiceModel deleteCategory(String id) {
         Category category = this.categoryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Category with this id does not exist!"));
+                .orElseThrow(() -> new CategoryNotFoundException("Category with this id does not exist!"));
 
         this.categoryRepository.delete(category);
 

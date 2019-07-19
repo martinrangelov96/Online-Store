@@ -11,7 +11,7 @@ public class IndexController extends BaseController {
     @GetMapping("/")
     @PreAuthorize("isAnonymous()")
     public ModelAndView index() {
-        return view("/index/index");
+        return view("index");
     }
 
 }

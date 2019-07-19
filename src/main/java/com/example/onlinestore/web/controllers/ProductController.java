@@ -2,6 +2,7 @@ package com.example.onlinestore.web.controllers;
 
 import com.example.onlinestore.domain.models.binding.ProductAddBindingModel;
 import com.example.onlinestore.domain.models.binding.ProductEditBindingModel;
+import com.example.onlinestore.domain.models.service.CategoryServiceModel;
 import com.example.onlinestore.domain.models.service.ProductServiceModel;
 import com.example.onlinestore.domain.models.view.products.ProductDeleteViewModel;
 import com.example.onlinestore.domain.models.view.products.ProductDetailsViewModel;
@@ -48,13 +49,12 @@ public class ProductController extends BaseController {
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView addProductConfirm(@ModelAttribute(name = "model") ProductAddBindingModel model) throws IOException {
         ProductServiceModel productServiceModel = this.modelMapper.map(model, ProductServiceModel.class);
-
-        productServiceModel.setCategories(
-                this.categoryService.findAllCategories()
+        List<CategoryServiceModel> categories = this.categoryService.findAllCategories()
                 .stream()
                 .filter(categoryServiceModel -> model.getCategories().contains(categoryServiceModel.getId()))
-                .collect(Collectors.toList())
-        );
+                .collect(Collectors.toList());
+
+        productServiceModel.setCategories(categories);
         productServiceModel.setImageUrl(
                 this.cloudinaryService.uploadImage(model.getImage())
         );

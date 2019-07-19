@@ -3,6 +3,7 @@ package com.example.onlinestore.services;
 import com.example.onlinestore.domain.entities.Category;
 import com.example.onlinestore.domain.entities.Product;
 import com.example.onlinestore.domain.models.service.ProductServiceModel;
+import com.example.onlinestore.errors.ProductNotFoundException;
 import com.example.onlinestore.repository.ProductRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductServiceModel findProductById(String id) {
         Product product = this.productRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Product with this id does not exist!"));
+                .orElseThrow(() -> new ProductNotFoundException("Product with this id does not exist!"));
 
         this.productRepository.save(product);
 
@@ -57,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductServiceModel editProduct(String id, ProductServiceModel productServiceModel) {
         Product product = this.productRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Product with this id does not exist!"));
+                .orElseThrow(() -> new ProductNotFoundException("Product with this id does not exist!"));
 
         productServiceModel.setCategories(
                 this.categoryService.findAllCategories()
@@ -92,7 +93,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(String id) {
         Product product = this.productRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Product with this id does not exist!"));
+                .orElseThrow(() -> new ProductNotFoundException("Product with this id does not exist!"));
 
         this.productRepository.delete(product);
     }
