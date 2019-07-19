@@ -9,24 +9,35 @@
     <th:block th:include="~{/fragments/navbar}"></th:block>
 </header>
 <main class="mt-3">
-    <div class="jumbotron bg-light">
+    <div class="jumbotron bg-light text-center">
         <div class="text-center">
             <img th:src="${product.imageUrl}" width="350" height="350" alt="Product">
         </div>
         <div class="row">
-            <div class="col col-md-12 text-center mt-5">
+            <div class="col col-md-12 mt-5">
                 <h1 th:text="|Name: ${product.name}|"></h1>
             </div>
         </div>
         <div class="row">
-            <div class="col col-md-12 text-center mt-3">
+            <div class="col col-md-12 mt-3">
                 <h4 th:text="|Desciption: ${product.description}|"></h4>
             </div>
         </div>
         <div class="row">
-            <div class="col col-md-12 text-center">
+            <div class="col col-md-12">
                 <h4 th:text="|Price: ${product.price}|"></h4>
             </div>
+        </div>
+        <div class="row">
+            <form class="form w-25 mx-auto" th:action="@{/cart/add-product}" th:method="post">
+                <div class="form-group">
+                    <label for="quantity" class="font-weight-bold float-left">Quantity</label>
+                    <input id="quantity" class="form-control text-center" type="number" min="1" max="15" step="1"
+                           value="1" name="quantity"/>
+                </div>
+                <input type="hidden" name="id" th:value="${product.id}">
+                <button type="submit" class="btn btn-success">Order Product</button>
+            </form>
         </div>
     </div>
 </main>
