@@ -96,4 +96,17 @@ public class ProductServiceImpl implements ProductService {
 
         this.productRepository.delete(product);
     }
+
+    @Override
+    public List<ProductServiceModel> findAllByCategory(String category) {
+        //TODO: OPTIMIZE FILTERING
+
+        List<ProductServiceModel> products = this.productRepository.findAll()
+                .stream()
+                .filter(product -> product.getCategories().stream().anyMatch(categoryStream -> categoryStream.getName().equals(category)))
+                .map(product -> this.modelMapper.map(product, ProductServiceModel.class))
+                .collect(Collectors.toList());
+
+        return products;
+    }
 }

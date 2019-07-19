@@ -133,4 +133,20 @@ public class ProductController extends BaseController {
         return redirect("/products/all-products/");
     }
 
+    @GetMapping("/fetch/{category}")
+    @ResponseBody
+    public List<ProductViewModel> fetchByCategory(@PathVariable String category) {
+        if(category.equals("all")) {
+            return this.productService.findAllProducts()
+                    .stream()
+                    .map(product -> this.modelMapper.map(product, ProductViewModel.class))
+                    .collect(Collectors.toList());
+        }
+
+        return this.productService.findAllByCategory(category)
+                .stream()
+                .map(product -> this.modelMapper.map(product, ProductViewModel.class))
+                .collect(Collectors.toList());
+    }
+
 }

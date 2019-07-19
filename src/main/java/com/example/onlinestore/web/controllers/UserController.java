@@ -1,11 +1,12 @@
 package com.example.onlinestore.web.controllers;
 
-import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.models.binding.UserEditBindingModel;
 import com.example.onlinestore.domain.models.binding.UserRegisterBindingModel;
 import com.example.onlinestore.domain.models.service.UserServiceModel;
+import com.example.onlinestore.domain.models.view.categories.CategoryViewModel;
 import com.example.onlinestore.domain.models.view.users.UserProfileViewModel;
 import com.example.onlinestore.domain.models.view.users.UserViewModel;
+import com.example.onlinestore.services.CategoryService;
 import com.example.onlinestore.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,13 @@ import static com.example.onlinestore.constants.Constants.*;
 public class UserController extends BaseController {
 
     private final UserService userService;
+    private final CategoryService categoryService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public UserController(UserService userService, ModelMapper modelMapper) {
+    public UserController(UserService userService, CategoryService categoryService, ModelMapper modelMapper) {
         this.userService = userService;
+        this.categoryService = categoryService;
         this.modelMapper = modelMapper;
     }
 
@@ -60,8 +63,17 @@ public class UserController extends BaseController {
 
     @GetMapping("/home")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView home() {
-        return view("/users/home");
+    public ModelAndView home(ModelAndView modelAndView) {
+        List<CategoryViewModel> categories =
+                this.categoryService
+                        .findAllCategories()
+                        .stream()
+                        .map(categoryServiceModel -> this.modelMapper.map(categoryServiceModel, CategoryViewModel.class))
+                        .collect(Collectors.toList());
+
+        modelAndView.addObject("categories", categories);
+
+        return super.view("/users/home", modelAndView);
     }
 
     @GetMapping("/profile")
@@ -139,6 +151,5 @@ public class UserController extends BaseController {
 
         return redirect("/users/all-users");
     }
-
 
 }
