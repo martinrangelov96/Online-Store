@@ -2,12 +2,16 @@ package com.example.onlinestore.services;
 
 import com.example.onlinestore.domain.entities.Order;
 import com.example.onlinestore.domain.models.service.OrderServiceModel;
+import com.example.onlinestore.domain.models.view.orders.OrderViewModel;
+import com.example.onlinestore.errors.OrderNotFoundException;
 import com.example.onlinestore.repository.OrderRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -29,5 +33,33 @@ public class OrderServiceImpl implements OrderService {
         this.orderRepository.save(order);
 
         return this.modelMapper.map(order, OrderServiceModel.class);
+    }
+
+    @Override
+    public List<OrderServiceModel> findAllOrders() {
+        List<OrderServiceModel> orderServiceModels = this.orderRepository.findAll()
+                .stream()
+                .map(order -> this.modelMapper.map(order, OrderServiceModel.class))
+                .collect(Collectors.toList());
+
+        return orderServiceModels;
+    }
+
+    @Override
+    public OrderServiceModel findOrderById(String id) {
+        Order order = this.orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException("Order with this id does not exist!"));
+
+        return this.modelMapper.map(order, OrderServiceModel.class);
+    }
+
+    @Override
+    public List<OrderServiceModel> findAllOrdersByCustomer(String customerName) {
+        List<OrderServiceModel> orderServiceModels = this.orderRepository.findOrderByCustomer_UsernameOrderByOrderedOn(customerName)
+                .stream()
+                .map(order -> this.modelMapper.map(order, OrderServiceModel.class))
+                .collect(Collectors.toList());
+
+        return orderServiceModels;
     }
 }
