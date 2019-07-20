@@ -8,6 +8,7 @@ import com.example.onlinestore.domain.models.view.products.ProductDetailsViewMod
 import com.example.onlinestore.services.OrderService;
 import com.example.onlinestore.services.ProductService;
 import com.example.onlinestore.services.UserService;
+import com.example.onlinestore.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -63,6 +64,7 @@ public class CartController extends BaseController {
 
     @GetMapping("/details-cart")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Cart Details")
     public ModelAndView cartDetails(ModelAndView modelAndView, HttpSession session) {
         var cart = this.retrieveCart(session);
         modelAndView.addObject("totalPrice", this.calculateTotalPrice(cart));

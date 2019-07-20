@@ -8,6 +8,7 @@ import com.example.onlinestore.domain.models.view.users.UserProfileViewModel;
 import com.example.onlinestore.domain.models.view.users.UserViewModel;
 import com.example.onlinestore.services.CategoryService;
 import com.example.onlinestore.services.UserService;
+import com.example.onlinestore.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -40,6 +41,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/register")
     @PreAuthorize("isAnonymous()")
+    @PageTitle("Register")
     public ModelAndView register() {
         return view("/users/register");
     }
@@ -59,12 +61,14 @@ public class UserController extends BaseController {
 
     @GetMapping("/login")
     @PreAuthorize("isAnonymous()")
+    @PageTitle("Login")
     public ModelAndView login() {
         return view("/users/login");
     }
 
     @GetMapping("/home")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Home Page")
     public ModelAndView home(ModelAndView modelAndView) {
         List<CategoryViewModel> categories =
                 this.categoryService
@@ -80,6 +84,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/profile")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Profile")
     public ModelAndView profile(Principal principal, ModelAndView modelAndView) {
         UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
         UserProfileViewModel userProfileViewModel = this.modelMapper.map(userServiceModel, UserProfileViewModel.class);
@@ -90,6 +95,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/edit-profile")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Edit Profile")
     public ModelAndView editProfile(Principal principal, ModelAndView modelAndView) {
         UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
         UserProfileViewModel userProfileViewModel = this.modelMapper.map(userServiceModel, UserProfileViewModel.class);
@@ -114,6 +120,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/all-users")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PageTitle("All Users")
     public ModelAndView allUsers(ModelAndView modelAndView) {
         List<UserViewModel> users = this.userService.findAllUsers()
                 .stream()

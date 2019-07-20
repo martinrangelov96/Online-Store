@@ -11,6 +11,7 @@ import com.example.onlinestore.domain.models.view.products.ProductViewModel;
 import com.example.onlinestore.services.CategoryService;
 import com.example.onlinestore.services.CloudinaryService;
 import com.example.onlinestore.services.ProductService;
+import com.example.onlinestore.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,6 +42,7 @@ public class ProductController extends BaseController {
 
     @GetMapping("/add-product")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PageTitle("Add Product")
     public ModelAndView addProduct() {
         return view("/products/add-product");
     }
@@ -66,6 +68,7 @@ public class ProductController extends BaseController {
 
     @GetMapping("/all-products")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PageTitle("All Products")
     public ModelAndView allProducts(ModelAndView modelAndView) {
         List<ProductViewModel> productViewModels = this.productService.findAllProducts()
                 .stream()
@@ -79,6 +82,7 @@ public class ProductController extends BaseController {
 
     @GetMapping("/details-product/{id}")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Product Details")
     public ModelAndView detailsProduct(@PathVariable String id, ModelAndView modelAndView) {
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
         ProductDetailsViewModel productDetailsViewModel = this.modelMapper.map(productServiceModel, ProductDetailsViewModel.class);
@@ -90,6 +94,7 @@ public class ProductController extends BaseController {
 
     @GetMapping("/edit-product/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PageTitle("Edit Product")
     public ModelAndView editProduct(@PathVariable String id, ModelAndView modelAndView) {
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
         ProductEditViewModel productEditViewModel = this.modelMapper.map(productServiceModel, ProductEditViewModel.class);
@@ -113,6 +118,7 @@ public class ProductController extends BaseController {
 
     @GetMapping("/delete-product/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PageTitle("Delete Product")
     public ModelAndView deleteProduct(@PathVariable String id, ModelAndView modelAndView) {
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
         ProductDeleteViewModel productDeleteViewModel = this.modelMapper.map(productServiceModel, ProductDeleteViewModel.class);

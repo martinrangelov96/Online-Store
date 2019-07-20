@@ -5,6 +5,7 @@ import com.example.onlinestore.domain.models.binding.CategoryEditBindingModel;
 import com.example.onlinestore.domain.models.service.CategoryServiceModel;
 import com.example.onlinestore.domain.models.view.categories.CategoryViewModel;
 import com.example.onlinestore.services.CategoryService;
+import com.example.onlinestore.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,6 +31,7 @@ public class CategoryController extends BaseController {
 
     @GetMapping("/add-category")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PageTitle("Add Category")
     public ModelAndView addCategory() {
         return view("/categories/add-category");
     }
@@ -46,6 +48,7 @@ public class CategoryController extends BaseController {
 
     @GetMapping("/all-categories")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PageTitle("All Categories")
     public ModelAndView allCategories(ModelAndView modelAndView) {
         List<CategoryViewModel> categoryViewModels = this.categoryService.findAllCategories()
                 .stream()
@@ -59,6 +62,7 @@ public class CategoryController extends BaseController {
 
     @GetMapping("/edit-category/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PageTitle("Edit Category")
     public ModelAndView editCategory(@PathVariable String id, ModelAndView modelAndView) {
         CategoryServiceModel categoryServiceModel = this.categoryService.findCategoryById(id);
         CategoryViewModel categoryViewModel = this.modelMapper.map(categoryServiceModel, CategoryViewModel.class);
@@ -80,6 +84,7 @@ public class CategoryController extends BaseController {
 
     @GetMapping("/delete-category/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PageTitle("Delete Category")
     public ModelAndView deleteCategory(@PathVariable String id, ModelAndView modelAndView) {
         CategoryServiceModel categoryServiceModel = this.categoryService.findCategoryById(id);
         CategoryViewModel categoryViewModel = this.modelMapper.map(categoryServiceModel, CategoryViewModel.class);

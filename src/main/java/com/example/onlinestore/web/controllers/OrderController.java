@@ -2,9 +2,8 @@ package com.example.onlinestore.web.controllers;
 
 import com.example.onlinestore.domain.models.service.OrderServiceModel;
 import com.example.onlinestore.domain.models.view.orders.OrderViewModel;
-import com.example.onlinestore.domain.models.view.products.ProductDetailsViewModel;
 import com.example.onlinestore.services.OrderService;
-import com.example.onlinestore.services.ProductService;
+import com.example.onlinestore.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,6 +32,7 @@ public class OrderController extends BaseController {
 
     @GetMapping("/all-orders")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PageTitle("All Orders")
     public ModelAndView allOrders(ModelAndView modelAndView) {
         List<OrderServiceModel> orderServiceModels = this.orderService.findAllOrders();
         List<OrderViewModel> orderViewModels = orderServiceModels.stream()
@@ -46,6 +46,7 @@ public class OrderController extends BaseController {
 
     @GetMapping("/details-order/{id}")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Order Details")
     public ModelAndView allOrderDetails(@PathVariable String id, ModelAndView modelAndView) {
         OrderServiceModel orderServiceModel = this.orderService.findOrderById(id);
         OrderViewModel orderViewModel = this.modelMapper.map(orderServiceModel, OrderViewModel.class);
@@ -57,6 +58,7 @@ public class OrderController extends BaseController {
 
     @GetMapping("/customer-orders")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Customer Orders")
     public ModelAndView customerOrders(Principal principal, ModelAndView modelAndView) {
         String customerName = principal.getName();
         List<OrderServiceModel> orderServiceModels = this.orderService.findAllOrdersByCustomer(customerName);
