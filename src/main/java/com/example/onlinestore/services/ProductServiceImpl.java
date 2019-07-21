@@ -60,13 +60,6 @@ public class ProductServiceImpl implements ProductService {
         Product product = this.productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("Product with this id does not exist!"));
 
-        productServiceModel.setCategories(
-                this.categoryService.findAllCategories()
-                .stream()
-                .filter(categoryServiceModel -> productServiceModel.getCategories().contains(categoryServiceModel.getId()))
-                .collect(Collectors.toList())
-        );
-
         product.setName(productServiceModel.getName());
         product.setDescription(productServiceModel.getDescription());
         product.setPrice(productServiceModel.getPrice());
@@ -80,14 +73,6 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository.save(product);
 
         return this.modelMapper.map(product, ProductServiceModel.class);
-
-        //TransientObjectException: object references an unsaved transient instance - save the transient instance before flushing: com.example.onlinestore.domain.entities.Category
-        //save the transient instance before flushing: com.example.onlinestore.domain.entities.Category
-//        product.setCategories(
-//                productServiceModel.getCategories()
-//                        .stream()
-//                        .map(categoryServiceModel -> this.modelMapper.map(categoryServiceModel, Category.class))
-//                        .collect(Collectors.toList()));
     }
 
     @Override

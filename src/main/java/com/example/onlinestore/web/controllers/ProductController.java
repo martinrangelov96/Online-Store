@@ -97,10 +97,14 @@ public class ProductController extends BaseController {
     @PageTitle("Edit Product")
     public ModelAndView editProduct(@PathVariable String id, ModelAndView modelAndView) {
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
-        ProductEditViewModel productEditViewModel = this.modelMapper.map(productServiceModel, ProductEditViewModel.class);
-        productEditViewModel.setCategories(productServiceModel.getCategories()
-                .stream()
-                .map(categoryServiceModel -> categoryServiceModel.getName()).collect(Collectors.toList()));
+        ProductEditViewModel productEditViewModel =
+                this.modelMapper.map(productServiceModel, ProductEditViewModel.class);
+
+        productEditViewModel.setCategories(
+                productServiceModel.getCategories()
+                        .stream()
+                        .map(c -> c.getName())
+                        .collect(Collectors.toList()));
 
         modelAndView.addObject("product", productEditViewModel);
 
@@ -111,6 +115,18 @@ public class ProductController extends BaseController {
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView editProductConfirm(@PathVariable String id, @ModelAttribute(name = "model") ProductEditBindingModel model) {
         ProductServiceModel productServiceModel = this.modelMapper.map(model, ProductServiceModel.class);
+
+        List<CategoryServiceModel> categories = model.getCategories()
+                .stream()
+                .map(categoryId -> {
+                    CategoryServiceModel categoryServiceModel = new CategoryServiceModel();
+                    categoryServiceModel.setId(categoryId);
+
+                    return categoryServiceModel;
+                })
+                .collect(Collectors.toList());
+
+        productServiceModel.setCategories(categories);
         this.productService.editProduct(id, productServiceModel);
 
         return redirect("/products/details-product/" + id);
