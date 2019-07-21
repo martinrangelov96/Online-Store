@@ -5,11 +5,13 @@ import com.example.onlinestore.domain.models.binding.CategoryEditBindingModel;
 import com.example.onlinestore.domain.models.service.CategoryServiceModel;
 import com.example.onlinestore.domain.models.view.categories.CategoryViewModel;
 import com.example.onlinestore.services.CategoryService;
+import com.example.onlinestore.validation.CategoryAddValidator;
 import com.example.onlinestore.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,25 +24,36 @@ public class CategoryController extends BaseController {
 
     private final CategoryService categoryService;
     private final ModelMapper modelMapper;
+    private final CategoryAddValidator categoryAddValidator;
 
     @Autowired
-    public CategoryController(CategoryService categoryService, ModelMapper modelMapper) {
+    public CategoryController(CategoryService categoryService, ModelMapper modelMapper, CategoryAddValidator categoryAddValidator) {
         this.categoryService = categoryService;
         this.modelMapper = modelMapper;
+        this.categoryAddValidator = categoryAddValidator;
     }
 
     @GetMapping("/add-category")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     @PageTitle("Add Category")
-    public ModelAndView addCategory() {
-        return view("/categories/add-category");
+    public ModelAndView addCategory(CategoryAddBindingModel model, ModelAndView modelAndView) {
+        modelAndView.addObject("model", model);
+
+        return view("/categories/add-category", modelAndView);
     }
 
     @PostMapping("/add-category")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView addCategoryConfirm(@ModelAttribute(name = "model") CategoryAddBindingModel model) {
-        CategoryServiceModel categoryServiceModel = this.modelMapper.map(model, CategoryServiceModel.class);
+    public ModelAndView addCategoryConfirm(@ModelAttribute(name = "model") CategoryAddBindingModel model, BindingResult bindingResult, ModelAndView modelAndView) {
+        this.categoryAddValidator.validate(model, bindingResult);
 
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("model", model);
+
+            return view("/categories/add-category", modelAndView);
+        }
+
+        CategoryServiceModel categoryServiceModel = this.modelMapper.map(model, CategoryServiceModel.class);
         this.categoryService.addCategory(categoryServiceModel);
 
         return redirect("/categories/all-categories");

@@ -11,10 +11,13 @@
 <main class="mt-3">
     <h1 class="text-center text-dark">Add Category</h1>
     <hr class="hr-2 bg-dark w-25">
-    <form id="add-category-form" class="form w-25 mx-auto" th:action="@{/categories/add-category}" th:method="post">
+    <form id="add-category-form" class="form w-25 mx-auto" th:action="@{/categories/add-category}" th:method="post" th:object="${model}">
         <div class="form-group">
             <label for="add-category-name" class="font-weight-bold">Name</label>
             <input type="text" class="form-control text-center" id="add-category-name" name="name">
+            <th:block th:if="${#fields.hasErrors('name')}">
+                <small style="color: red" th:errors="*{name}"></small>
+            </th:block>
         </div>
         <hr class="hr-2 bg-dark">
         <div class="button-holder d-flex justify-content-center">

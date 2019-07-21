@@ -59,16 +59,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserServiceModel findUserById(String id) {
-        User user = this.userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Username with this id does not exist!"));
-
-        UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
-
-        return userServiceModel;
-    }
-
-    @Override
     public UserServiceModel findUserByUsername(String username) {
         User user = this.userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
@@ -87,7 +77,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Incorrect password!");
         }
 
-        user.setPassword(!"".equals(userServiceModel.getPassword()) ?
+        user.setPassword(userServiceModel.getPassword() != null ?
                 this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()) :
                 user.getPassword()
         );
