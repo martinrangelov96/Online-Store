@@ -83,7 +83,8 @@ public class CategoryController extends BaseController {
         CategoryServiceModel categoryServiceModel = this.categoryService.findCategoryById(id);
         CategoryViewModel categoryViewModel = this.modelMapper.map(categoryServiceModel, CategoryViewModel.class);
 
-        modelAndView.addObject("category", categoryViewModel);
+        modelAndView.addObject("id", categoryViewModel.getId());
+        modelAndView.addObject("name", categoryViewModel.getName());
         modelAndView.addObject("model", model);
 
         return view("/categories/edit-category", modelAndView);
@@ -93,16 +94,16 @@ public class CategoryController extends BaseController {
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView editCategoryConfirm(@PathVariable String id, @ModelAttribute(name = "model") CategoryEditBindingModel model, BindingResult bindingResult, ModelAndView modelAndView) {
         this.categoryEditValidator.validate(model, bindingResult);
-        CategoryServiceModel categoryServiceModel = this.modelMapper.map(model, CategoryServiceModel.class);
-        CategoryViewModel categoryViewModel = this.modelMapper.map(categoryServiceModel, CategoryViewModel.class);
 
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject("category", categoryViewModel);
+            modelAndView.addObject("id", id);
+            modelAndView.addObject("name", model.getName());
             modelAndView.addObject("model", model);
 
             return view("/categories/edit-category", modelAndView);
         }
 
+        CategoryServiceModel categoryServiceModel = this.modelMapper.map(model, CategoryServiceModel.class);
         this.categoryService.editCategory(id, categoryServiceModel);
 
         return redirect("/categories/all-categories");
