@@ -11,10 +11,14 @@
 <main class="mt-3">
     <h1 class="text-center text-dark">Edit Category</h1>
     <hr class="hr-2 bg-dark w-25">
-    <form id="edit-category-form" class="form w-25 mx-auto" th:action="@{/categories/edit-category/{id}(id=${category.id})}" th:method="patch">
+    <form id="edit-category-form" class="form w-25 mx-auto"
+          th:action="@{/categories/edit-category/{id}(id=${category.id})}" th:method="patch" th:object="${model}">
         <div class="form-group">
             <label for="edit-category-name" class="font-weight-bold">Name</label>
             <input type="text" class="form-control text-center" id="edit-category-name" name="name" th:value="${category.name}">
+            <th:block th:if="${#fields.hasErrors('name')}">
+                <small style="color:red" th:errors="*{name}" ></small>
+            </th:block>
         </div>
         <hr class="hr-2 bg-dark">
         <div class="button-holder d-flex justify-content-center">

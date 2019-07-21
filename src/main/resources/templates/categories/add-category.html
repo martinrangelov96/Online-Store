@@ -14,7 +14,7 @@
     <form id="add-category-form" class="form w-25 mx-auto" th:action="@{/categories/add-category}" th:method="post" th:object="${model}">
         <div class="form-group">
             <label for="add-category-name" class="font-weight-bold">Name</label>
-            <input type="text" class="form-control text-center" id="add-category-name" name="name">
+            <input type="text" class="form-control text-center" id="add-category-name" name="name" required>
             <th:block th:if="${#fields.hasErrors('name')}">
                 <small style="color: red" th:errors="*{name}"></small>
             </th:block>
