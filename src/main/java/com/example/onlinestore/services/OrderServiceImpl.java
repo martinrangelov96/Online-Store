@@ -2,7 +2,6 @@ package com.example.onlinestore.services;
 
 import com.example.onlinestore.domain.entities.Order;
 import com.example.onlinestore.domain.models.service.OrderServiceModel;
-import com.example.onlinestore.domain.models.view.orders.OrderViewModel;
 import com.example.onlinestore.errors.OrderNotFoundException;
 import com.example.onlinestore.repository.OrderRepository;
 import org.modelmapper.ModelMapper;
@@ -61,5 +60,15 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
 
         return orderServiceModels;
+    }
+
+    @Override
+    public OrderServiceModel deleteOrder(OrderServiceModel orderServiceModel) {
+        Order order = this.orderRepository.findById(orderServiceModel.getId())
+                .orElseThrow(() -> new OrderNotFoundException("Order with this id does not exist!"));
+
+        this.orderRepository.delete(order);
+
+        return this.modelMapper.map(order, OrderServiceModel.class);
     }
 }

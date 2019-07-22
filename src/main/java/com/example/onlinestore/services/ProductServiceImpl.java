@@ -16,13 +16,11 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private final CategoryService categoryService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, CategoryService categoryService, ModelMapper modelMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper) {
         this.productRepository = productRepository;
-        this.categoryService = categoryService;
         this.modelMapper = modelMapper;
     }
 
@@ -85,14 +83,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductServiceModel> findAllByCategory(String category) {
-        //TODO: OPTIMIZE FILTERING
-
-        List<ProductServiceModel> products = this.productRepository.findAll()
+        List<ProductServiceModel> productsContainingCategory = this.productRepository.findAll()
                 .stream()
                 .filter(product -> product.getCategories().stream().anyMatch(categoryStream -> categoryStream.getName().equals(category)))
                 .map(product -> this.modelMapper.map(product, ProductServiceModel.class))
                 .collect(Collectors.toList());
 
-        return products;
+        return productsContainingCategory;
     }
 }

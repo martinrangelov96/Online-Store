@@ -34,7 +34,7 @@
                 <ul class="navbar-nav">
                     <div class="dropdown show">
                         <a class="nav-link dropdown-toggle" th:href="@{#}" role="button" id="cartDropdown"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: green">
                             Cart
                         </a>
                         <div class="dropdown-menu" aria-labelledby="cartDropdown">
@@ -43,7 +43,7 @@
                             </th:block>
                             <div class="dropdown-divider"></div>
                             <div class="text-center">
-                                <a class="btn btn-dark" th:href="@{/cart/details-cart}" th:method="get">Cart</a>
+                                <a class="btn btn-success" th:href="@{/cart/details-cart}" th:method="get">Cart</a>
                             </div>
                         </div>
                     </div>

@@ -13,4 +13,6 @@ public interface OrderService {
     OrderServiceModel findOrderById(String id);
 
     List<OrderServiceModel> findAllOrdersByCustomer(String customerName);
+
+    OrderServiceModel deleteOrder(OrderServiceModel orderServiceModel);
 }

@@ -11,7 +11,7 @@
 </header>
 <main class="mt-3 ml-1">
     <div class="row d-flex justify-content-between">
-        <div class="products-navigation col-md-2 ml-1">
+        <div class="products-navigation col-md-2 ml-1 mt-3">
             <h2 class="font-weight-bold">Navigation</h2>
             <form class="mt-3">
                 <div class="custom-control custom-radio mt-3 ml-1">
@@ -48,7 +48,7 @@
             + `<a href="/products/details-product/${product.id}"><img src="${product.imageUrl}" class="product-image-home img-thumbnail px-auto" alt="Image not loaded..."/></a>`
             + '</div>'
             + `<h5 class="text-center font-weight-bold mt-3">${product.name}</h5>`
-            + `<h5 class="text-center font-weight-bold">Price: ${product.price.toFixed(2)}</h5>`
+            + `<h5 class="text-center font-weight-bold" style="color: green">Price: ${product.price.toFixed(2)}</h5>`
             + '</div>'
     }
     $(document).ready(function () {

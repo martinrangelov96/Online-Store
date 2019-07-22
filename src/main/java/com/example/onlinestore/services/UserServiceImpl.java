@@ -1,6 +1,5 @@
 package com.example.onlinestore.services;
 
-import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.entities.User;
 import com.example.onlinestore.domain.models.service.UserServiceModel;
 import com.example.onlinestore.repository.UserRepository;

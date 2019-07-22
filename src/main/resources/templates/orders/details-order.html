@@ -9,7 +9,7 @@
     <th:block th:include="~{/fragments/navbar}"></th:block>
 </header>
 <main class="mt-3">
-    <h1 class="text-center text-dark" th:text="|Order: ${order.id}|"></h1>
+    <h1 class="text-center text-dark" th:text="|Order: ${#temporals.format(order.orderedOn, 'dd-MM-YYYY HH:mm:ss')}|"></h1>
     <h3 class="text-center text-dark">Products</h3>
     <hr class="hr-2 bg-dark w-75">
     <table class="table table-hover w-75 mx-auto">
@@ -29,14 +29,19 @@
                 <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
                 <td class="col-md-2"><div class="text-center"><img th:src="*{imageUrl}" width="70" height="70" alt="Product"></div></td>
                 <td class="col-md-3 text-center" th:text="*{name}"></td>
-                <td class="col-md-3 text-center" th:text="*{price}"></td>
+                <td class="col-md-3 text-center" style="color: green" th:text="*{price}"></td>
                 <td class="col-md-3 text-center" th:text="*{description}">
-                <form action=""></form>
             </tr>
         </th:block>
 
         </tbody>
     </table>
+    <form th:action="@{/orders/delete-order}" th:method="delete">
+        <div class="button-holder d-flex justify-content-center">
+            <button type="submit" class="btn btn-danger">Delete Order</button>
+            <input type="hidden" name="id" th:value="${order.id}">
+        </div>
+    </form>
     <hr class="hr-2 bg-dark">
 </main>
 <footer>

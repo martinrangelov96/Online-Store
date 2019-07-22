@@ -89,6 +89,7 @@ public class CartController extends BaseController {
         OrderServiceModel orderServiceModel = this.prepareOrder(cart, customer);
 
         this.orderService.createOrder(orderServiceModel);
+        cart.clear();
 
         return redirect("/users/home");
     }

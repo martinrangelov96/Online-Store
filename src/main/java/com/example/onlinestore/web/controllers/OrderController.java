@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,6 +71,15 @@ public class OrderController extends BaseController {
         modelAndView.addObject("orders", orderViewModels);
 
         return view("/orders/list-orders", modelAndView);
+    }
+
+    @DeleteMapping("/delete-order")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView deleteOrder(String id) {
+        OrderServiceModel orderServiceModel = this.orderService.findOrderById(id);
+        this.orderService.deleteOrder(orderServiceModel);
+
+        return redirect("/users/home");
     }
 
 }
