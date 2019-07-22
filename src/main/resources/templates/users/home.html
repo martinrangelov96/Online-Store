@@ -11,14 +11,14 @@
 </header>
 <main class="mt-3 ml-1">
     <div class="row d-flex justify-content-between">
-        <div class="products-navigation col-md-3 ml-1">
+        <div class="products-navigation col-md-2 ml-1">
             <h2 class="font-weight-bold">Navigation</h2>
             <form class="mt-3">
                 <div class="custom-control custom-radio mt-3 ml-1">
                     <input type="radio" id="allRadio" name="selection"
                            class="custom-control-input"
                            value="all">
-                    <label class="h4 custom-control-label" for="allRadio">All</label>
+                    <label class="h4 custom-control-label" for="allRadio">All Products</label>
                 </div>
                 <th:block th:each="category : ${categories}" th:object="${category}">
                     <div class="custom-control custom-radio mt-3 ml-1">
@@ -31,7 +31,7 @@
                 </th:block>
             </form>
         </div>
-        <div class="data col-md-8">
+        <div class="data col-md-9">
             <h1 class="text-center font-weight-bold">Products</h1>
             <div class="products-data"></div>
         </div>
@@ -47,45 +47,45 @@
             + '<div class="text-center">'
             + `<a href="/products/details-product/${product.id}"><img src="${product.imageUrl}" class="product-image-home img-thumbnail px-auto" alt="Image not loaded..."/></a>`
             + '</div>'
-            + `<h5 class="text-center font-weight-bold mt-3">Name: ${product.name}</h5>`
+            + `<h5 class="text-center font-weight-bold mt-3">${product.name}</h5>`
             + `<h5 class="text-center font-weight-bold">Price: ${product.price.toFixed(2)}</h5>`
             + '</div>'
     }
     $(document).ready(function () {
         $('#allRadio').attr('checked', true);
-        fetch('http://localhost:8080/products/fetch/all')
+        fetch('/products/fetch/all')
             .then((response) => response.json())
             .then((json) => {
                 $('.products-data').empty();
                 if (json.length === 0) {
                     $('.products-data').append(`<h1 class="text-center font-weight-bold">There are no products in the ${category} category.</h1>`)
                 } else {
-                    for (let i = 0; i < json.length; i += 3) {
-                        $('.products-data').append('<div class="products-row row d-flex justify-content-around mt-5">');
-                        if(i < json.length) $('.products-data .products-row:last-child').append(formatProduct(json[i]));
-                        if(i + 1 < json.length) $('.products-data .products-row:last-child').append(formatProduct(json[i + 1]));
-                        if(i + 2 < json.length) $('.products-data .products-row:last-child').append(formatProduct(json[i + 2]));
-                    }
+                    visualizeProducts(json)
                 }
             })
     });
     $('input[type=radio][name=selection]').change(function () {
         let category = $(this).val();
-        fetch('http://localhost:8080/products/fetch/' + category)
+        fetch('/products/fetch/' + category)
             .then((response) => response.json())
             .then((json) => {
                 $('.products-data').empty();
                 if (json.length === 0) {
                     $('.products-data').append(`<h1 class="text-center font-weight-bold">There are no products in the ${category} category.</h1>`)
                 } else {
-                    for (let i = 0; i < json.length; i += 3) {
-                        $('.products-data').append('<div class="products-row row d-flex justify-content-around mt-5">');
-                        if(i < json.length) $('.products-data .products-row:last-child').append(formatProduct(json[i]));
-                        if(i + 1 < json.length) $('.products-data .products-row:last-child').append(formatProduct(json[i + 1]));
-                        if(i + 2 < json.length) $('.products-data .products-row:last-child').append(formatProduct(json[i + 2]));
-                    }
+                    visualizeProducts(json)
                 }
             })
     });
+
+    function visualizeProducts(json) {
+        for (let i = 0; i < json.length; i += 3) {
+            $('.products-data').append('<div class="products-row row d-flex justify-content-around mt-5">');
+            if(i < json.length) $('.products-data .products-row:last-child').append(formatProduct(json[i]));
+            if(i + 1 < json.length) $('.products-data .products-row:last-child').append(formatProduct(json[i + 1]));
+            if(i + 2 < json.length) $('.products-data .products-row:last-child').append(formatProduct(json[i + 2]));
+        }
+    }
+
 </script>
 </html>
