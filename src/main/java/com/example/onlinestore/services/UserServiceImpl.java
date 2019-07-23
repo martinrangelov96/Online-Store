@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,6 +45,7 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = this.modelMapper.map(userServiceModel, User.class);
+        user.setRegisteredOn(LocalDateTime.now());
         user.setPassword(this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
 
         this.userRepository.save(user);
@@ -88,7 +90,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserServiceModel> findAllUsers() {
-        List<UserServiceModel> allUsers = this.userRepository.findAll()
+        List<UserServiceModel> allUsers = this.userRepository.findAllByOrderByRegisteredOn()
                 .stream()
                 .map(user -> this.modelMapper.map(user, UserServiceModel.class))
                 .collect(Collectors.toList());

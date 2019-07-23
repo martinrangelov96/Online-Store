@@ -1,5 +1,6 @@
 package com.example.onlinestore.domain.models.service;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 public class UserServiceModel extends BaseServiceModel {
@@ -8,6 +9,8 @@ public class UserServiceModel extends BaseServiceModel {
     private String password;
     private String email;
     private Set<RoleServiceModel> authorities;
+
+    private LocalDateTime registeredOn;
 
     public UserServiceModel() {
     }
@@ -42,5 +45,13 @@ public class UserServiceModel extends BaseServiceModel {
 
     public void setAuthorities(Set<RoleServiceModel> authorities) {
         this.authorities = authorities;
+    }
+
+    public LocalDateTime getRegisteredOn() {
+        return registeredOn;
+    }
+
+    public void setRegisteredOn(LocalDateTime registeredOn) {
+        this.registeredOn = registeredOn;
     }
 }

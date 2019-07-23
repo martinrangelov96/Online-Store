@@ -3,6 +3,7 @@ package com.example.onlinestore.domain.entities;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -13,6 +14,8 @@ public class User extends BaseEntity implements UserDetails {
     private String password;
     private String email;
     private Set<Role> authorities;
+
+    private LocalDateTime registeredOn;
 
     public User() {
     }
@@ -59,6 +62,15 @@ public class User extends BaseEntity implements UserDetails {
 
     public void setAuthorities(Set<Role> authorities) {
         this.authorities = authorities;
+    }
+
+    @Column(name = "registered_on")
+    public LocalDateTime getRegisteredOn() {
+        return registeredOn;
+    }
+
+    public void setRegisteredOn(LocalDateTime registeredOn) {
+        this.registeredOn = registeredOn;
     }
 
     @Override

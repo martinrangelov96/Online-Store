@@ -35,7 +35,9 @@
                     <div class="row d-flex justify-content-center">
 
                         <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
-                         !#lists.contains(user.authorities, 'ROLE_MODERATOR') && !#lists.contains(user.authorities, 'ROLE_ADMIN')}">
+                         !#lists.contains(user.authorities, 'ROLE_MODERATOR') &&
+                         !#lists.contains(user.authorities, 'ROLE_ADMIN') &&
+                         !#authentication.getPrincipal().getUsername().equals(user.username)}">
                             <form th:action="@{/users/set-moderator/{id}(id=${user.id})}" th:method="post">
                                 <button class="btn btn-dark btn-width">MODERATOR</button>
                             </form>
@@ -45,7 +47,9 @@
                         </th:block>
 
                         <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
-                         #lists.contains(user.authorities, 'ROLE_MODERATOR') && !#lists.contains(user.authorities, 'ROLE_ADMIN')}">
+                         #lists.contains(user.authorities, 'ROLE_MODERATOR') &&
+                         !#lists.contains(user.authorities, 'ROLE_ADMIN') &&
+                         !#authentication.getPrincipal().getUsername().equals(user.username)}">
                             <form th:action="@{/users/set-user/{id}(id=${user.id})}" th:method="post">
                                 <button class="btn btn-dark btn-width">USER</button>
                             </form>
@@ -55,8 +59,10 @@
                         </th:block>
 
                         <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
-                         #lists.contains(user.authorities, 'ROLE_MODERATOR') && #lists.contains(user.authorities, 'ROLE_ADMIN') &&
-                         !#lists.contains(user.authorities, 'ROLE_ROOT')}">
+                         #lists.contains(user.authorities, 'ROLE_MODERATOR') &&
+                         #lists.contains(user.authorities, 'ROLE_ADMIN') &&
+                         !#lists.contains(user.authorities, 'ROLE_ROOT') &&
+                         !#authentication.getPrincipal().getUsername().equals(user.username)}">
                             <form th:action="@{/users/set-user/{id}(id=${user.id})}" th:method="post">
                                 <button class="btn btn-dark btn-width">USER</button>
                             </form>
