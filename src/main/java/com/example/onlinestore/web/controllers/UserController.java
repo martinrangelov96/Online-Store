@@ -10,6 +10,7 @@ import com.example.onlinestore.services.CategoryService;
 import com.example.onlinestore.services.CloudinaryService;
 import com.example.onlinestore.services.UserService;
 import com.example.onlinestore.validation.UserEditProfileValidation;
+import com.example.onlinestore.validation.UserRegisterValidation;
 import com.example.onlinestore.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,27 +38,30 @@ public class UserController extends BaseController {
     private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
     private final UserEditProfileValidation userEditProfileValidation;
+    private final UserRegisterValidation userRegisterValidation;
 
     @Autowired
-    public UserController(UserService userService, CategoryService categoryService, CloudinaryService cloudinaryService, ModelMapper modelMapper, UserEditProfileValidation userEditProfileValidation) {
+    public UserController(UserService userService, CategoryService categoryService, CloudinaryService cloudinaryService, ModelMapper modelMapper, UserEditProfileValidation userEditProfileValidation, UserRegisterValidation userRegisterValidation) {
         this.userService = userService;
         this.categoryService = categoryService;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
         this.userEditProfileValidation = userEditProfileValidation;
+        this.userRegisterValidation = userRegisterValidation;
     }
 
     @GetMapping("/register")
     @PreAuthorize("isAnonymous()")
     @PageTitle("Register")
-    public ModelAndView register() {
+    public ModelAndView register(@ModelAttribute(name = "model") UserRegisterBindingModel model) {
         return view("/users/register");
     }
 
     @PostMapping("/register")
     @PreAuthorize("isAnonymous()")
-    public ModelAndView registerConfirm(@ModelAttribute(name = "model") UserRegisterBindingModel model) {
-        if (!model.getPassword().equals(model.getConfirmPassword())) {
+    public ModelAndView registerConfirm(@ModelAttribute(name = "model") UserRegisterBindingModel model, BindingResult bindingResult) {
+        this.userRegisterValidation.validate(model, bindingResult);
+        if (bindingResult.hasErrors()) {
             return view("/users/register");
         }
 
@@ -115,17 +119,9 @@ public class UserController extends BaseController {
 
     @PatchMapping("/edit-profile")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView editProfileConfirm(@ModelAttribute(name = "model") UserEditBindingModel model, BindingResult bindingResult, ModelAndView modelAndView) throws IOException {
+    public ModelAndView editProfileConfirm(@ModelAttribute(name = "model") UserEditBindingModel model, BindingResult bindingResult) throws IOException {
         this.userEditProfileValidation.validate(model, bindingResult);
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject("model", model);
-
-            return view("/users/edit-profile");
-        }
-
-        if (model.getPassword() != null && !model.getPassword().equals(model.getConfirmPassword())) {
-            modelAndView.addObject("model", model);
-
             return view("/users/edit-profile");
         }
 

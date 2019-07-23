@@ -39,7 +39,7 @@ public class UserEditProfileValidation implements Validator {
             errors.rejectValue("oldPassword", "Incorrect password!", "Incorrect password!");
         }
 
-        if (!userEditBindingModel.getPassword().equals(userEditBindingModel.getConfirmPassword())) {
+        if (userEditBindingModel.getPassword() != null && !userEditBindingModel.getPassword().equals(userEditBindingModel.getConfirmPassword())) {
             errors.rejectValue("password", "Passwords don't match!", "Passwords don't match!");
         }
 

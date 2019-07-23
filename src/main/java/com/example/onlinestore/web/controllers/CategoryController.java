@@ -39,21 +39,18 @@ public class CategoryController extends BaseController {
     @GetMapping("/add-category")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     @PageTitle("Add Category")
-    public ModelAndView addCategory(CategoryAddBindingModel model, ModelAndView modelAndView) {
-        modelAndView.addObject("model", model);
+    public ModelAndView addCategory(@ModelAttribute(name = "model") CategoryAddBindingModel model) {
 
-        return view("/categories/add-category", modelAndView);
+        return view("/categories/add-category");
     }
 
     @PostMapping("/add-category")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView addCategoryConfirm(@ModelAttribute(name = "model") CategoryAddBindingModel model, BindingResult bindingResult, ModelAndView modelAndView) {
+    public ModelAndView addCategoryConfirm(@ModelAttribute(name = "model") CategoryAddBindingModel model, BindingResult bindingResult) {
         this.categoryAddValidator.validate(model, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject("model", model);
-
-            return view("/categories/add-category", modelAndView);
+            return view("/categories/add-category");
         }
 
         CategoryServiceModel categoryServiceModel = this.modelMapper.map(model, CategoryServiceModel.class);

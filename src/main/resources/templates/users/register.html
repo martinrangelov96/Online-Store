@@ -11,7 +11,7 @@
 <main class="mt-3">
     <h1 class="text-center text-dark">Register</h1>
     <hr class="hr-2 bg-dark w-25">
-    <form class="form w-25 mx-auto" th:action="@{/users/register}" th:method="post">
+    <form class="form w-25 mx-auto" th:action="@{/users/register}" th:method="post" th:object="${model}">
         <div class="form-group">
             <label for="username" class="font-weight-bold">Username</label>
             <input type="text" class="form-control" id="username" placeholder="Username..." name="username" required>
@@ -24,6 +24,9 @@
             <label for="confirmPassword" class="font-weight-bold">Confirm Password</label>
             <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password..." name="confirmPassword" required>
         </div>
+        <th:block th:if="${#fields.hasErrors('password')}">
+            <small style="color: red" th:errors="*{password}"></small>
+        </th:block>
         <div class="form-group">
             <label for="email" class="font-weight-bold">Email</label>
             <input type="email" class="form-control" id="email" placeholder="Email..." name="email" required>
