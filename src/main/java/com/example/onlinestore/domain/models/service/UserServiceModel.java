@@ -9,8 +9,8 @@ public class UserServiceModel extends BaseServiceModel {
     private String password;
     private String email;
     private Set<RoleServiceModel> authorities;
-
     private LocalDateTime registeredOn;
+    private String imageUrl;
 
     public UserServiceModel() {
     }
@@ -53,5 +53,13 @@ public class UserServiceModel extends BaseServiceModel {
 
     public void setRegisteredOn(LocalDateTime registeredOn) {
         this.registeredOn = registeredOn;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

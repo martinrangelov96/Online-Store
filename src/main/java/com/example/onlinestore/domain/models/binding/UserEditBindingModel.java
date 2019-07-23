@@ -1,5 +1,7 @@
 package com.example.onlinestore.domain.models.binding;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class UserEditBindingModel {
 
     private String username;
@@ -7,6 +9,7 @@ public class UserEditBindingModel {
     private String password;
     private String confirmPassword;
     private String email;
+    private MultipartFile image;
 
     public UserEditBindingModel() {
     }
@@ -49,5 +52,13 @@ public class UserEditBindingModel {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public MultipartFile getImage() {
+        return image;
+    }
+
+    public void setImage(MultipartFile image) {
+        this.image = image;
     }
 }

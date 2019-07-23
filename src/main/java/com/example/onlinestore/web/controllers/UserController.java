@@ -7,6 +7,7 @@ import com.example.onlinestore.domain.models.view.categories.CategoryViewModel;
 import com.example.onlinestore.domain.models.view.users.UserProfileViewModel;
 import com.example.onlinestore.domain.models.view.users.UserViewModel;
 import com.example.onlinestore.services.CategoryService;
+import com.example.onlinestore.services.CloudinaryService;
 import com.example.onlinestore.services.UserService;
 import com.example.onlinestore.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,12 +32,14 @@ public class UserController extends BaseController {
 
     private final UserService userService;
     private final CategoryService categoryService;
+    private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public UserController(UserService userService, CategoryService categoryService, ModelMapper modelMapper) {
+    public UserController(UserService userService, CategoryService categoryService, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
         this.userService = userService;
         this.categoryService = categoryService;
+        this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
     }
 
@@ -106,12 +110,17 @@ public class UserController extends BaseController {
 
     @PatchMapping("/edit-profile")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView editProfileConfirm(@ModelAttribute(name = "model") UserEditBindingModel model) {
+    public ModelAndView editProfileConfirm(@ModelAttribute(name = "model") UserEditBindingModel model) throws IOException {
         if (model.getPassword() != null && !model.getPassword().equals(model.getConfirmPassword())) {
             return view("/users/edit-profile");
         }
 
         UserServiceModel userServiceModel = this.modelMapper.map(model, UserServiceModel.class);
+        if (!model.getImage().isEmpty()) {
+            userServiceModel.setImageUrl(
+                    this.cloudinaryService.uploadImage(model.getImage())
+            );
+        }
         String oldPassword = model.getOldPassword();
         this.userService.editServiceProfile(userServiceModel, oldPassword);
 

@@ -10,9 +10,16 @@
 </header>
 <main class="mt-3">
     <div class="jumbotron bg-light">
-        <div class="text-center">
-            <img src="https://res.cloudinary.com/rado-cloud/image/upload/v1553353764/manager-512.png" alt="profileImg">
-        </div>
+        <th:block th:if="${model.imageUrl} == null">
+            <div class="text-center">
+                <img src="https://res.cloudinary.com/martoraneca/image/upload/v1563879123/profile-icon-9_rdumvu.png" alt="profileImg">
+            </div>
+        </th:block>
+        <th:block th:if="${model.imageUrl} != null">
+            <div class="text-center">
+                <img th:src="${model.imageUrl}" height="300" alt="profileImg">
+            </div>
+        </th:block>
         <div class="row">
             <div class="col col-md-12 text-center">
                 <h1 th:text="${model.username}"></h1>

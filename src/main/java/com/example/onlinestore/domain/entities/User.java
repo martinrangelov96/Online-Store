@@ -14,8 +14,8 @@ public class User extends BaseEntity implements UserDetails {
     private String password;
     private String email;
     private Set<Role> authorities;
-
     private LocalDateTime registeredOn;
+    private String imageUrl;
 
     public User() {
     }
@@ -71,6 +71,15 @@ public class User extends BaseEntity implements UserDetails {
 
     public void setRegisteredOn(LocalDateTime registeredOn) {
         this.registeredOn = registeredOn;
+    }
+
+    @Column(name = "profile_picture_url")
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override
