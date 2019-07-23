@@ -14,7 +14,7 @@
     <form id="delete-category-form" class="form w-25 mx-auto" th:action="@{/categories/delete-category/{id}(id=${category.id})}" th:method="delete">
         <div class="form-group">
             <label for="delete-category-name" class="font-weight-bold">Name</label>
-            <input type="text" class="form-control text-center" id="delete-category-name" name="name" th:value="${category.name}" readonly=>
+            <input type="text" class="form-control text-center" id="delete-category-name" name="name" th:value="${category.name}" readonly>
         </div>
         <hr class="hr-2 bg-dark">
         <div class="button-holder d-flex justify-content-center">
