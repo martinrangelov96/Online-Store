@@ -1,5 +1,6 @@
 package com.example.onlinestore.services;
 
+import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.entities.User;
 import com.example.onlinestore.domain.models.service.UserServiceModel;
 import com.example.onlinestore.repository.UserRepository;
@@ -25,15 +26,13 @@ public class UserServiceImpl implements UserService {
     private final RoleService roleService;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final CloudinaryService cloudinaryService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleService roleService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder, CloudinaryService cloudinaryService) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.cloudinaryService = cloudinaryService;
     }
 
 
@@ -59,13 +58,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return this.userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
+                .orElseThrow(() -> new UsernameNotFoundException(USERNAME_NOT_FOUND_EXCEPTION_MESSAGE));
     }
 
     @Override
     public UserServiceModel findUserByUsername(String username) {
         User user = this.userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
+                .orElseThrow(() -> new UsernameNotFoundException(USERNAME_NOT_FOUND_EXCEPTION_MESSAGE));
 
         UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
 
@@ -75,7 +74,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserServiceModel editServiceProfile(UserServiceModel userServiceModel, String oldPassword) {
         User user = this.userRepository.findByUsername(userServiceModel.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
+                .orElseThrow(() -> new UsernameNotFoundException(USERNAME_NOT_FOUND_EXCEPTION_MESSAGE));
 
         if (!this.bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
             throw new IllegalArgumentException("Incorrect password!");

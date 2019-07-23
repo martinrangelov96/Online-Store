@@ -9,12 +9,14 @@ import com.example.onlinestore.domain.models.view.users.UserViewModel;
 import com.example.onlinestore.services.CategoryService;
 import com.example.onlinestore.services.CloudinaryService;
 import com.example.onlinestore.services.UserService;
+import com.example.onlinestore.validation.UserEditProfileValidation;
 import com.example.onlinestore.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -34,13 +36,15 @@ public class UserController extends BaseController {
     private final CategoryService categoryService;
     private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
+    private final UserEditProfileValidation userEditProfileValidation;
 
     @Autowired
-    public UserController(UserService userService, CategoryService categoryService, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
+    public UserController(UserService userService, CategoryService categoryService, CloudinaryService cloudinaryService, ModelMapper modelMapper, UserEditProfileValidation userEditProfileValidation) {
         this.userService = userService;
         this.categoryService = categoryService;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
+        this.userEditProfileValidation = userEditProfileValidation;
     }
 
     @GetMapping("/register")
@@ -103,6 +107,7 @@ public class UserController extends BaseController {
     public ModelAndView editProfile(Principal principal, ModelAndView modelAndView) {
         UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
         UserProfileViewModel userProfileViewModel = this.modelMapper.map(userServiceModel, UserProfileViewModel.class);
+
         modelAndView.addObject("model", userProfileViewModel);
 
         return view("/users/edit-profile", modelAndView);
@@ -110,7 +115,14 @@ public class UserController extends BaseController {
 
     @PatchMapping("/edit-profile")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView editProfileConfirm(@ModelAttribute(name = "model") UserEditBindingModel model) throws IOException {
+    public ModelAndView editProfileConfirm(@ModelAttribute(name = "model") UserEditBindingModel model, BindingResult bindingResult, ModelAndView modelAndView) throws IOException {
+        this.userEditProfileValidation.validate(model, bindingResult);
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("model", model);
+
+            return view("/users/edit-profile");
+        }
+
         if (model.getPassword() != null && !model.getPassword().equals(model.getConfirmPassword())) {
             return view("/users/edit-profile");
         }

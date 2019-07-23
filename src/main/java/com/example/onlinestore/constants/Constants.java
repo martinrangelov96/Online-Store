@@ -11,4 +11,6 @@ public final class Constants {
     public static final String MODERATOR_STRING = "moderator";
     public static final String ADMIN_STRING = "admin";
 
+    public static final String USERNAME_NOT_FOUND_EXCEPTION_MESSAGE = "Username not found!";
+
 }
