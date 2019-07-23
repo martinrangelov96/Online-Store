@@ -4,6 +4,8 @@ public class UserProfileViewModel {
 
     private String username;
     private String oldPassword;
+    private String password;
+    private String confirmPassword;
     private String email;
     private String imageUrl;
 
@@ -24,6 +26,22 @@ public class UserProfileViewModel {
 
     public void setOldPassword(String oldPassword) {
         this.oldPassword = oldPassword;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     public String getEmail() {

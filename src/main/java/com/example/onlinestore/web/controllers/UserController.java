@@ -124,6 +124,8 @@ public class UserController extends BaseController {
         }
 
         if (model.getPassword() != null && !model.getPassword().equals(model.getConfirmPassword())) {
+            modelAndView.addObject("model", model);
+
             return view("/users/edit-profile");
         }
 

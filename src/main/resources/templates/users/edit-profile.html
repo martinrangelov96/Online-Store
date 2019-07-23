@@ -17,7 +17,7 @@
             <input type="text" th:value="*{username}" class="form-control" name="username" id="username" readonly>
         </div>
         <div class="form-group">
-            <label for="oldPassword" class="font-weight-bold">Current Password</label>
+            <label for="oldPassword" class="font-weight-bold">Password</label>
             <input type="password" class="form-control" id="oldPassword" placeholder="Password..." name="oldPassword" required>
         </div>
         <th:block th:if="${#fields.hasErrors('oldPassword')}">
@@ -31,6 +31,9 @@
             <label for="confirmPassword" class="font-weight-bold">Confirm New Password</label>
             <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm New Password..." name="confirmPassword">
         </div>
+        <th:block th:if="${#fields.hasErrors('password')}">
+            <small style="color: red" th:errors="*{password}"></small>
+        </th:block>
         <div class="form-group">
             <label for="email" class="font-weight-bold">Email</label>
             <input type="email" th:value="*{email}" class="form-control" id="email" placeholder="Email..." name="email">
