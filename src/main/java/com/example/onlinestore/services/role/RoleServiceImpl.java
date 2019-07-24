@@ -1,4 +1,4 @@
-package com.example.onlinestore.services;
+package com.example.onlinestore.services.role;
 
 import com.example.onlinestore.domain.entities.Role;
 import com.example.onlinestore.domain.models.service.RoleServiceModel;

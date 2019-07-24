@@ -52,15 +52,13 @@ public class User extends BaseEntity implements UserDetails {
         this.email = email;
     }
 
-    @Column(name = "balance")
+    @Column(name = "balance", nullable = false, insertable = false, columnDefinition="Decimal(10,2) default '0.00'")
     public BigDecimal getBalance() {
         return balance;
     }
 
     public void setBalance(BigDecimal balance) {
-        if (balance == null) {
-            this.balance = BigDecimal.ZERO;
-        }
+        this.balance = balance;
     }
 
     @Override

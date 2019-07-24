@@ -1,4 +1,4 @@
-package com.example.onlinestore.services;
+package com.example.onlinestore.services.cloudinary;
 
 import com.cloudinary.Cloudinary;
 import org.springframework.beans.factory.annotation.Autowired;

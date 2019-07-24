@@ -1,4 +1,4 @@
-package com.example.onlinestore.services;
+package com.example.onlinestore.services.product;
 
 import com.example.onlinestore.domain.entities.Category;
 import com.example.onlinestore.domain.entities.Product;

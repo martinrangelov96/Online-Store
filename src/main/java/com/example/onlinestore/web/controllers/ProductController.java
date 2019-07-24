@@ -8,9 +8,9 @@ import com.example.onlinestore.domain.models.view.products.ProductDeleteViewMode
 import com.example.onlinestore.domain.models.view.products.ProductDetailsViewModel;
 import com.example.onlinestore.domain.models.view.products.ProductEditViewModel;
 import com.example.onlinestore.domain.models.view.products.ProductViewModel;
-import com.example.onlinestore.services.CategoryService;
-import com.example.onlinestore.services.CloudinaryService;
-import com.example.onlinestore.services.ProductService;
+import com.example.onlinestore.services.category.CategoryService;
+import com.example.onlinestore.services.cloudinary.CloudinaryService;
+import com.example.onlinestore.services.product.ProductService;
 import com.example.onlinestore.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

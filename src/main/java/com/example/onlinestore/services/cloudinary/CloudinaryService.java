@@ -1,4 +1,4 @@
-package com.example.onlinestore.services;
+package com.example.onlinestore.services.cloudinary;
 
 import org.springframework.web.multipart.MultipartFile;
 

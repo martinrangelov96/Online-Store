@@ -4,7 +4,7 @@ import com.example.onlinestore.domain.models.binding.CategoryAddBindingModel;
 import com.example.onlinestore.domain.models.binding.CategoryEditBindingModel;
 import com.example.onlinestore.domain.models.service.CategoryServiceModel;
 import com.example.onlinestore.domain.models.view.categories.CategoryViewModel;
-import com.example.onlinestore.services.CategoryService;
+import com.example.onlinestore.services.category.CategoryService;
 import com.example.onlinestore.validation.CategoryAddValidator;
 import com.example.onlinestore.validation.CategoryEditValidator;
 import com.example.onlinestore.web.annotations.PageTitle;

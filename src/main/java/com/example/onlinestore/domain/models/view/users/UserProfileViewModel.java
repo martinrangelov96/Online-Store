@@ -1,5 +1,7 @@
 package com.example.onlinestore.domain.models.view.users;
 
+import java.math.BigDecimal;
+
 public class UserProfileViewModel {
 
     private String username;
@@ -7,6 +9,7 @@ public class UserProfileViewModel {
     private String password;
     private String confirmPassword;
     private String email;
+    private BigDecimal balance;
     private String imageUrl;
 
     public UserProfileViewModel() {
@@ -50,6 +53,14 @@ public class UserProfileViewModel {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 
     public String getImageUrl() {

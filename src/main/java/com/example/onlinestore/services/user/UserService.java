@@ -1,4 +1,4 @@
-package com.example.onlinestore.services;
+package com.example.onlinestore.services.user;
 
 import com.example.onlinestore.domain.models.service.UserServiceModel;
 import org.springframework.security.core.userdetails.UserDetailsService;

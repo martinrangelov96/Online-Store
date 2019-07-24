@@ -1,4 +1,4 @@
-package com.example.onlinestore.services;
+package com.example.onlinestore.services.category;
 
 import com.example.onlinestore.domain.models.service.CategoryServiceModel;
 

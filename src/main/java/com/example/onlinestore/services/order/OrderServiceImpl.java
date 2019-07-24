@@ -1,4 +1,4 @@
-package com.example.onlinestore.services;
+package com.example.onlinestore.services.order;
 
 import com.example.onlinestore.domain.entities.Order;
 import com.example.onlinestore.domain.models.service.OrderServiceModel;

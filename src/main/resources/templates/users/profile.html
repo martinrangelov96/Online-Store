@@ -12,7 +12,8 @@
     <div class="jumbotron bg-light">
         <th:block th:if="${model.imageUrl} == null">
             <div class="text-center">
-                <img src="https://res.cloudinary.com/martoraneca/image/upload/v1563879123/profile-icon-9_rdumvu.png" alt="profileImg">
+                <img src="https://res.cloudinary.com/martoraneca/image/upload/v1563879123/profile-icon-9_rdumvu.png"
+                     alt="profileImg">
             </div>
         </th:block>
         <th:block th:if="${model.imageUrl} != null">
@@ -28,6 +29,11 @@
         <div class="row">
             <div class="col col-md-12 text-center">
                 <h4 th:text="${model.email}"></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-md-12 text-center">
+                <h4 style="color: green" th:text="|Your money balance: ${model.balance}|"></h4>
             </div>
         </div>
         <hr class="hr-2 bg-dark">

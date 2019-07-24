@@ -1,9 +1,9 @@
-package com.example.onlinestore.services;
+package com.example.onlinestore.services.user;
 
-import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.entities.User;
 import com.example.onlinestore.domain.models.service.UserServiceModel;
 import com.example.onlinestore.repository.UserRepository;
+import com.example.onlinestore.services.role.RoleService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

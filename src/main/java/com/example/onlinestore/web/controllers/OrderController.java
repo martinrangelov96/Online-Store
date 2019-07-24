@@ -2,7 +2,7 @@ package com.example.onlinestore.web.controllers;
 
 import com.example.onlinestore.domain.models.service.OrderServiceModel;
 import com.example.onlinestore.domain.models.view.orders.OrderViewModel;
-import com.example.onlinestore.services.OrderService;
+import com.example.onlinestore.services.order.OrderService;
 import com.example.onlinestore.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
