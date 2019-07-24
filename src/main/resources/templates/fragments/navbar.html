@@ -37,7 +37,7 @@
                     <div class="dropdown show">
                         <a class="nav-link dropdown-toggle" th:href="@{#}" role="button" id="cartDropdown"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: green">
-                            Cart
+                            Shopping Cart
                         </a>
                         <div class="dropdown-menu" aria-labelledby="cartDropdown">
                             <th:block th:each="item : ${#session.getAttribute('shopping-cart')}" th:object="${item}">
