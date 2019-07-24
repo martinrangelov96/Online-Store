@@ -138,4 +138,24 @@ public class UserServiceImpl implements UserService {
 
         return this.modelMapper.map(user, UserServiceModel.class);
     }
+
+    @Override
+    public UserServiceModel updateMoneyAfterCheckout(UserServiceModel userServiceModel, BigDecimal orderTotalPrice) {
+        User user = this.modelMapper.map(userServiceModel, User.class);
+
+        BigDecimal userBalance = user.getBalance();
+        user.setBalance(userBalance.subtract(orderTotalPrice));
+
+        this.userRepository.save(user);
+
+        return this.modelMapper.map(user, UserServiceModel.class);
+    }
+
+
+
+
+
+
+
+
 }

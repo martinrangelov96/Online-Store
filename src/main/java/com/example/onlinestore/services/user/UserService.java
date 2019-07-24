@@ -19,4 +19,6 @@ public interface UserService extends UserDetailsService {
     void setRole(String id, String role);
 
     UserServiceModel addMoneyToBalance(UserServiceModel userServiceModel, BigDecimal moneyToAdd);
+
+    UserServiceModel updateMoneyAfterCheckout(UserServiceModel userServiceModel, BigDecimal orderTotalPrice);
 }

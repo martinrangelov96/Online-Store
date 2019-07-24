@@ -86,9 +86,17 @@ public class CartController extends BaseController {
     public ModelAndView checkoutConfirm(HttpSession session, Principal principal) {
         var cart = this.retrieveCart(session);
         String customer = principal.getName();
+        UserServiceModel userServiceModel = this.userService.findUserByUsername(customer);
+        BigDecimal orderTotalPrice = this.calculateTotalPrice(cart);
+
+        if (!(userServiceModel.getBalance().compareTo(orderTotalPrice) >= 0)) {
+            return redirect("/cart/details-cart");
+        }
+
         OrderServiceModel orderServiceModel = this.prepareOrder(cart, customer);
 
         this.orderService.createOrder(orderServiceModel);
+        this.userService.updateMoneyAfterCheckout(userServiceModel, orderTotalPrice);
         cart.clear();
 
         return redirect("/users/home");
