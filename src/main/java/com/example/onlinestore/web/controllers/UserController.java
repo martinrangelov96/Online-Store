@@ -108,7 +108,8 @@ public class UserController extends BaseController {
 
     @PostMapping("/add-money")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView addMoneyToBalance(String username, BigDecimal moneyToAdd) {
+    public ModelAndView addMoneyToBalance(Principal principal, BigDecimal moneyToAdd) {
+        String username = principal.getName();
         UserServiceModel userServiceModel = this.userService.findUserByUsername(username);
 
         this.userService.addMoneyToBalance(userServiceModel, moneyToAdd);
