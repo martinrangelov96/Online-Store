@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -103,6 +104,16 @@ public class UserController extends BaseController {
         modelAndView.addObject("model", userProfileViewModel);
 
         return view("/users/profile", modelAndView);
+    }
+
+    @PostMapping("/add-money")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView addMoneyToBalance(String username, BigDecimal moneyToAdd) {
+        UserServiceModel userServiceModel = this.userService.findUserByUsername(username);
+
+        this.userService.addMoneyToBalance(userServiceModel, moneyToAdd);
+
+        return redirect("/users/profile");
     }
 
     @GetMapping("/edit-profile")

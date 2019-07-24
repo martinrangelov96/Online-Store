@@ -10,48 +10,51 @@
 </header>
 <main class="mt-3">
     <div class="jumbotron bg-light">
-        <th:block th:if="${model.imageUrl} == null">
-            <div class="text-center">
-                <a th:href="@{/users/edit-profile}">
-                    <img src="https://res.cloudinary.com/martoraneca/image/upload/v1563972870/36-2-512_ws0xga.png"
-                         height="250" alt="profileImg">
-                </a>
-            </div>
-        </th:block>
-        <th:block th:if="${model.imageUrl} != null">
-            <div class="text-center">
-                <img th:src="${model.imageUrl}" height="300" alt="profileImg">
-            </div>
-        </th:block>
-        <div class="row mt-2">
-            <div class="col col-md-12 text-center">
-                <h2 th:text="${model.username}"></h2>
-            </div>
-        </div>
-        <div class="row mt-1">
-            <div class="col col-md-12 text-center">
-                <h4 th:text="${model.email}"></h4>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col col-md-12 text-center">
-                <h4 style="color: green" th:text="|Your money balance: ${model.balance} lv.|"></h4>
-            </div>
-        </div>
-        <div class="row mt-3 text-center">
-<!--            <form class="form w-25 mx-auto" th:action="@{/users/add-balance}" th:method="get">-->
-                <div class="form-group">
-                    <input id="addBalance" class="form-control text-center" type="number" min="1" max="1000" step="1"
-                           value="1" name="addBalance"/>
+        <th:block th:object="${model}">
+
+            <th:block th:if="*{imageUrl} == null">
+                <div class="text-center">
+                    <a th:href="@{/users/edit-profile}">
+                        <img src="https://res.cloudinary.com/martoraneca/image/upload/v1563972870/36-2-512_ws0xga.png"
+                             height="250" alt="profileImg">
+                    </a>
                 </div>
-                <input type="hidden" name="id" th:value="${model.id}">
-                <button type="submit" class="btn btn-success">Add money to your balance!</button>
-            </form>
-        </div>
-        <hr class="hr-2 bg-dark">
-        <div class="button-holder d-flex justify-content-center">
-            <a th:href="@{/users/edit-profile}" class="btn btn-dark">Edit Profile</a>
-        </div>
+            </th:block>
+            <th:block th:if="*{imageUrl} != null">
+                <div class="text-center">
+                    <img th:src="*{imageUrl}" height="300" alt="profileImg">
+                </div>
+            </th:block>
+            <div class="row mt-2">
+                <div class="col col-md-12 text-center">
+                    <h2 th:text="*{username}"></h2>
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col col-md-12 text-center">
+                    <h4 th:text="*{email}"></h4>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col col-md-12 text-center">
+                    <h4 style="color: green" th:text="|Your money balance: *{balance} lv.|"></h4>
+                </div>
+            </div>
+            <div class="row mt-3 text-center">
+                <form class="form w-25 mx-auto" th:action="@{/users/add-money}" th:method="post">
+                    <div class="form-group">
+                        <input id="moneyToAdd" class="form-control text-center" type="number" min="1" max="1000" step="0.01"
+                               value="1" name="moneyToAdd"/>
+                    </div>
+                    <input type="hidden" name="username" th:value="${#authentication.getPrincipal().getUsername()}">
+                    <button type="submit" class="btn btn-success">Add money to your balance!</button>
+                </form>
+            </div>
+            <hr class="hr-2 bg-dark">
+            <div class="button-holder d-flex justify-content-center">
+                <a th:href="@{/users/edit-profile}" class="btn btn-dark">Edit Profile</a>
+            </div>
+        </th:block>
     </div>
 </main>
 <footer>

@@ -2,8 +2,8 @@ package com.example.onlinestore.services.user;
 
 import com.example.onlinestore.domain.models.service.UserServiceModel;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface UserService extends UserDetailsService {
@@ -18,4 +18,5 @@ public interface UserService extends UserDetailsService {
 
     void setRole(String id, String role);
 
+    UserServiceModel addMoneyToBalance(UserServiceModel userServiceModel, BigDecimal moneyToAdd);
 }

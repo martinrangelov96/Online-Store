@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -124,5 +125,17 @@ public class UserServiceImpl implements UserService {
         user = this.modelMapper.map(userServiceModel, User.class);
 
         this.userRepository.save(user);
+    }
+
+    @Override
+    public UserServiceModel addMoneyToBalance(UserServiceModel userServiceModel, BigDecimal moneyToAdd) {
+        User user = this.modelMapper.map(userServiceModel, User.class);
+
+        BigDecimal currentBalance = user.getBalance();
+        user.setBalance(currentBalance.add(moneyToAdd));
+
+        this.userRepository.save(user);
+
+        return this.modelMapper.map(user, UserServiceModel.class);
     }
 }
