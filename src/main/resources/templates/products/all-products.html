@@ -12,13 +12,13 @@
     <h1 class="text-center text-dark">All Products</h1>
     <hr class="hr-2 bg-dark w-75">
     <table class="table table-hover w-75 mx-auto">
-        <thead>
+        <thead class="thead-light">
         <tr class="row mx-auto">
             <th class="col-md-1 text-center">#</th>
-            <th class="col-md-3 text-center">Image</th>
+            <th class="col-md-2 text-center">Image</th>
             <th class="col-md-3 text-center">Name</th>
             <th class="col-md-2 text-center">Price</th>
-            <th class="col-md-3 text-center">Actions</th>
+            <th class="col-md-4 text-center">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -26,13 +26,13 @@
         <th:block th:each="product, iter : ${products}">
             <tr class="row mx-auto">
                 <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
-                <td class="col-md-3"><div class="text-center"><img th:src="${product.imageUrl}" height="60" alt="Product"></div></td>
+                <td class="col-md-2"><div class="text-center"><img th:src="${product.imageUrl}" height="60" alt="Product"></div></td>
                 <td class="col-md-3 text-center" th:text="${product.name}"></td>
                 <td class="col-md-2 text-center" style="color: green" th:text="${product.price}"></td>
-                <td class="col-md-3 text-center">
-                    <a th:href="@{/products/details-product/{id}(id=${product.id})}" class="btn btn-secondary font-weight-bold text-white">Details</a>
-                    <a th:href="@{/products/edit-product/{id}(id=${product.id})}" class="btn btn-success font-weight-bold text-white">Edit</a>
-                    <a th:href="@{/products/delete-product/{id}(id=${product.id})}" class="btn btn-danger font-weight-bold text-white">Delete</a>
+                <td class="col-md-4 text-center">
+                    <a th:href="@{/products/details-product/{id}(id=${product.id})}" class="btn btn-secondary font-weight-bold btn-width-products">Details</a>
+                    <a th:href="@{/products/edit-product/{id}(id=${product.id})}" class="btn btn-success font-weight-bold btn-width-products">Edit</a>
+                    <a th:href="@{/products/delete-product/{id}(id=${product.id})}" class="btn btn-danger font-weight-bold btn-width-products">Delete</a>
                 </td>
             </tr>
         </th:block>
