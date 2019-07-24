@@ -29,7 +29,7 @@
                 <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
                 <td class="col-md-2"><div class="text-center"><img th:src="*{imageUrl}" height="70" alt="Product"></div></td>
                 <td class="col-md-3 text-center" th:text="*{name}"></td>
-                <td class="col-md-3 text-center" style="color: green" th:text="*{price}"></td>
+                <td class="col-md-3 text-center" style="color: green" th:text="|*{price} $|"></td>
                 <td class="col-md-3 text-center" th:text="*{description}">
             </tr>
         </th:block>

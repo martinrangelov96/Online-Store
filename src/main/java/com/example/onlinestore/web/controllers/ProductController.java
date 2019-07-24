@@ -129,7 +129,7 @@ public class ProductController extends BaseController {
         productServiceModel.setCategories(categories);
         this.productService.editProduct(id, productServiceModel);
 
-        return redirect("/products/details-product/" + id);
+        return redirect("/products/all-products");
     }
 
     @GetMapping("/delete-product/{id}")

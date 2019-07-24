@@ -28,7 +28,7 @@
                 <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
                 <th class="col-md-4 text-center" th:text="*{customer.username}"></th>
                 <td class="col-md-3 text-center" th:text="*{#temporals.format(orderedOn, 'dd-MM-YYYY HH:mm:ss')}"></td>
-                <td class="col-md-2 text-center" style="color: green" th:text="*{totalPrice}"></td>
+                <td class="col-md-2 text-center" style="color: green" th:text="|*{totalPrice} $|"></td>
                 <td class="col-md-2 text-center">
                     <a th:href="@{/orders/details-order/{id}(id=*{id})}" class="btn btn-info">Products</a>
                 </td>
