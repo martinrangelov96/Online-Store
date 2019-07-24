@@ -1,5 +1,6 @@
 package com.example.onlinestore.domain.models.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -8,9 +9,10 @@ public class UserServiceModel extends BaseServiceModel {
     private String username;
     private String password;
     private String email;
-    private Set<RoleServiceModel> authorities;
+    private BigDecimal balance;
     private LocalDateTime registeredOn;
     private String imageUrl;
+    private Set<RoleServiceModel> authorities;
 
     public UserServiceModel() {
     }
@@ -39,12 +41,12 @@ public class UserServiceModel extends BaseServiceModel {
         this.email = email;
     }
 
-    public Set<RoleServiceModel> getAuthorities() {
-        return authorities;
+    public BigDecimal getBalance() {
+        return balance;
     }
 
-    public void setAuthorities(Set<RoleServiceModel> authorities) {
-        this.authorities = authorities;
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 
     public LocalDateTime getRegisteredOn() {
@@ -61,5 +63,13 @@ public class UserServiceModel extends BaseServiceModel {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Set<RoleServiceModel> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<RoleServiceModel> authorities) {
+        this.authorities = authorities;
     }
 }

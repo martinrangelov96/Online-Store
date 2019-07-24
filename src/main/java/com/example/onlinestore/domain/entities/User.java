@@ -1,8 +1,10 @@
 package com.example.onlinestore.domain.entities;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -13,9 +15,10 @@ public class User extends BaseEntity implements UserDetails {
     private String username;
     private String password;
     private String email;
-    private Set<Role> authorities;
+    private BigDecimal balance;
     private LocalDateTime registeredOn;
     private String imageUrl;
+    private Set<Role> authorities;
 
     public User() {
     }
@@ -49,6 +52,17 @@ public class User extends BaseEntity implements UserDetails {
         this.email = email;
     }
 
+    @Column(name = "balance")
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        if (balance == null) {
+            this.balance = BigDecimal.ZERO;
+        }
+    }
+
     @Override
     @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
     @JoinTable(
@@ -58,10 +72,6 @@ public class User extends BaseEntity implements UserDetails {
     )
     public Set<Role> getAuthorities() {
         return authorities;
-    }
-
-    public void setAuthorities(Set<Role> authorities) {
-        this.authorities = authorities;
     }
 
     @Column(name = "registered_on")
@@ -80,6 +90,10 @@ public class User extends BaseEntity implements UserDetails {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public void setAuthorities(Set<Role> authorities) {
+        this.authorities = authorities;
     }
 
     @Override
