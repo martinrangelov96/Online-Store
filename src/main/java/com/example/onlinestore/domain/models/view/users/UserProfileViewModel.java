@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public class UserProfileViewModel {
 
+    private String id;
     private String username;
     private String oldPassword;
     private String password;
@@ -13,6 +14,14 @@ public class UserProfileViewModel {
     private String imageUrl;
 
     public UserProfileViewModel() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUsername() {
