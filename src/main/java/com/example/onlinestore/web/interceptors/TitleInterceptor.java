@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class TitleInterceptor extends HandlerInterceptorAdapter {
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
         String title = "Online Store";
 
         if (handler instanceof HandlerMethod) {

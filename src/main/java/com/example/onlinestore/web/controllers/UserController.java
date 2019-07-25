@@ -22,6 +22,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.security.Principal;
@@ -83,6 +84,7 @@ public class UserController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Home Page")
     public ModelAndView home(ModelAndView modelAndView) {
+
         List<CategoryViewModel> categories =
                 this.categoryService
                         .findAllCategories()
@@ -196,6 +198,15 @@ public class UserController extends BaseController {
     @InitBinder
     private void initBinder(WebDataBinder webDataBinder) {
         webDataBinder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
+
+    //make the field public if you need valid state of fields (@Autowired, Dependency Injection)
+    @InitBinder
+    public void initUserBalance(HttpSession httpSession, Principal principal) {
+        if (principal != null) {
+            UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
+            httpSession.setAttribute("customer-balance", userServiceModel.getBalance());
+        }
     }
 
 }

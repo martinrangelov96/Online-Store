@@ -27,6 +27,9 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light rounded font-weight-bold">
 
             <a class="navbar-brand" th:href="@{/users/home}">𝗢𝗻𝗹𝗶𝗻𝗲 𝗦𝘁𝗼𝗿𝗲</a>
+            <a class="navbar-brand" th:href="@{/users/profile}"
+               style="color: green" th:text="|Balance: ${#session.getAttribute('customer-balance')} $|">
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#userNavBar"
                     aria-controls="userNavBar" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
