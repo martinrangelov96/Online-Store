@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderServiceModel> findAllOrders() {
-        List<OrderServiceModel> orderServiceModels = this.orderRepository.findAll()
+        List<OrderServiceModel> orderServiceModels = this.orderRepository.findAllByOrderByOrderedOn()
                 .stream()
                 .map(order -> this.modelMapper.map(order, OrderServiceModel.class))
                 .collect(Collectors.toList());

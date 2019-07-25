@@ -13,13 +13,13 @@ import org.springframework.validation.Validator;
 import static com.example.onlinestore.constants.Constants.USERNAME_NOT_FOUND_EXCEPTION_MESSAGE;
 
 @Component
-public class UserEditProfileValidation implements Validator {
+public class UserEditProfileValidator implements Validator {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserEditProfileValidation(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserEditProfileValidator(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }

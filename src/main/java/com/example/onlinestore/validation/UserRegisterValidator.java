@@ -6,7 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
-public class UserRegisterValidation implements Validator {
+public class UserRegisterValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
         return UserRegisterBindingModel.class.equals(clazz);

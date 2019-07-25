@@ -31,6 +31,8 @@ import java.util.List;
 public class CartController extends BaseController {
 
     private final static String SHOPPING_CART = "shopping-cart";
+    private final static String EMPTY_SHOPPING_CART_MESSAGE = "Your shopping cart is empty!";
+    private final static String NOT_ENOUGH_MONEY_MESSAGE = "You don't have enough money for this order!";
 
     private final ProductService productService;
     private final UserService userService;
@@ -65,8 +67,17 @@ public class CartController extends BaseController {
     @GetMapping("/details-cart")
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Cart Details")
-    public ModelAndView cartDetails(ModelAndView modelAndView, HttpSession session) {
+    public ModelAndView cartDetails(ModelAndView modelAndView, HttpSession session, Principal principal) {
         var cart = this.retrieveCart(session);
+        UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
+        BigDecimal orderTotalPrice = this.calculateTotalPrice(cart);
+
+        if (cart.size() == 0) {
+            modelAndView.addObject("emptyCartMessage", EMPTY_SHOPPING_CART_MESSAGE);
+        }
+        if (!(userServiceModel.getBalance().compareTo(orderTotalPrice) >= 0)) {
+            modelAndView.addObject("notEnoughMoneyMessage", NOT_ENOUGH_MONEY_MESSAGE);
+        }
         modelAndView.addObject("totalPrice", this.calculateTotalPrice(cart));
 
         return view("/cart/details-cart", modelAndView);
@@ -89,6 +100,10 @@ public class CartController extends BaseController {
         UserServiceModel userServiceModel = this.userService.findUserByUsername(customer);
         BigDecimal orderTotalPrice = this.calculateTotalPrice(cart);
 
+        if (cart.size() == 0) {
+            return redirect("/cart/details-cart");
+        }
+
         if (!(userServiceModel.getBalance().compareTo(orderTotalPrice) >= 0)) {
             return redirect("/cart/details-cart");
         }
@@ -102,6 +117,7 @@ public class CartController extends BaseController {
         return redirect("/users/home");
     }
 
+    @SuppressWarnings("unchecked")
     private List<ShoppingCartItem> retrieveCart(HttpSession session) {
         this.initCart(session);
 

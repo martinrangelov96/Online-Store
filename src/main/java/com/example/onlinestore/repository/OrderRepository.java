@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, String> {
 
+    List<Order> findAllByOrderByOrderedOn();
+
     List<Order> findOrderByCustomer_UsernameOrderByOrderedOn(String username);
 
 }

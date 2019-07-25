@@ -9,8 +9,8 @@ import com.example.onlinestore.domain.models.view.users.UserViewModel;
 import com.example.onlinestore.services.category.CategoryService;
 import com.example.onlinestore.services.cloudinary.CloudinaryService;
 import com.example.onlinestore.services.user.UserService;
-import com.example.onlinestore.validation.UserEditProfileValidation;
-import com.example.onlinestore.validation.UserRegisterValidation;
+import com.example.onlinestore.validation.UserEditProfileValidator;
+import com.example.onlinestore.validation.UserRegisterValidator;
 import com.example.onlinestore.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,21 +35,24 @@ import static com.example.onlinestore.constants.Constants.*;
 @RequestMapping("/users")
 public class UserController extends BaseController {
 
+    private final static String CUSTOMER_BALANCE = "customer-balance";
+
+
     private final UserService userService;
     private final CategoryService categoryService;
     private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
-    private final UserEditProfileValidation userEditProfileValidation;
-    private final UserRegisterValidation userRegisterValidation;
+    private final UserEditProfileValidator userEditProfileValidator;
+    private final UserRegisterValidator userRegisterValidator;
 
     @Autowired
-    public UserController(UserService userService, CategoryService categoryService, CloudinaryService cloudinaryService, ModelMapper modelMapper, UserEditProfileValidation userEditProfileValidation, UserRegisterValidation userRegisterValidation) {
+    public UserController(UserService userService, CategoryService categoryService, CloudinaryService cloudinaryService, ModelMapper modelMapper, UserEditProfileValidator userEditProfileValidator, UserRegisterValidator userRegisterValidator) {
         this.userService = userService;
         this.categoryService = categoryService;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
-        this.userEditProfileValidation = userEditProfileValidation;
-        this.userRegisterValidation = userRegisterValidation;
+        this.userEditProfileValidator = userEditProfileValidator;
+        this.userRegisterValidator = userRegisterValidator;
     }
 
     @GetMapping("/register")
@@ -62,7 +65,7 @@ public class UserController extends BaseController {
     @PostMapping("/register")
     @PreAuthorize("isAnonymous()")
     public ModelAndView registerConfirm(@ModelAttribute(name = "model") UserRegisterBindingModel model, BindingResult bindingResult) {
-        this.userRegisterValidation.validate(model, bindingResult);
+        this.userRegisterValidator.validate(model, bindingResult);
         if (bindingResult.hasErrors()) {
             return view("/users/register");
         }
@@ -134,7 +137,7 @@ public class UserController extends BaseController {
     @PatchMapping("/edit-profile")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView editProfileConfirm(@ModelAttribute(name = "model") UserEditBindingModel model, BindingResult bindingResult) throws IOException {
-        this.userEditProfileValidation.validate(model, bindingResult);
+        this.userEditProfileValidator.validate(model, bindingResult);
         if (bindingResult.hasErrors()) {
             return view("/users/edit-profile");
         }
@@ -205,7 +208,7 @@ public class UserController extends BaseController {
     public void initUserBalance(HttpSession httpSession, Principal principal) {
         if (principal != null) {
             UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
-            httpSession.setAttribute("customer-balance", userServiceModel.getBalance());
+            httpSession.setAttribute(CUSTOMER_BALANCE, userServiceModel.getBalance());
         }
     }
 

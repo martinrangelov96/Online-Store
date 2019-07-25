@@ -25,6 +25,7 @@
         <tbody>
 
         <th:block th:each="item : ${#session.getAttribute('shopping-cart')}" th:object="${item}">
+
             <tr class="row mx-auto">
                 <th class="col-md-2 text-center"><img th:src="*{product.imageUrl}" alt="Product" height="150"></th>
                 <td class="col-md-3 text-center" th:text="*{product.name}"></td>
@@ -46,6 +47,14 @@
     </table>
 
     <hr class="hr-2 bg-dark">
+
+    <div class="text-center">
+        <h1 style="color: red" th:text="${emptyCartMessage}"></h1>
+    </div>
+    <div class="text-center">
+        <h1 style="color: red" th:text="${notEnoughMoneyMessage}"></h1>
+    </div>
+
     <div class="text-center">
         <h3 style="color: green" th:text="|Total Price: ${totalPrice} $|"></h3>
     </div>
