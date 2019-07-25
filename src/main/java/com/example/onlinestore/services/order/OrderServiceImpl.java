@@ -1,26 +1,36 @@
 package com.example.onlinestore.services.order;
 
+import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.entities.Order;
+import com.example.onlinestore.domain.entities.User;
 import com.example.onlinestore.domain.models.service.OrderServiceModel;
+import com.example.onlinestore.domain.models.service.UserServiceModel;
 import com.example.onlinestore.errors.OrderNotFoundException;
 import com.example.onlinestore.repository.OrderRepository;
+import com.example.onlinestore.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.example.onlinestore.constants.Constants.USERNAME_NOT_FOUND_EXCEPTION_MESSAGE;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper) {
+    public OrderServiceImpl(OrderRepository orderRepository, UserRepository userRepository, ModelMapper modelMapper) {
         this.orderRepository = orderRepository;
+        this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -63,11 +73,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderServiceModel deleteOrder(OrderServiceModel orderServiceModel) {
+    public OrderServiceModel deleteOrder(OrderServiceModel orderServiceModel, UserServiceModel userServiceModel, BigDecimal orderTotalPrice) {
         Order order = this.orderRepository.findById(orderServiceModel.getId())
                 .orElseThrow(() -> new OrderNotFoundException("Order with this id does not exist!"));
 
+        User user = this.userRepository.findByUsername(userServiceModel.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException(USERNAME_NOT_FOUND_EXCEPTION_MESSAGE));
+        BigDecimal userBalance = user.getBalance();
+
         this.orderRepository.delete(order);
+        user.setBalance(userBalance.add(orderTotalPrice));
+        this.userRepository.save(user);
 
         return this.modelMapper.map(order, OrderServiceModel.class);
     }

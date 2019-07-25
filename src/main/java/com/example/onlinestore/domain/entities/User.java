@@ -4,6 +4,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -53,6 +54,7 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     @Column(name = "balance", nullable = false, insertable = false, columnDefinition="Decimal(10,2) default '0.00'")
+    @Min(0)
     public BigDecimal getBalance() {
         return balance;
     }

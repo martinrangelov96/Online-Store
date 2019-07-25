@@ -1,7 +1,9 @@
 package com.example.onlinestore.web.controllers;
 
 import com.example.onlinestore.domain.models.service.OrderServiceModel;
+import com.example.onlinestore.domain.models.service.UserServiceModel;
 import com.example.onlinestore.domain.models.view.orders.OrderViewModel;
+import com.example.onlinestore.domain.models.view.users.UserProfileViewModel;
 import com.example.onlinestore.services.order.OrderService;
 import com.example.onlinestore.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -77,7 +80,10 @@ public class OrderController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     public ModelAndView deleteOrder(String id) {
         OrderServiceModel orderServiceModel = this.orderService.findOrderById(id);
-        this.orderService.deleteOrder(orderServiceModel);
+        UserServiceModel userServiceModel = orderServiceModel.getCustomer();
+        BigDecimal orderTotalPrice = orderServiceModel.getTotalPrice();
+
+        this.orderService.deleteOrder(orderServiceModel, userServiceModel, orderTotalPrice);
 
         return redirect("/users/home");
     }
