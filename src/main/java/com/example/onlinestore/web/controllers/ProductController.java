@@ -103,7 +103,7 @@ public class ProductController extends BaseController {
         productEditViewModel.setCategories(
                 productServiceModel.getCategories()
                         .stream()
-                        .map(c -> c.getName())
+                        .map(CategoryServiceModel::getName)
                         .collect(Collectors.toList()));
 
         modelAndView.addObject("product", productEditViewModel);
@@ -140,7 +140,8 @@ public class ProductController extends BaseController {
         ProductDeleteViewModel productDeleteViewModel = this.modelMapper.map(productServiceModel, ProductDeleteViewModel.class);
         productDeleteViewModel.setCategories(productServiceModel.getCategories()
                 .stream()
-                .map(categoryServiceModel -> categoryServiceModel.getName()).collect(Collectors.toList()));
+                .map(CategoryServiceModel::getName)
+                .collect(Collectors.toList()));
 
         modelAndView.addObject("product", productDeleteViewModel);
 

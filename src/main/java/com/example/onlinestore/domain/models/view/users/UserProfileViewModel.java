@@ -1,6 +1,9 @@
 package com.example.onlinestore.domain.models.view.users;
 
+import com.example.onlinestore.domain.models.service.RoleServiceModel;
+
 import java.math.BigDecimal;
+import java.util.List;
 
 public class UserProfileViewModel {
 
@@ -12,6 +15,7 @@ public class UserProfileViewModel {
     private String email;
     private BigDecimal balance;
     private String imageUrl;
+    private List<String> authorities;
 
     public UserProfileViewModel() {
     }
@@ -78,5 +82,13 @@ public class UserProfileViewModel {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public List<String> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(List<String> authorities) {
+        this.authorities = authorities;
     }
 }

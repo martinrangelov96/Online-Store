@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <th:block th:include="~{/fragments/head}"></th:block>
 </head>
@@ -23,17 +24,38 @@
         </thead>
         <tbody>
 
-        <th:block th:each="order, iter : ${orders}" th:object="${order}">
-            <tr class="row mx-auto">
-                <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
-                <th class="col-md-4 text-center" th:text="*{customer.username}"></th>
-                <td class="col-md-3 text-center" th:text="*{#temporals.format(orderedOn, 'dd-MM-YYYY HH:mm:ss')}"></td>
-                <td class="col-md-2 text-center" style="color: green" th:text="|*{totalPrice} $|"></td>
-                <td class="col-md-2 text-center">
-                    <a th:href="@{/orders/details-order/{id}(id=*{id})}" class="btn btn-info">Products</a>
-                </td>
-                <form action=""></form>
-            </tr>
+        <th:block sec:authorize="hasRole('ROLE_ROOT')">
+            <th:block th:each="order, iter : ${orders}" th:object="${order}">
+
+                    <tr class="row mx-auto">
+                        <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
+                        <th class="col-md-4 text-center" th:text="*{customer.username}"></th>
+                        <td class="col-md-3 text-center" th:text="*{#temporals.format(orderedOn, 'dd-MM-YYYY HH:mm:ss')}"></td>
+                        <td class="col-md-2 text-center" style="color: green" th:text="|*{totalPrice} $|"></td>
+                        <td class="col-md-2 text-center">
+                            <a th:href="@{/orders/details-order/{id}(id=*{id})}" class="btn btn-info">Products</a>
+                        </td>
+                    </tr>
+
+            </th:block>
+        </th:block>
+
+        <th:block sec:authorize="!hasRole('ROLE_ROOT')">
+            <th:block th:each="order, iter : ${orders}" th:object="${order}">
+
+                <th:block th:if="*{!#lists.contains(customer.authorities, 'ROLE_ROOT')}">
+                    <tr class="row mx-auto">
+                        <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
+                        <th class="col-md-4 text-center" th:text="*{customer.username}"></th>
+                        <td class="col-md-3 text-center" th:text="*{#temporals.format(orderedOn, 'dd-MM-YYYY HH:mm:ss')}"></td>
+                        <td class="col-md-2 text-center" style="color: green" th:text="|*{totalPrice} $|"></td>
+                        <td class="col-md-2 text-center">
+                            <a th:href="@{/orders/details-order/{id}(id=*{id})}" class="btn btn-info">Products</a>
+                        </td>
+                    </tr>
+                </th:block>
+
+            </th:block>
         </th:block>
 
         </tbody>

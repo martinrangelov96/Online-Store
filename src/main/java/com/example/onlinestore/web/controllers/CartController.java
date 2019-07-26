@@ -96,8 +96,7 @@ public class CartController extends BaseController {
     @PostMapping("/checkout-cart")
     public ModelAndView checkoutConfirm(HttpSession session, Principal principal) {
         var cart = this.retrieveCart(session);
-        String customer = principal.getName();
-        UserServiceModel userServiceModel = this.userService.findUserByUsername(customer);
+        UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
         BigDecimal orderTotalPrice = this.calculateTotalPrice(cart);
 
         if (cart.size() == 0) {
@@ -108,7 +107,7 @@ public class CartController extends BaseController {
             return redirect("/cart/details-cart");
         }
 
-        OrderServiceModel orderServiceModel = this.prepareOrder(cart, customer);
+        OrderServiceModel orderServiceModel = this.prepareOrder(cart, principal.getName());
 
         this.orderService.createOrder(orderServiceModel);
         this.userService.updateMoneyAfterCheckout(userServiceModel, orderTotalPrice);

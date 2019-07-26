@@ -2,6 +2,7 @@ package com.example.onlinestore.web.controllers;
 
 import com.example.onlinestore.domain.models.binding.UserEditBindingModel;
 import com.example.onlinestore.domain.models.binding.UserRegisterBindingModel;
+import com.example.onlinestore.domain.models.service.RoleServiceModel;
 import com.example.onlinestore.domain.models.service.UserServiceModel;
 import com.example.onlinestore.domain.models.view.categories.CategoryViewModel;
 import com.example.onlinestore.domain.models.view.users.UserProfileViewModel;
@@ -162,7 +163,10 @@ public class UserController extends BaseController {
                 .stream()
                 .map(userServiceModel -> {
                     UserViewModel user = this.modelMapper.map(userServiceModel, UserViewModel.class);
-                    user.setAuthorities(userServiceModel.getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.toSet()));
+                    user.setAuthorities(userServiceModel.getAuthorities()
+                            .stream()
+                            .map(RoleServiceModel::getAuthority)
+                            .collect(Collectors.toSet()));
 
                     return user;
                 })

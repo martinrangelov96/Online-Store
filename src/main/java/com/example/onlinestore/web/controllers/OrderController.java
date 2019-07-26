@@ -1,9 +1,9 @@
 package com.example.onlinestore.web.controllers;
 
 import com.example.onlinestore.domain.models.service.OrderServiceModel;
+import com.example.onlinestore.domain.models.service.RoleServiceModel;
 import com.example.onlinestore.domain.models.service.UserServiceModel;
 import com.example.onlinestore.domain.models.view.orders.OrderViewModel;
-import com.example.onlinestore.domain.models.view.users.UserProfileViewModel;
 import com.example.onlinestore.services.order.OrderService;
 import com.example.onlinestore.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
@@ -40,8 +40,17 @@ public class OrderController extends BaseController {
     public ModelAndView allOrders(ModelAndView modelAndView) {
         List<OrderServiceModel> orderServiceModels = this.orderService.findAllOrders();
         List<OrderViewModel> orderViewModels = orderServiceModels.stream()
-                .map(orderServiceModel -> this.modelMapper.map(orderServiceModel, OrderViewModel.class))
+                .map(orderServiceModel -> {
+                    OrderViewModel orderViewModel = this.modelMapper.map(orderServiceModel, OrderViewModel.class);
+                    orderViewModel.getCustomer().setAuthorities(orderServiceModel.getCustomer().getAuthorities()
+                    .stream()
+                    .map(RoleServiceModel::getAuthority)
+                    .collect(Collectors.toList()));
+
+                    return orderViewModel;
+                })
                 .collect(Collectors.toList());
+
 
         modelAndView.addObject("orders", orderViewModels);
 
@@ -64,8 +73,7 @@ public class OrderController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Customer Orders")
     public ModelAndView customerOrders(Principal principal, ModelAndView modelAndView) {
-        String customerName = principal.getName();
-        List<OrderServiceModel> orderServiceModels = this.orderService.findAllOrdersByCustomer(customerName);
+        List<OrderServiceModel> orderServiceModels = this.orderService.findAllOrdersByCustomer(principal.getName());
         List<OrderViewModel> orderViewModels = orderServiceModels
                 .stream()
                 .map(orderServiceModel -> this.modelMapper.map(orderServiceModel, OrderViewModel.class))
