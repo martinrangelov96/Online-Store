@@ -88,7 +88,6 @@ public class UserController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Home Page")
     public ModelAndView home(ModelAndView modelAndView) {
-
         List<CategoryViewModel> categories =
                 this.categoryService
                         .findAllCategories()

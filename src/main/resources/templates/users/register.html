@@ -16,6 +16,9 @@
             <label for="username" class="font-weight-bold">Username</label>
             <input type="text" class="form-control" id="username" placeholder="Username..." name="username"  minlength="4" required>
         </div>
+        <th:block th:if="${#fields.hasErrors('username')}">
+            <small style="color: red" th:errors="*{username}"></small>
+        </th:block>
         <div class="form-group">
             <label for="password" class="font-weight-bold">Password</label>
             <input type="password" class="form-control" id="password" placeholder="Password..." name="password"  minlength="6" required>
@@ -31,6 +34,9 @@
             <label for="email" class="font-weight-bold">Email</label>
             <input type="email" class="form-control" id="email" placeholder="Email..." name="email" minlength="4" required>
         </div>
+<!--        <th:block th:if="${#fields.hasErrors('email')}">-->
+<!--            <small style="color: red" th:errors="*{email}"></small>-->
+<!--        </th:block>-->
         <hr class="hr-2 bg-dark">
         <div class="button-holder d-flex justify-content-center">
             <button type="submit" class="btn btn-dark">Register</button>

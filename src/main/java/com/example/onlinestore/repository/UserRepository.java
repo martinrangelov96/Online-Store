@@ -13,5 +13,4 @@ public interface UserRepository extends JpaRepository<User, String> {
     List<User> findAllByOrderByRegisteredOn();
 
     Optional<User> findByUsername(String username);
-
 }

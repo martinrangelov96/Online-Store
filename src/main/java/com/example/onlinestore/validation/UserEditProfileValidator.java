@@ -36,11 +36,11 @@ public class UserEditProfileValidator implements Validator {
                 .orElseThrow(() -> new UsernameNotFoundException(USERNAME_NOT_FOUND_EXCEPTION_MESSAGE));
 
         if (!this.bCryptPasswordEncoder.matches(userEditBindingModel.getOldPassword(), user.getPassword())) {
-            errors.rejectValue("oldPassword", "Incorrect password!", "Incorrect password!");
+            errors.rejectValue("oldPassword", "Incorrect password", "Incorrect password!");
         }
 
         if (userEditBindingModel.getPassword() != null && !userEditBindingModel.getPassword().equals(userEditBindingModel.getConfirmPassword())) {
-            errors.rejectValue("password", "Passwords don't match!", "Passwords don't match!");
+            errors.rejectValue("password", "Passwords not matching", "Passwords don't match!");
         }
 
     }

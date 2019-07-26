@@ -27,7 +27,7 @@ public class CategoryAddValidator implements Validator {
         CategoryAddBindingModel categoryAddBindingModel = (CategoryAddBindingModel) target;
 
         if (categoryAddBindingModel.getName().length() < 3) {
-            errors.rejectValue("name", "Name must contains at least 3 symbols!", "Name must contains at least 3 symbols!");
+            errors.rejectValue("name", "Name length validation", "Name must contains at least 3 symbols!");
         }
 
         this.categoryRepository
