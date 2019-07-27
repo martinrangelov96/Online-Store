@@ -51,11 +51,11 @@ public class CartController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     public ModelAndView addToCartConfirm(String id, int quantity, HttpSession session) {
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
-        ProductDetailsViewModel product =
+        ProductDetailsViewModel productDetailsViewModel =
                 this.modelMapper.map(productServiceModel, ProductDetailsViewModel.class);
 
         ShoppingCartItem cartItem = new ShoppingCartItem();
-        cartItem.setProduct(product);
+        cartItem.setProduct(productDetailsViewModel);
         cartItem.setQuantity(quantity);
 
         var cart = this.retrieveCart(session);
