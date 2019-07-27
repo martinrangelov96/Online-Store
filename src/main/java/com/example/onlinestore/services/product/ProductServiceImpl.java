@@ -7,13 +7,19 @@ import com.example.onlinestore.errors.ProductNotFoundException;
 import com.example.onlinestore.repository.ProductRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    //5 minutes
+    private final static int TIME_TO_LOAD_ORDERS = 1000 * 60 * 5;
 
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
@@ -63,9 +69,9 @@ public class ProductServiceImpl implements ProductService {
         product.setPrice(productServiceModel.getPrice());
         product.setCategories(
                 productServiceModel.getCategories()
-                .stream()
-                .map(categoryServiceModel -> this.modelMapper.map(categoryServiceModel, Category.class))
-                .collect(Collectors.toList())
+                        .stream()
+                        .map(categoryServiceModel -> this.modelMapper.map(categoryServiceModel, Category.class))
+                        .collect(Collectors.toList())
         );
 
         this.productRepository.save(product);
@@ -90,5 +96,19 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
 
         return productsContainingCategory;
+    }
+
+    @Scheduled(fixedRate = TIME_TO_LOAD_ORDERS)
+    private void deliverProducts() {
+        List<Product> products = this.productRepository.findAll();
+        Random random = new Random();
+
+        for (Product product : products) {
+            int quantity = random.nextInt(3);
+
+            product.setQuantityAvailable(product.getQuantityAvailable() + quantity);
+            this.productRepository.save(product);
+        }
+        System.out.println("Products delivery!");
     }
 }

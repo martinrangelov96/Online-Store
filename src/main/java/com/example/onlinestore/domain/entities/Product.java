@@ -12,6 +12,7 @@ public class Product extends BaseEntity {
     private String description;
     private BigDecimal price;
     private String imageUrl;
+    private Integer quantityAvailable;
     private List<Category> categories;
 
     public Product() {
@@ -51,6 +52,15 @@ public class Product extends BaseEntity {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    @Column(name = "quantity_available", nullable = false, columnDefinition = "int default 0")
+    public Integer getQuantityAvailable() {
+        return quantityAvailable;
+    }
+
+    public void setQuantityAvailable(Integer quantityAvailable) {
+        this.quantityAvailable = quantityAvailable;
     }
 
     @ManyToMany(targetEntity = Category.class)
