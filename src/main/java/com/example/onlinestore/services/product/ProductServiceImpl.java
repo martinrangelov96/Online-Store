@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -109,6 +111,7 @@ public class ProductServiceImpl implements ProductService {
             product.setQuantityAvailable(product.getQuantityAvailable() + quantity);
             this.productRepository.save(product);
         }
-        System.out.println("Products delivery!");
+        System.out.println("Products delivery! " +
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-YYYY HH:mm:ss")));
     }
 }
