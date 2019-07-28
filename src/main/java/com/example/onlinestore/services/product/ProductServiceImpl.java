@@ -1,5 +1,6 @@
 package com.example.onlinestore.services.product;
 
+import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.entities.Category;
 import com.example.onlinestore.domain.entities.Product;
 import com.example.onlinestore.domain.models.service.ProductServiceModel;
@@ -14,8 +15,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static com.example.onlinestore.constants.Constants.PRODUCT_NOT_FOUND_EXCEPTION_MESSAGE;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -54,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductServiceModel findProductById(String id) {
         Product product = this.productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("Product with this id does not exist!"));
+                .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND_EXCEPTION_MESSAGE));
 
         this.productRepository.save(product);
 
@@ -64,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductServiceModel editProduct(String id, ProductServiceModel productServiceModel) {
         Product product = this.productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("Product with this id does not exist!"));
+                .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND_EXCEPTION_MESSAGE));
 
         product.setName(productServiceModel.getName());
         product.setDescription(productServiceModel.getDescription());
@@ -84,7 +86,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(String id) {
         Product product = this.productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("Product with this id does not exist!"));
+                .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND_EXCEPTION_MESSAGE));
 
         this.productRepository.delete(product);
     }
@@ -98,6 +100,30 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
 
         return productsContainingCategory;
+    }
+
+    @Override
+    public ProductServiceModel updateQuantityAfterAddingToCart(String id, int quantity) {
+        Product product = this.productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND_EXCEPTION_MESSAGE));
+
+        product.setQuantityAvailable(product.getQuantityAvailable() - quantity);
+
+        this.productRepository.saveAndFlush(product);
+
+        return this.modelMapper.map(product, ProductServiceModel.class);
+    }
+
+    @Override
+    public ProductServiceModel updateOrderedQuantity(ProductServiceModel productServiceModel, int quantity) {
+        Product product = this.productRepository.findById(productServiceModel.getId())
+                .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND_EXCEPTION_MESSAGE));
+
+        product.setQuantityOrdered(quantity);
+
+        this.productRepository.save(product);
+
+        return this.modelMapper.map(product, ProductServiceModel.class);
     }
 
     @Scheduled(fixedRate = TIME_TO_LOAD_ORDERS)

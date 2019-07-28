@@ -13,6 +13,7 @@ public class Order extends BaseEntity {
     private User customer;
     private LocalDateTime orderedOn;
     private BigDecimal totalPrice;
+    private List<Product> productsUnique;
 
     public Order() {
     }
@@ -57,5 +58,19 @@ public class Order extends BaseEntity {
 
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    @ManyToMany(targetEntity = Product.class)
+    @JoinTable(
+            name = "orders_products_unique",
+            joinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id")
+    )
+    public List<Product> getProductsUnique() {
+        return productsUnique;
+    }
+
+    public void setProductsUnique(List<Product> productsUnique) {
+        this.productsUnique = productsUnique;
     }
 }

@@ -14,6 +14,7 @@ public class OrderViewModel {
     private UserProfileViewModel customer;
     private LocalDateTime orderedOn;
     private BigDecimal totalPrice;
+    private List<ProductDetailsViewModel> productsUnique;
 
     public OrderViewModel() {
     }
@@ -56,5 +57,13 @@ public class OrderViewModel {
 
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public List<ProductDetailsViewModel> getProductsUnique() {
+        return productsUnique;
+    }
+
+    public void setProductsUnique(List<ProductDetailsViewModel> productsUnique) {
+        this.productsUnique = productsUnique;
     }
 }

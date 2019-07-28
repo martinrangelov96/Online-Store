@@ -18,4 +18,7 @@ public interface ProductService {
 
     List<ProductServiceModel> findAllByCategory(String category);
 
+    ProductServiceModel updateQuantityAfterAddingToCart(String id, int quantity);
+
+    ProductServiceModel updateOrderedQuantity(ProductServiceModel productServiceModel, int quantity);
 }

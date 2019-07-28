@@ -1,12 +1,14 @@
 package com.example.onlinestore.services.order;
 
-import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.entities.Order;
+import com.example.onlinestore.domain.entities.Product;
 import com.example.onlinestore.domain.entities.User;
 import com.example.onlinestore.domain.models.service.OrderServiceModel;
+import com.example.onlinestore.domain.models.service.ProductServiceModel;
 import com.example.onlinestore.domain.models.service.UserServiceModel;
 import com.example.onlinestore.errors.OrderNotFoundException;
 import com.example.onlinestore.repository.OrderRepository;
+import com.example.onlinestore.repository.ProductRepository;
 import com.example.onlinestore.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +27,14 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
+    private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, UserRepository userRepository, ModelMapper modelMapper) {
+    public OrderServiceImpl(OrderRepository orderRepository, UserRepository userRepository, ProductRepository productRepository, ModelMapper modelMapper) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
+        this.productRepository = productRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -80,6 +84,12 @@ public class OrderServiceImpl implements OrderService {
         User user = this.userRepository.findByUsername(userServiceModel.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException(USERNAME_NOT_FOUND_EXCEPTION_MESSAGE));
         BigDecimal userBalance = user.getBalance();
+
+        for (ProductServiceModel productServiceModel : orderServiceModel.getProductsUnique()) {
+            productServiceModel
+                    .setQuantityAvailable(productServiceModel.getQuantityAvailable() + productServiceModel.getQuantityOrdered());
+            this.productRepository.save(this.modelMapper.map(productServiceModel, Product.class));
+        }
 
         this.orderRepository.delete(order);
         user.setBalance(userBalance.add(orderTotalPrice));

@@ -10,6 +10,7 @@ public class ProductDetailsViewModel {
     private BigDecimal price;
     private String description;
     private Integer quantityAvailable;
+    private Integer quantityOrdered;
 
     public ProductDetailsViewModel() {
     }
@@ -60,5 +61,13 @@ public class ProductDetailsViewModel {
 
     public void setQuantityAvailable(Integer quantityAvailable) {
         this.quantityAvailable = quantityAvailable;
+    }
+
+    public Integer getQuantityOrdered() {
+        return quantityOrdered;
+    }
+
+    public void setQuantityOrdered(Integer quantityOrdered) {
+        this.quantityOrdered = quantityOrdered;
     }
 }

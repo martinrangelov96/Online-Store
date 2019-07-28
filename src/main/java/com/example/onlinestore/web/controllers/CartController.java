@@ -25,6 +25,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/cart")
@@ -51,6 +52,7 @@ public class CartController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     public ModelAndView addToCartConfirm(String id, int quantity, HttpSession session) {
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
+        this.productService.updateQuantityAfterAddingToCart(id, quantity);
         ProductDetailsViewModel productDetailsViewModel =
                 this.modelMapper.map(productServiceModel, ProductDetailsViewModel.class);
 
@@ -158,16 +160,31 @@ public class CartController extends BaseController {
         UserServiceModel userServiceModel = this.userService.findUserByUsername(customer);
         orderServiceModel.setCustomer(userServiceModel);
 
-        List<ProductServiceModel> products = new ArrayList<>();
+        List<ProductServiceModel> productServiceModels = new ArrayList<>();
 
         for (ShoppingCartItem item : cart) {
             ProductServiceModel productServiceModel = this.modelMapper.map(item.getProduct(), ProductServiceModel.class);
             for (int i = 0; i < item.getQuantity(); i++) {
-                products.add(productServiceModel);
+                productServiceModels.add(productServiceModel);
+            }
+            productServiceModel.setQuantityOrdered(item.getQuantity());
+            this.productService.updateOrderedQuantity(productServiceModel, item.getQuantity());
+        }
+
+        List<ProductServiceModel> productServiceModelsUnique = new ArrayList<>();
+
+        for (ShoppingCartItem item : cart) {
+            ProductServiceModel productServiceModel = this.modelMapper.map(item.getProduct(), ProductServiceModel.class);
+            for (int i = 0; i < item.getQuantity(); i++) {
+                if (!productServiceModelsUnique.contains(productServiceModel)) {
+                    productServiceModelsUnique.add(productServiceModel);
+                }
+                productServiceModel.setQuantityOrdered(item.getQuantity());
             }
         }
 
-        orderServiceModel.setProducts(products);
+        orderServiceModel.setProducts(productServiceModels);
+        orderServiceModel.setProductsUnique(productServiceModelsUnique);
         BigDecimal totalPrice = this.calculateTotalPrice(cart);
         orderServiceModel.setTotalPrice(totalPrice);
 
