@@ -10,7 +10,6 @@ public class OrderServiceModel extends BaseServiceModel {
     private UserServiceModel customer;
     private LocalDateTime orderedOn;
     private BigDecimal totalPrice;
-    private List<ProductServiceModel> productsUnique;
 
     public OrderServiceModel() {
     }
@@ -45,13 +44,5 @@ public class OrderServiceModel extends BaseServiceModel {
 
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
-    }
-
-    public List<ProductServiceModel> getProductsUnique() {
-        return productsUnique;
-    }
-
-    public void setProductsUnique(List<ProductServiceModel> productsUnique) {
-        this.productsUnique = productsUnique;
     }
 }

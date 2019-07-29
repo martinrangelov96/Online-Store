@@ -2,7 +2,6 @@ package com.example.onlinestore.web.controllers;
 
 import com.example.onlinestore.domain.models.service.OrderServiceModel;
 import com.example.onlinestore.domain.models.service.RoleServiceModel;
-import com.example.onlinestore.domain.models.service.UserServiceModel;
 import com.example.onlinestore.domain.models.view.orders.OrderViewModel;
 import com.example.onlinestore.services.order.OrderService;
 import com.example.onlinestore.web.annotations.PageTitle;
@@ -10,13 +9,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -82,18 +79,6 @@ public class OrderController extends BaseController {
         modelAndView.addObject("orders", orderViewModels);
 
         return view("/orders/list-orders", modelAndView);
-    }
-
-    @DeleteMapping("/delete-order")
-    @PreAuthorize("isAuthenticated()")
-    public ModelAndView deleteOrder(String id) {
-        OrderServiceModel orderServiceModel = this.orderService.findOrderById(id);
-        UserServiceModel userServiceModel = orderServiceModel.getCustomer();
-        BigDecimal orderTotalPrice = orderServiceModel.getTotalPrice();
-
-        this.orderService.deleteOrder(orderServiceModel, userServiceModel, orderTotalPrice);
-
-        return redirect("/users/home");
     }
 
 }

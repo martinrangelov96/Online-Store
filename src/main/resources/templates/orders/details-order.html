@@ -36,12 +36,6 @@
 
         </tbody>
     </table>
-    <form th:action="@{/orders/delete-order}" th:method="delete">
-        <div class="button-holder d-flex justify-content-center">
-            <button type="submit" class="btn btn-danger">Delete Order</button>
-            <input type="hidden" name="id" th:value="${order.id}">
-        </div>
-    </form>
     <hr class="hr-2 bg-dark">
 </main>
 <footer>

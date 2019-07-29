@@ -12,7 +12,6 @@ public class ProductServiceModel extends BaseEntity {
     private BigDecimal price;
     private String imageUrl;
     private Integer quantityAvailable;
-    private Integer quantityOrdered;
     private List<CategoryServiceModel> categories;
 
     public ProductServiceModel() {
@@ -56,14 +55,6 @@ public class ProductServiceModel extends BaseEntity {
 
     public void setQuantityAvailable(Integer quantityAvailable) {
         this.quantityAvailable = quantityAvailable;
-    }
-
-    public Integer getQuantityOrdered() {
-        return quantityOrdered;
-    }
-
-    public void setQuantityOrdered(Integer quantityOrdered) {
-        this.quantityOrdered = quantityOrdered;
     }
 
     public List<CategoryServiceModel> getCategories() {

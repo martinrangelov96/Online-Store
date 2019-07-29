@@ -16,5 +16,5 @@ public interface OrderService {
 
     List<OrderServiceModel> findAllOrdersByCustomer(String customerName);
 
-    OrderServiceModel deleteOrder(OrderServiceModel orderServiceModel, UserServiceModel userServiceModel, BigDecimal orderTotalPrice);
+//    OrderServiceModel deleteOrder(OrderServiceModel orderServiceModel, UserServiceModel userServiceModel, BigDecimal orderTotalPrice);
 }

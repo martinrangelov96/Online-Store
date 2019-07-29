@@ -25,7 +25,6 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/cart")
@@ -142,6 +141,11 @@ public class CartController extends BaseController {
     }
 
     private void removeItemFromCart(String id, List<ShoppingCartItem> cart) {
+        cart.forEach(ci -> {
+            if (ci.getProduct().getId().equals(id)) {
+                this.productService.updateQuantityAfterRemovingFromCart(ci.getProduct().getId(), ci.getQuantity());
+            }
+        });
         cart.removeIf(ci -> ci.getProduct().getId().equals(id));
     }
 
@@ -167,24 +171,9 @@ public class CartController extends BaseController {
             for (int i = 0; i < item.getQuantity(); i++) {
                 productServiceModels.add(productServiceModel);
             }
-            productServiceModel.setQuantityOrdered(item.getQuantity());
-            this.productService.updateOrderedQuantity(productServiceModel, item.getQuantity());
-        }
-
-        List<ProductServiceModel> productServiceModelsUnique = new ArrayList<>();
-
-        for (ShoppingCartItem item : cart) {
-            ProductServiceModel productServiceModel = this.modelMapper.map(item.getProduct(), ProductServiceModel.class);
-            for (int i = 0; i < item.getQuantity(); i++) {
-                if (!productServiceModelsUnique.contains(productServiceModel)) {
-                    productServiceModelsUnique.add(productServiceModel);
-                }
-                productServiceModel.setQuantityOrdered(item.getQuantity());
-            }
         }
 
         orderServiceModel.setProducts(productServiceModels);
-        orderServiceModel.setProductsUnique(productServiceModelsUnique);
         BigDecimal totalPrice = this.calculateTotalPrice(cart);
         orderServiceModel.setTotalPrice(totalPrice);
 

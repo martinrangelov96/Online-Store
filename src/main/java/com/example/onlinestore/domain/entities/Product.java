@@ -1,7 +1,5 @@
 package com.example.onlinestore.domain.entities;
 
-import org.hibernate.annotations.ColumnDefault;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,7 +13,6 @@ public class Product extends BaseEntity {
     private BigDecimal price;
     private String imageUrl;
     private Integer quantityAvailable;
-    private Integer quantityOrdered;
     private List<Category> categories;
 
     public Product() {
@@ -64,15 +61,6 @@ public class Product extends BaseEntity {
 
     public void setQuantityAvailable(Integer quantityAvailable) {
         this.quantityAvailable = quantityAvailable;
-    }
-
-    @Column(name = "quantity_ordered", nullable = false, columnDefinition = "int default 0")
-    public Integer getQuantityOrdered() {
-        return quantityOrdered;
-    }
-
-    public void setQuantityOrdered(Integer quantityOrdered) {
-        this.quantityOrdered = quantityOrdered;
     }
 
     @ManyToMany(targetEntity = Category.class)

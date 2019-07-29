@@ -1,6 +1,5 @@
 package com.example.onlinestore.services.product;
 
-import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.entities.Category;
 import com.example.onlinestore.domain.entities.Product;
 import com.example.onlinestore.domain.models.service.ProductServiceModel;
@@ -22,8 +21,8 @@ import static com.example.onlinestore.constants.Constants.PRODUCT_NOT_FOUND_EXCE
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    //5 minutes
-    private final static int TIME_TO_LOAD_ORDERS = 1000 * 60 * 5;
+    //30 minutes
+    private final static int TIME_TO_LOAD_ORDERS = 1000 * 60 * 30;
 
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
@@ -115,11 +114,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductServiceModel updateOrderedQuantity(ProductServiceModel productServiceModel, int quantity) {
-        Product product = this.productRepository.findById(productServiceModel.getId())
+    public ProductServiceModel updateQuantityAfterRemovingFromCart(String id, int quantity) {
+        Product product = this.productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND_EXCEPTION_MESSAGE));
 
-        product.setQuantityOrdered(quantity);
+        product.setQuantityAvailable(product.getQuantityAvailable() + quantity);
 
         this.productRepository.save(product);
 
@@ -132,7 +131,7 @@ public class ProductServiceImpl implements ProductService {
         Random random = new Random();
 
         for (Product product : products) {
-            int quantity = random.nextInt(3);
+            int quantity = random.nextInt(11);
 
             product.setQuantityAvailable(product.getQuantityAvailable() + quantity);
             this.productRepository.save(product);

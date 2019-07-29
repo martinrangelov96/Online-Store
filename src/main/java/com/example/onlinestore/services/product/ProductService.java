@@ -20,5 +20,5 @@ public interface ProductService {
 
     ProductServiceModel updateQuantityAfterAddingToCart(String id, int quantity);
 
-    ProductServiceModel updateOrderedQuantity(ProductServiceModel productServiceModel, int quantity);
+    ProductServiceModel updateQuantityAfterRemovingFromCart(String id, int quantity);
 }
