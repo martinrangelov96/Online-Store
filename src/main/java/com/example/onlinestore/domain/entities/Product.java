@@ -1,6 +1,7 @@
 package com.example.onlinestore.domain.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -55,6 +56,7 @@ public class Product extends BaseEntity {
     }
 
     @Column(name = "quantity_available", nullable = false, columnDefinition = "int default 0")
+    @Min(0)
     public Integer getQuantityAvailable() {
         return quantityAvailable;
     }
@@ -63,7 +65,7 @@ public class Product extends BaseEntity {
         this.quantityAvailable = quantityAvailable;
     }
 
-    @ManyToMany(targetEntity = Category.class)
+    @ManyToMany(targetEntity = Category.class, fetch = FetchType.EAGER)
     @JoinTable(
             name = "products_categories",
             joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),

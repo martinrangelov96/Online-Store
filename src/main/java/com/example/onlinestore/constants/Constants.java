@@ -11,6 +11,8 @@ public final class Constants {
     public static final String MODERATOR_STRING = "moderator";
     public static final String ADMIN_STRING = "admin";
 
+    public final static String SHOPPING_CART = "shopping-cart";
+
     public static final String USERNAME_NOT_FOUND_EXCEPTION_MESSAGE = "Username not found!";
     public static final String PRODUCT_NOT_FOUND_EXCEPTION_MESSAGE = "Product with this id does not exist!";
 

@@ -1,5 +1,8 @@
 package com.example.onlinestore.config;
 
+import com.example.onlinestore.web.custom.CustomLogoutHandler;
+import com.example.onlinestore.services.product.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,6 +13,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    private final ProductService productService;
+
+    @Autowired
+    public ApplicationSecurityConfiguration(ProductService productService) {
+        this.productService = productService;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -27,7 +37,8 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .passwordParameter("password")
                 .defaultSuccessUrl("/users/home")
                 .and()
-                .logout();
+                .logout()
+                .addLogoutHandler(new CustomLogoutHandler(this.productService));
 //                .logoutSuccessUrl("/");
     }
 }

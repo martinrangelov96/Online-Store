@@ -1,5 +1,6 @@
 package com.example.onlinestore.web.controllers;
 
+import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.models.service.OrderServiceModel;
 import com.example.onlinestore.domain.models.service.ProductServiceModel;
 import com.example.onlinestore.domain.models.service.UserServiceModel;
@@ -26,11 +27,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.example.onlinestore.constants.Constants.*;
+
 @Controller
 @RequestMapping("/cart")
 public class CartController extends BaseController {
 
-    private final static String SHOPPING_CART = "shopping-cart";
     private final static String EMPTY_SHOPPING_CART_MESSAGE = "Your shopping cart is empty!";
     private final static String NOT_ENOUGH_MONEY_MESSAGE = "You don't have enough money for this order!";
 
@@ -141,9 +143,9 @@ public class CartController extends BaseController {
     }
 
     private void removeItemFromCart(String id, List<ShoppingCartItem> cart) {
-        cart.forEach(ci -> {
-            if (ci.getProduct().getId().equals(id)) {
-                this.productService.updateQuantityAfterRemovingFromCart(ci.getProduct().getId(), ci.getQuantity());
+        cart.forEach(cartItem -> {
+            if (cartItem.getProduct().getId().equals(id)) {
+                this.productService.updateQuantityAfterRemovingFromCart(cartItem.getProduct().getId(), cartItem.getQuantity());
             }
         });
         cart.removeIf(ci -> ci.getProduct().getId().equals(id));
