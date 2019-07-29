@@ -1,6 +1,5 @@
 package com.example.onlinestore.web.custom;
 
-import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.models.view.cart.ShoppingCartItem;
 import com.example.onlinestore.services.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
