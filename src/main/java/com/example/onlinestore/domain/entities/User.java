@@ -1,6 +1,5 @@
 package com.example.onlinestore.domain.entities;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;

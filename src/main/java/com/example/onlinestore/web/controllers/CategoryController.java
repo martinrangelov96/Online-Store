@@ -1,5 +1,6 @@
 package com.example.onlinestore.web.controllers;
 
+import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.models.binding.CategoryAddBindingModel;
 import com.example.onlinestore.domain.models.binding.CategoryEditBindingModel;
 import com.example.onlinestore.domain.models.service.CategoryServiceModel;
@@ -18,6 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.example.onlinestore.constants.Constants.MODEL_NAME;
 
 @Controller
 @RequestMapping("/categories")
@@ -39,14 +42,14 @@ public class CategoryController extends BaseController {
     @GetMapping("/add-category")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     @PageTitle("Add Category")
-    public ModelAndView addCategory(@ModelAttribute(name = "model") CategoryAddBindingModel model) {
+    public ModelAndView addCategory(@ModelAttribute(name = MODEL_NAME) CategoryAddBindingModel model) {
 
         return view("/categories/add-category");
     }
 
     @PostMapping("/add-category")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView addCategoryConfirm(@ModelAttribute(name = "model") CategoryAddBindingModel model, BindingResult bindingResult) {
+    public ModelAndView addCategoryConfirm(@ModelAttribute(name = MODEL_NAME) CategoryAddBindingModel model, BindingResult bindingResult) {
         this.categoryAddValidator.validate(model, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -82,20 +85,20 @@ public class CategoryController extends BaseController {
 
         modelAndView.addObject("id", categoryViewModel.getId());
         modelAndView.addObject("name", categoryViewModel.getName());
-        modelAndView.addObject("model", model);
+        modelAndView.addObject(MODEL_NAME, model);
 
         return view("/categories/edit-category", modelAndView);
     }
 
     @PatchMapping("/edit-category/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView editCategoryConfirm(@PathVariable String id, @ModelAttribute(name = "model") CategoryEditBindingModel model, BindingResult bindingResult, ModelAndView modelAndView) {
+    public ModelAndView editCategoryConfirm(@PathVariable String id, @ModelAttribute(name = MODEL_NAME) CategoryEditBindingModel model, BindingResult bindingResult, ModelAndView modelAndView) {
         this.categoryEditValidator.validate(model, bindingResult);
 
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("id", id);
             modelAndView.addObject("name", model.getName());
-            modelAndView.addObject("model", model);
+            modelAndView.addObject(MODEL_NAME, model);
 
             return view("/categories/edit-category", modelAndView);
         }

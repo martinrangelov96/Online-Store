@@ -18,6 +18,10 @@ public interface UserService extends UserDetailsService {
 
     void setRole(String id, String role);
 
+    void existsByUsername(String username);
+
+    void existsByEmail(String email);
+
     UserServiceModel addMoneyToBalance(UserServiceModel userServiceModel, BigDecimal moneyToAdd);
 
     UserServiceModel updateMoneyAfterCheckout(UserServiceModel userServiceModel, BigDecimal orderTotalPrice);

@@ -11,7 +11,6 @@ import com.example.onlinestore.services.category.CategoryService;
 import com.example.onlinestore.services.cloudinary.CloudinaryService;
 import com.example.onlinestore.services.user.UserService;
 import com.example.onlinestore.validation.UserEditProfileValidator;
-import com.example.onlinestore.validation.UserRegisterValidator;
 import com.example.onlinestore.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,38 +36,39 @@ import static com.example.onlinestore.constants.Constants.*;
 public class UserController extends BaseController {
 
     private final static String CUSTOMER_BALANCE = "customer-balance";
-
+    private final static String PASSWORDS_DONT_MATCH_ATTRIBUTE = "passDontMatch";
+    private final static String PASSWORDS_DONT_MATCH_MESSAGE = "Passwords don't match!";
 
     private final UserService userService;
     private final CategoryService categoryService;
     private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
     private final UserEditProfileValidator userEditProfileValidator;
-    private final UserRegisterValidator userRegisterValidator;
 
     @Autowired
-    public UserController(UserService userService, CategoryService categoryService, CloudinaryService cloudinaryService, ModelMapper modelMapper, UserEditProfileValidator userEditProfileValidator, UserRegisterValidator userRegisterValidator) {
+    public UserController(UserService userService, CategoryService categoryService, CloudinaryService cloudinaryService, ModelMapper modelMapper, UserEditProfileValidator userEditProfileValidator) {
         this.userService = userService;
         this.categoryService = categoryService;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
         this.userEditProfileValidator = userEditProfileValidator;
-        this.userRegisterValidator = userRegisterValidator;
     }
 
     @GetMapping("/register")
     @PreAuthorize("isAnonymous()")
     @PageTitle("Register")
-    public ModelAndView register(@ModelAttribute(name = "model") UserRegisterBindingModel model) {
+    public ModelAndView register(@ModelAttribute(name = MODEL_NAME) UserRegisterBindingModel model) {
         return view("/users/register");
     }
 
     @PostMapping("/register")
     @PreAuthorize("isAnonymous()")
-    public ModelAndView registerConfirm(@ModelAttribute(name = "model") UserRegisterBindingModel model, BindingResult bindingResult) {
-        this.userRegisterValidator.validate(model, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return view("/users/register");
+    public ModelAndView registerConfirm(@ModelAttribute(name = MODEL_NAME) UserRegisterBindingModel model, ModelAndView modelAndView) {
+        this.userService.existsByUsername(model.getUsername());
+        this.userService.existsByEmail(model.getEmail());
+        if (!model.getPassword().equals(model.getConfirmPassword())) {
+            modelAndView.addObject(PASSWORDS_DONT_MATCH_ATTRIBUTE, PASSWORDS_DONT_MATCH_MESSAGE);
+            return view("/users/register", modelAndView);
         }
 
         UserServiceModel userServiceModel = this.modelMapper.map(model, UserServiceModel.class);
@@ -106,7 +106,7 @@ public class UserController extends BaseController {
     public ModelAndView profile(Principal principal, ModelAndView modelAndView) {
         UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
         UserProfileViewModel userProfileViewModel = this.modelMapper.map(userServiceModel, UserProfileViewModel.class);
-        modelAndView.addObject("model", userProfileViewModel);
+        modelAndView.addObject(MODEL_NAME, userProfileViewModel);
 
         return view("/users/profile", modelAndView);
     }
@@ -128,14 +128,14 @@ public class UserController extends BaseController {
         UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
         UserProfileViewModel userProfileViewModel = this.modelMapper.map(userServiceModel, UserProfileViewModel.class);
 
-        modelAndView.addObject("model", userProfileViewModel);
+        modelAndView.addObject(MODEL_NAME, userProfileViewModel);
 
         return view("/users/edit-profile", modelAndView);
     }
 
     @PatchMapping("/edit-profile")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView editProfileConfirm(@ModelAttribute(name = "model") UserEditBindingModel model, BindingResult bindingResult) throws IOException {
+    public ModelAndView editProfileConfirm(@ModelAttribute(name = MODEL_NAME) UserEditBindingModel model, BindingResult bindingResult) throws IOException {
         this.userEditProfileValidator.validate(model, bindingResult);
         if (bindingResult.hasErrors()) {
             return view("/users/edit-profile");

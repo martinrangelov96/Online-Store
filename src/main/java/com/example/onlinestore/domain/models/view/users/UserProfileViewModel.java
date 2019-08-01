@@ -1,7 +1,5 @@
 package com.example.onlinestore.domain.models.view.users;
 
-import com.example.onlinestore.domain.models.service.RoleServiceModel;
-
 import java.math.BigDecimal;
 import java.util.List;
 

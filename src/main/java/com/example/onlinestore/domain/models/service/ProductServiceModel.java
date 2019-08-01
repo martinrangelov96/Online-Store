@@ -1,11 +1,9 @@
 package com.example.onlinestore.domain.models.service;
 
-import com.example.onlinestore.domain.entities.BaseEntity;
-
 import java.math.BigDecimal;
 import java.util.List;
 
-public class ProductServiceModel extends BaseEntity {
+public class ProductServiceModel extends BaseServiceModel {
 
     private String name;
     private String description;

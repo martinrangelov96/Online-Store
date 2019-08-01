@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.example.onlinestore.constants.Constants.MODEL_NAME;
+
 @Controller
 @RequestMapping("/products")
 public class ProductController extends BaseController {
@@ -49,7 +51,7 @@ public class ProductController extends BaseController {
 
     @PostMapping("/add-product")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView addProductConfirm(@ModelAttribute(name = "model") ProductAddBindingModel model) throws IOException {
+    public ModelAndView addProductConfirm(@ModelAttribute(name = MODEL_NAME) ProductAddBindingModel model) throws IOException {
         ProductServiceModel productServiceModel = this.modelMapper.map(model, ProductServiceModel.class);
         List<CategoryServiceModel> categories = this.categoryService.findAllCategories()
                 .stream()
@@ -113,7 +115,7 @@ public class ProductController extends BaseController {
 
     @PatchMapping("/edit-product/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView editProductConfirm(@PathVariable String id, @ModelAttribute(name = "model") ProductEditBindingModel model) {
+    public ModelAndView editProductConfirm(@PathVariable String id, @ModelAttribute(name = MODEL_NAME) ProductEditBindingModel model) {
         ProductServiceModel productServiceModel = this.modelMapper.map(model, ProductServiceModel.class);
 
         List<CategoryServiceModel> categories = model.getCategories()

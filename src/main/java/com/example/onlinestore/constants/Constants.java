@@ -15,5 +15,9 @@ public final class Constants {
 
     public static final String USERNAME_NOT_FOUND_EXCEPTION_MESSAGE = "Username not found!";
     public static final String PRODUCT_NOT_FOUND_EXCEPTION_MESSAGE = "Product with this id does not exist!";
+    public static final String DUPLICATE_USER_EXCEPTION_MESSAGE = "User with this username already exists!";
+    public static final String DUPLICATE_EMAIL_EXCEPTION_MESSAGE = "User with this email already exists!";
+
+    public final static String MODEL_NAME = "model";
 
 }

@@ -33,7 +33,9 @@ import static com.example.onlinestore.constants.Constants.*;
 @RequestMapping("/cart")
 public class CartController extends BaseController {
 
+    private final static String EMPTY_SHOPPING_CART_ATTRIBUTE_NAME = "emptyCartMessage";
     private final static String EMPTY_SHOPPING_CART_MESSAGE = "Your shopping cart is empty!";
+    private final static String NOT_ENOUGH_MONEY_ATTRIBUTE_NAME = "notEnoughMoneyMessage";
     private final static String NOT_ENOUGH_MONEY_MESSAGE = "You don't have enough money for this order!";
 
     private final ProductService productService;
@@ -76,10 +78,10 @@ public class CartController extends BaseController {
         BigDecimal orderTotalPrice = this.calculateTotalPrice(cart);
 
         if (cart.size() == 0) {
-            modelAndView.addObject("emptyCartMessage", EMPTY_SHOPPING_CART_MESSAGE);
+            modelAndView.addObject(EMPTY_SHOPPING_CART_ATTRIBUTE_NAME, EMPTY_SHOPPING_CART_MESSAGE);
         }
         if (!(userServiceModel.getBalance().compareTo(orderTotalPrice) >= 0)) {
-            modelAndView.addObject("notEnoughMoneyMessage", NOT_ENOUGH_MONEY_MESSAGE);
+            modelAndView.addObject(NOT_ENOUGH_MONEY_ATTRIBUTE_NAME, NOT_ENOUGH_MONEY_MESSAGE);
         }
         modelAndView.addObject("totalPrice", this.calculateTotalPrice(cart));
 

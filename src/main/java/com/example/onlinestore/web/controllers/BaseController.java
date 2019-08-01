@@ -6,17 +6,17 @@ public abstract class BaseController {
 
     private final static String REDIRECT_STRING = "redirect:";
 
-    protected ModelAndView view(String viewName, ModelAndView modelAndView) {
+    ModelAndView view(String viewName, ModelAndView modelAndView) {
         modelAndView.setViewName(viewName);
 
         return modelAndView;
     }
 
-    protected ModelAndView view(String viewName) {
+    ModelAndView view(String viewName) {
         return this.view(viewName, new ModelAndView());
     }
 
-    protected ModelAndView redirect(String url) {
+    ModelAndView redirect(String url) {
         return this.view(REDIRECT_STRING + url);
     }
 

@@ -2,6 +2,8 @@ package com.example.onlinestore.services.user;
 
 import com.example.onlinestore.domain.entities.User;
 import com.example.onlinestore.domain.models.service.UserServiceModel;
+import com.example.onlinestore.errors.DuplicateEmailException;
+import com.example.onlinestore.errors.DuplicateUsernameException;
 import com.example.onlinestore.repository.UserRepository;
 import com.example.onlinestore.services.role.RoleService;
 import org.modelmapper.ModelMapper;
@@ -128,6 +130,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void existsByUsername(String username) {
+        if (this.userRepository.existsByUsername(username)) {
+            throw new DuplicateUsernameException(DUPLICATE_USER_EXCEPTION_MESSAGE);
+        }
+    }
+
+    @Override
+    public void existsByEmail(String email) {
+        if (this.userRepository.existsByEmail(email)) {
+            throw new DuplicateEmailException(DUPLICATE_EMAIL_EXCEPTION_MESSAGE);
+        }
+    }
+
+    @Override
     public UserServiceModel addMoneyToBalance(UserServiceModel userServiceModel, BigDecimal moneyToAdd) {
         User user = this.modelMapper.map(userServiceModel, User.class);
 
@@ -150,12 +166,5 @@ public class UserServiceImpl implements UserService {
 
         return this.modelMapper.map(user, UserServiceModel.class);
     }
-
-
-
-
-
-
-
 
 }
