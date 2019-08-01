@@ -1,5 +1,6 @@
 package com.example.onlinestore.services.category;
 
+import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.entities.Category;
 import com.example.onlinestore.domain.models.service.CategoryServiceModel;
 import com.example.onlinestore.errors.CategoryNotFoundException;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.example.onlinestore.constants.Constants.CATEGORY_NOT_FOUND_EXCEPTION_MESSAGE;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -45,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryServiceModel findCategoryById(String id) {
         Category category = this.categoryRepository.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException("Category with this id does not exist!"));
+                .orElseThrow(() -> new CategoryNotFoundException(CATEGORY_NOT_FOUND_EXCEPTION_MESSAGE));
 
         CategoryServiceModel categoryServiceModel = this.modelMapper.map(category, CategoryServiceModel.class);
 
@@ -55,7 +58,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryServiceModel editCategory(String id, CategoryServiceModel categoryServiceModel) {
         Category category = this.categoryRepository.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException("Category with this id does not exist!"));
+                .orElseThrow(() -> new CategoryNotFoundException(CATEGORY_NOT_FOUND_EXCEPTION_MESSAGE));
 
         category.setName(categoryServiceModel.getName());
 
@@ -67,7 +70,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryServiceModel deleteCategory(String id) {
         Category category = this.categoryRepository.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException("Category with this id does not exist!"));
+                .orElseThrow(() -> new CategoryNotFoundException(CATEGORY_NOT_FOUND_EXCEPTION_MESSAGE));
 
         this.categoryRepository.delete(category);
 

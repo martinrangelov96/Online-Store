@@ -5,6 +5,7 @@ import com.example.onlinestore.domain.models.binding.UserRegisterBindingModel;
 import com.example.onlinestore.domain.models.service.RoleServiceModel;
 import com.example.onlinestore.domain.models.service.UserServiceModel;
 import com.example.onlinestore.domain.models.view.categories.CategoryViewModel;
+import com.example.onlinestore.domain.models.view.users.UserEditProfileViewModel;
 import com.example.onlinestore.domain.models.view.users.UserProfileViewModel;
 import com.example.onlinestore.domain.models.view.users.UserViewModel;
 import com.example.onlinestore.services.category.CategoryService;
@@ -126,9 +127,9 @@ public class UserController extends BaseController {
     @PageTitle("Edit Profile")
     public ModelAndView editProfile(Principal principal, ModelAndView modelAndView) {
         UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
-        UserProfileViewModel userProfileViewModel = this.modelMapper.map(userServiceModel, UserProfileViewModel.class);
+        UserEditProfileViewModel userEditProfileViewModel = this.modelMapper.map(userServiceModel, UserEditProfileViewModel.class);
 
-        modelAndView.addObject(MODEL_NAME, userProfileViewModel);
+        modelAndView.addObject(MODEL_NAME, userEditProfileViewModel);
 
         return view("/users/edit-profile", modelAndView);
     }

@@ -7,8 +7,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import static com.example.onlinestore.constants.Constants.*;
+
 @Component
 public class CategoryAddValidator implements Validator {
+
+    private static final String NAME_CONST = "name";
 
     private final CategoryRepository categoryRepository;
 
@@ -27,15 +31,15 @@ public class CategoryAddValidator implements Validator {
         CategoryAddBindingModel categoryAddBindingModel = (CategoryAddBindingModel) target;
 
         if (categoryAddBindingModel.getName().length() < 3) {
-            errors.rejectValue("name", "Name length validation", "Name must contains at least 3 symbols!");
+            errors.rejectValue(NAME_CONST, NAME_LENGTH_VALIDATION, NAME_MUST_CONTAINS_SYMBOLS_MESSAGE);
         }
 
         this.categoryRepository
                 .findByName(categoryAddBindingModel.getName())
                 .ifPresent((c) -> errors.rejectValue(
-                        "name",
-                        String.format("Category with name '%s' already exists!", c.getName()),
-                        String.format("Category with name '%s' already exists!", c.getName()))
+                        NAME_CONST,
+                        String.format(CATEGORY_ALREADY_EXISTS_VALIDATION_MESSAGE, c.getName()),
+                        String.format(CATEGORY_ALREADY_EXISTS_VALIDATION_MESSAGE, c.getName()))
                 );
 
     }

@@ -10,10 +10,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import static com.example.onlinestore.constants.Constants.USERNAME_NOT_FOUND_EXCEPTION_MESSAGE;
+import static com.example.onlinestore.constants.Constants.*;
 
 @Component
 public class UserEditProfileValidator implements Validator {
+
+    private static final String OLD_PASSWORD = "oldPassword";
+    private static final String PASSWORD = "password";
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -36,11 +39,11 @@ public class UserEditProfileValidator implements Validator {
                 .orElseThrow(() -> new UsernameNotFoundException(USERNAME_NOT_FOUND_EXCEPTION_MESSAGE));
 
         if (!this.bCryptPasswordEncoder.matches(userEditBindingModel.getOldPassword(), user.getPassword())) {
-            errors.rejectValue("oldPassword", "Incorrect password", "Incorrect password!");
+            errors.rejectValue(OLD_PASSWORD, INCORRECT_OLD_PASSWORD_VALIDATION_CODE, INCORRECT_OLD_PASSWORD_VALIDATION_MESSAGE);
         }
 
         if (userEditBindingModel.getPassword() != null && !userEditBindingModel.getPassword().equals(userEditBindingModel.getConfirmPassword())) {
-            errors.rejectValue("password", "Passwords not matching", "Passwords don't match!");
+            errors.rejectValue(PASSWORD, INCORRECT_PASSWORD_VALIDATION_CODE, INCORRECT_PASSWORD_VALIDATION_MESSAGE);
         }
 
     }

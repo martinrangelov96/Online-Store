@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.example.onlinestore.constants.Constants.ORDER_NOT_FOUND_EXCEPTION_MESSAGE;
+
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -47,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderServiceModel findOrderById(String id) {
         Order order = this.orderRepository.findById(id)
-                .orElseThrow(() -> new OrderNotFoundException("Order with this id does not exist!"));
+                .orElseThrow(() -> new OrderNotFoundException(ORDER_NOT_FOUND_EXCEPTION_MESSAGE));
 
         return this.modelMapper.map(order, OrderServiceModel.class);
     }

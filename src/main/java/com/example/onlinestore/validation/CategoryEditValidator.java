@@ -1,11 +1,14 @@
 package com.example.onlinestore.validation;
 
+import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.models.binding.CategoryEditBindingModel;
 import com.example.onlinestore.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+
+import static com.example.onlinestore.constants.Constants.*;
 
 @Component
 public class CategoryEditValidator implements Validator {
@@ -27,15 +30,15 @@ public class CategoryEditValidator implements Validator {
         CategoryEditBindingModel categoryEditBindingModel = (CategoryEditBindingModel) target;
 
         if (categoryEditBindingModel.getName().length() < 3) {
-            errors.rejectValue("name", "Name length validation", "Name must contains at least 3 symbols!");
+            errors.rejectValue("name", NAME_LENGTH_VALIDATION, NAME_MUST_CONTAINS_SYMBOLS_MESSAGE);
         }
 
         this.categoryRepository
                 .findByName(categoryEditBindingModel.getName())
                 .ifPresent((c) -> errors.rejectValue(
                         "name",
-                        String.format("Category with name '%s' already exists!", c.getName()),
-                        String.format("Category with name '%s' already exists!", c.getName()))
+                        String.format(CATEGORY_ALREADY_EXISTS_VALIDATION_MESSAGE, c.getName()),
+                        String.format(CATEGORY_ALREADY_EXISTS_VALIDATION_MESSAGE, c.getName()))
                 );
 
     }

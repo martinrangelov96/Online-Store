@@ -12,6 +12,9 @@ import java.util.HashMap;
 @Service
 public class CloudinaryServiceImpl implements CloudinaryService {
 
+    private static final String TEMP_FILE_PREFIX = "temp-file";
+    private static final String URL = "url";
+
     private final Cloudinary cloudinary;
 
     @Autowired
@@ -21,9 +24,9 @@ public class CloudinaryServiceImpl implements CloudinaryService {
 
     @Override
     public String uploadImage(MultipartFile multipartFile) throws IOException {
-        File file = File.createTempFile("temp-file", multipartFile.getOriginalFilename());
+        File file = File.createTempFile(TEMP_FILE_PREFIX, multipartFile.getOriginalFilename());
         multipartFile.transferTo(file);
 
-        return this.cloudinary.uploader().upload(file, new HashMap()).get("url").toString();
+        return this.cloudinary.uploader().upload(file, new HashMap()).get(URL).toString();
     }
 }
