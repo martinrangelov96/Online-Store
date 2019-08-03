@@ -1,6 +1,5 @@
 package com.example.onlinestore.web.controllers;
 
-import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.models.binding.CategoryAddBindingModel;
 import com.example.onlinestore.domain.models.binding.CategoryEditBindingModel;
 import com.example.onlinestore.domain.models.service.CategoryServiceModel;

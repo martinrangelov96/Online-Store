@@ -24,7 +24,6 @@ import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import static com.example.onlinestore.constants.Constants.*;
@@ -130,7 +129,7 @@ public class CartController extends BaseController {
 
     private void initCart(HttpSession session) {
         if (session.getAttribute(SHOPPING_CART) == null) {
-            session.setAttribute(SHOPPING_CART, new LinkedList<>());
+            session.setAttribute(SHOPPING_CART, new ArrayList<>());
         }
     }
 
