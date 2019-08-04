@@ -140,6 +140,7 @@ public class ProductController extends BaseController {
     public ModelAndView deleteProduct(@PathVariable String id, ModelAndView modelAndView) {
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
         ProductDeleteViewModel productDeleteViewModel = this.modelMapper.map(productServiceModel, ProductDeleteViewModel.class);
+
         productDeleteViewModel.setCategories(productServiceModel.getCategories()
                 .stream()
                 .map(CategoryServiceModel::getName)

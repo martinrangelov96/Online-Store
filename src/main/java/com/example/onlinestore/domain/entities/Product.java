@@ -62,6 +62,9 @@ public class Product extends BaseEntity {
     }
 
     public void setQuantityAvailable(Integer quantityAvailable) {
+        if (quantityAvailable == null) {
+            quantityAvailable = 0;
+        }
         this.quantityAvailable = quantityAvailable;
     }
 
