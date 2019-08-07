@@ -46,7 +46,7 @@ public class Product extends BaseEntity {
         this.price = price;
     }
 
-    @Column(name = "image_url")
+    @Column(name = "image_url", nullable = false)
     public String getImageUrl() {
         return imageUrl;
     }

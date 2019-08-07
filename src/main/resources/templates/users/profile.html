@@ -16,13 +16,13 @@
                 <div class="text-center">
                     <a th:href="@{/users/edit-profile}">
                         <img src="https://res.cloudinary.com/martoraneca/image/upload/v1563972870/36-2-512_ws0xga.png"
-                             height="250" alt="profileImg">
+                             height="250" alt="profileImg" class="rounded-circle">
                     </a>
                 </div>
             </th:block>
             <th:block th:if="*{imageUrl} != null">
                 <div class="text-center">
-                    <img th:src="*{imageUrl}" height="300" alt="profileImg">
+                    <img th:src="*{imageUrl}" height="300" alt="profileImg" class="rounded-circle">
                 </div>
             </th:block>
             <div class="row mt-2">

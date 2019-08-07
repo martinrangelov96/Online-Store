@@ -19,7 +19,7 @@
         </div>
         <div class="form-group">
             <label for="add-product-description" class="font-weight-bold">Description</label>
-            <textarea name="description" id="add-product-description" class="form-control" rows="5"></textarea>
+            <textarea id="add-product-description" class="form-control" rows="5" name="description" required></textarea>
         </div>
         <div class="form-group">
             <label for="add-product-price" class="font-weight-bold">Price</label>
@@ -27,15 +27,16 @@
         </div>
         <div class="form-group">
             <label for="add-product-categories" class="font-weight-bold">Categories</label>
-            <select multiple class="form-control" id="add-product-categories" name="categories">
-                <option selected disabled>--- Select Categories ---</option>
+            <select multiple class="form-control" id="add-product-categories" name="categories" required>
+<!--                <option selected disabled>-&#45;&#45; Select Categories -&#45;&#45;</option>-->
+                <option value="" disabled>--- Select Categories ---</option>
             </select>
         </div>
         <div class="form-group">
             <label for="add-product-image" class="font-weight-bold">Image</label>
-            <input type="file" class="form-control-file" id="add-product-image" name="image">
+            <input type="file" class="form-control-file" id="add-product-image" name="image" required>
         </div>
-        <hr class="hr-2 bg-dark w-25">
+        <hr class="hr-2 bg-dark w-100">
         <div class="button-holder d-flex justify-content-center">
             <button type="submit" class="btn btn-success">Add Product</button>
         </div>

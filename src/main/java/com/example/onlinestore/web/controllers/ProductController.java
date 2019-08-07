@@ -129,9 +129,12 @@ public class ProductController extends BaseController {
                 .collect(Collectors.toList());
 
         productServiceModel.setCategories(categories);
-        productServiceModel.setImageUrl(
-                this.cloudinaryService.uploadImage(model.getImage())
-        );
+        //TODO: if file image is different - change it. if not - don't do anything
+        if (productServiceModel.getImageUrl() != null) {
+            productServiceModel.setImageUrl(
+                    this.cloudinaryService.uploadImage(model.getImage())
+            );
+        }
         this.productService.editProduct(id, productServiceModel);
 
         return redirect("/products/all-products");

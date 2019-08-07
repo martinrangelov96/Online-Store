@@ -10,6 +10,7 @@ public class ProductDeleteViewModel {
     private String description;
     private BigDecimal price;
     private List<String> categories;
+    private String imageUrl;
 
     public ProductDeleteViewModel() {
     }
@@ -52,5 +53,13 @@ public class ProductDeleteViewModel {
 
     public void setCategories(List<String> categories) {
         this.categories = categories;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

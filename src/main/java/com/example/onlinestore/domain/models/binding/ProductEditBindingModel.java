@@ -13,6 +13,7 @@ public class ProductEditBindingModel {
     private BigDecimal price;
     private List<String> categories;
     private MultipartFile image;
+    private String imageUrl;
 
     public ProductEditBindingModel() {
     }
@@ -63,5 +64,13 @@ public class ProductEditBindingModel {
 
     public void setImage(MultipartFile image) {
         this.image = image;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

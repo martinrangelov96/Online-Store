@@ -32,11 +32,14 @@
 
                 </select>
             </div>
+            <div class="form-group text-center">
+                <img th:src="*{imageUrl}" height="200" alt="Product Image">
+            </div>
             <div class="form-group">
                 <label for="edit-product-image" class="font-weight-bold">Image</label>
                 <input type="file" class="form-control-file" id="edit-product-image" name="image">
             </div>
-            <hr class="hr-2 bg-dark w-25">
+            <hr class="hr-2 bg-dark w-100">
             <div class="button-holder d-flex justify-content-center">
                 <button type="submit" class="btn btn-success">Edit Product</button>
             </div>
