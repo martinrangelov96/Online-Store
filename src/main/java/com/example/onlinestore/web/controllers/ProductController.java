@@ -115,7 +115,7 @@ public class ProductController extends BaseController {
 
     @PatchMapping("/edit-product/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView editProductConfirm(@PathVariable String id, @ModelAttribute(name = MODEL_NAME) ProductEditBindingModel model) {
+    public ModelAndView editProductConfirm(@PathVariable String id, @ModelAttribute(name = MODEL_NAME) ProductEditBindingModel model) throws IOException {
         ProductServiceModel productServiceModel = this.modelMapper.map(model, ProductServiceModel.class);
 
         List<CategoryServiceModel> categories = model.getCategories()
@@ -129,6 +129,9 @@ public class ProductController extends BaseController {
                 .collect(Collectors.toList());
 
         productServiceModel.setCategories(categories);
+        productServiceModel.setImageUrl(
+                this.cloudinaryService.uploadImage(model.getImage())
+        );
         this.productService.editProduct(id, productServiceModel);
 
         return redirect("/products/all-products");

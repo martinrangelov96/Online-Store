@@ -1,5 +1,7 @@
 package com.example.onlinestore.domain.models.binding;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -10,6 +12,7 @@ public class ProductEditBindingModel {
     private String description;
     private BigDecimal price;
     private List<String> categories;
+    private MultipartFile image;
 
     public ProductEditBindingModel() {
     }
@@ -52,5 +55,13 @@ public class ProductEditBindingModel {
 
     public void setCategories(List<String> categories) {
         this.categories = categories;
+    }
+
+    public MultipartFile getImage() {
+        return image;
+    }
+
+    public void setImage(MultipartFile image) {
+        this.image = image;
     }
 }

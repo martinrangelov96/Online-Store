@@ -39,10 +39,10 @@
                          !#lists.contains(user.authorities, 'ROLE_ADMIN') &&
                          !#authentication.getPrincipal().getUsername().equals(user.username)}">
                             <form th:action="@{/users/set-moderator/{id}(id=${user.id})}" th:method="post">
-                                <button class="btn btn-dark btn-width">MODERATOR</button>
+                                <button class="btn btn-dark btn-width" style="color: lawngreen">MODERATOR</button>
                             </form>
                             <form th:action="@{/users/set-admin/{id}(id=${user.id})}" th:method="post">
-                                <button class="btn btn-dark btn-width">ADMIN</button>
+                                <button class="btn btn-dark btn-width" style="color: lawngreen">ADMIN</button>
                             </form>
                         </th:block>
 
@@ -51,10 +51,10 @@
                          !#lists.contains(user.authorities, 'ROLE_ADMIN') &&
                          !#authentication.getPrincipal().getUsername().equals(user.username)}">
                             <form th:action="@{/users/set-user/{id}(id=${user.id})}" th:method="post">
-                                <button class="btn btn-dark btn-width">USER</button>
+                                <button class="btn btn-dark btn-width" style="color: red">USER</button>
                             </form>
                             <form th:action="@{/users/set-admin/{id}(id=${user.id})}" th:method="post">
-                                <button class="btn btn-dark btn-width">ADMIN</button>
+                                <button class="btn btn-dark btn-width" style="color: lawngreen">ADMIN</button>
                             </form>
                         </th:block>
 
@@ -64,10 +64,10 @@
                          !#lists.contains(user.authorities, 'ROLE_ROOT') &&
                          !#authentication.getPrincipal().getUsername().equals(user.username)}">
                             <form th:action="@{/users/set-user/{id}(id=${user.id})}" th:method="post">
-                                <button class="btn btn-dark btn-width">USER</button>
+                                <button class="btn btn-dark btn-width" style="color: red">USER</button>
                             </form>
                             <form th:action="@{/users/set-moderator/{id}(id=${user.id})}" th:method="post">
-                                <button class="btn btn-dark btn-width">MODERATOR</button>
+                                <button class="btn btn-dark btn-width" style="color: red">MODERATOR</button>
                             </form>
                         </th:block>
 

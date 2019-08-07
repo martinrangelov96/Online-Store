@@ -12,8 +12,8 @@
     <h1 class="text-center text-dark">Edit Product</h1>
     <hr class="hr-2 bg-dark w-25">
     <th:block th:object="${product}">
-        <form id="add-product-form" class="form w-25 mx-auto" th:action="@{/products/edit-product/{id}(id=*{id})}" th:method="patch"
-              enctype="multipart/form-data">
+        <form id="add-product-form" class="form w-25 mx-auto" th:action="@{/products/edit-product/{id}(id=*{id})}"
+              th:method="patch" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="add-product-name" class="font-weight-bold">Name</label>
                 <input type="text" class="form-control text-center" id="add-product-name" name="name" th:value="*{name}">
@@ -31,6 +31,10 @@
                 <select multiple class="form-control" id="edit-product-categories" name="categories">
 
                 </select>
+            </div>
+            <div class="form-group">
+                <label for="edit-product-image" class="font-weight-bold">Image</label>
+                <input type="file" class="form-control-file" id="edit-product-image" name="image">
             </div>
             <hr class="hr-2 bg-dark w-25">
             <div class="button-holder d-flex justify-content-center">

@@ -76,6 +76,7 @@ public class ProductServiceImpl implements ProductService {
                         .map(categoryServiceModel -> this.modelMapper.map(categoryServiceModel, Category.class))
                         .collect(Collectors.toList())
         );
+        product.setImageUrl(productServiceModel.getImageUrl());
 
         this.productRepository.save(product);
 
