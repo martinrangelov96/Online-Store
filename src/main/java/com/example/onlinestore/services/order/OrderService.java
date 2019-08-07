@@ -10,11 +10,11 @@ public interface OrderService {
 
     OrderServiceModel createOrder(OrderServiceModel orderServiceModel);
 
-    List<OrderServiceModel> findAllOrders();
+    List<OrderServiceModel> findAllOrdersOrderedByDate();
 
     OrderServiceModel findOrderById(String id);
 
-    List<OrderServiceModel> findAllOrdersByCustomer(String customerName);
+    List<OrderServiceModel> findAllOrdersByCustomerOrderedByTime(String customerName);
 
 //    OrderServiceModel deleteOrder(OrderServiceModel orderServiceModel, UserServiceModel userServiceModel, BigDecimal orderTotalPrice);
 }

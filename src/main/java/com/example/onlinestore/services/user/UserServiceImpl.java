@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserServiceModel> findAllUsers() {
+    public List<UserServiceModel> findAllUsersOrderedByDate() {
         List<UserServiceModel> allUsers = this.userRepository.findAllByOrderByRegisteredOn()
                 .stream()
                 .map(user -> this.modelMapper.map(user, UserServiceModel.class))

@@ -92,9 +92,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductServiceModel> findAllByCategory(String category) {
-        List<ProductServiceModel> productsContainingCategory = this.productRepository.findAll()
+        //Custom query in ProductRepository, faster than stream + filter
+        List<ProductServiceModel> productsContainingCategory = this.productRepository.findAllProductsByCategory(category)
                 .stream()
-                .filter(product -> product.getCategories().stream().anyMatch(categoryStream -> categoryStream.getName().equals(category)))
                 .map(product -> this.modelMapper.map(product, ProductServiceModel.class))
                 .collect(Collectors.toList());
 

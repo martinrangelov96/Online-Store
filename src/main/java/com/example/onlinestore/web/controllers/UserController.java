@@ -158,7 +158,7 @@ public class UserController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PageTitle("All Users")
     public ModelAndView allUsers(ModelAndView modelAndView) {
-        List<UserViewModel> users = this.userService.findAllUsers()
+        List<UserViewModel> users = this.userService.findAllUsersOrderedByDate()
                 .stream()
                 .map(userServiceModel -> {
                     UserViewModel user = this.modelMapper.map(userServiceModel, UserViewModel.class);

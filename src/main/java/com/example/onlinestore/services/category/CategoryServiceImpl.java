@@ -1,6 +1,5 @@
 package com.example.onlinestore.services.category;
 
-import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.entities.Category;
 import com.example.onlinestore.domain.models.service.CategoryServiceModel;
 import com.example.onlinestore.errors.CategoryNotFoundException;

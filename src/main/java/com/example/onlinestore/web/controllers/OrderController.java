@@ -35,7 +35,7 @@ public class OrderController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PageTitle("All Orders")
     public ModelAndView allOrders(ModelAndView modelAndView) {
-        List<OrderServiceModel> orderServiceModels = this.orderService.findAllOrders();
+        List<OrderServiceModel> orderServiceModels = this.orderService.findAllOrdersOrderedByDate();
         List<OrderViewModel> orderViewModels = orderServiceModels
                 .stream()
                 .map(orderServiceModel -> {
@@ -58,7 +58,8 @@ public class OrderController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Customer Orders")
     public ModelAndView customerOrders(Principal principal, ModelAndView modelAndView) {
-        List<OrderServiceModel> orderServiceModels = this.orderService.findAllOrdersByCustomer(principal.getName());
+        List<OrderServiceModel> orderServiceModels =
+                this.orderService.findAllOrdersByCustomerOrderedByTime(principal.getName());
         List<OrderViewModel> orderViewModels = orderServiceModels
                 .stream()
                 .map(orderServiceModel -> this.modelMapper.map(orderServiceModel, OrderViewModel.class))

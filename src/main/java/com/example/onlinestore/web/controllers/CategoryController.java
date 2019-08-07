@@ -42,7 +42,6 @@ public class CategoryController extends BaseController {
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     @PageTitle("Add Category")
     public ModelAndView addCategory(@ModelAttribute(name = MODEL_NAME) CategoryAddBindingModel model) {
-
         return view("/categories/add-category");
     }
 

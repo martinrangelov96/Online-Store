@@ -37,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderServiceModel> findAllOrders() {
+    public List<OrderServiceModel> findAllOrdersOrderedByDate() {
         List<OrderServiceModel> orderServiceModels = this.orderRepository.findAllByOrderByOrderedOn()
                 .stream()
                 .map(order -> this.modelMapper.map(order, OrderServiceModel.class))
@@ -55,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderServiceModel> findAllOrdersByCustomer(String customerName) {
+    public List<OrderServiceModel> findAllOrdersByCustomerOrderedByTime(String customerName) {
         List<OrderServiceModel> orderServiceModels = this.orderRepository.findOrderByCustomer_UsernameOrderByOrderedOn(customerName)
                 .stream()
                 .map(order -> this.modelMapper.map(order, OrderServiceModel.class))
