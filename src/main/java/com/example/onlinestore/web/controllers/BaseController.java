@@ -8,7 +8,6 @@ public abstract class BaseController {
 
     ModelAndView view(String viewName, ModelAndView modelAndView) {
         modelAndView.setViewName(viewName);
-
         return modelAndView;
     }
 

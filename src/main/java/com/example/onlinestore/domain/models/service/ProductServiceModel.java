@@ -1,5 +1,7 @@
 package com.example.onlinestore.domain.models.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -11,6 +13,7 @@ public class ProductServiceModel extends BaseServiceModel {
     private String imageUrl;
     private Integer quantityAvailable;
     private List<CategoryServiceModel> categories;
+    private MultipartFile image;
 
     public ProductServiceModel() {
     }
@@ -61,5 +64,13 @@ public class ProductServiceModel extends BaseServiceModel {
 
     public void setCategories(List<CategoryServiceModel> categories) {
         this.categories = categories;
+    }
+
+    public MultipartFile getImage() {
+        return image;
+    }
+
+    public void setImage(MultipartFile image) {
+        this.image = image;
     }
 }

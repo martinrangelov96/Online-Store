@@ -5,17 +5,20 @@ import com.example.onlinestore.domain.entities.Product;
 import com.example.onlinestore.domain.models.service.ProductServiceModel;
 import com.example.onlinestore.errors.ProductNotFoundException;
 import com.example.onlinestore.repository.ProductRepository;
+import com.example.onlinestore.services.cloudinary.CloudinaryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import static com.example.onlinestore.constants.Constants.EMPTY_STRING;
 import static com.example.onlinestore.constants.Constants.PRODUCT_NOT_FOUND_EXCEPTION_MESSAGE;
 
 @Service
@@ -26,16 +29,21 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
+    private final CloudinaryService cloudinaryService;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper, CloudinaryService cloudinaryService) {
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
+        this.cloudinaryService = cloudinaryService;
     }
 
     @Override
-    public ProductServiceModel addProduct(ProductServiceModel productServiceModel) {
+    public ProductServiceModel addProduct(ProductServiceModel productServiceModel) throws IOException {
         Product product = this.modelMapper.map(productServiceModel, Product.class);
+
+        String imageUrl = this.cloudinaryService.uploadImage(productServiceModel.getImage());
+        product.setImageUrl(imageUrl);
 
         this.productRepository.save(product);
 
@@ -63,7 +71,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductServiceModel editProduct(String id, ProductServiceModel productServiceModel) {
+    public ProductServiceModel editProduct(String id, ProductServiceModel productServiceModel) throws IOException {
         Product product = this.productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND_EXCEPTION_MESSAGE));
 
@@ -76,8 +84,9 @@ public class ProductServiceImpl implements ProductService {
                         .map(categoryServiceModel -> this.modelMapper.map(categoryServiceModel, Category.class))
                         .collect(Collectors.toList())
         );
-        if (productServiceModel.getImageUrl() != null) {
-            product.setImageUrl(productServiceModel.getImageUrl());
+        if (!EMPTY_STRING.equals(productServiceModel.getImage().getOriginalFilename())) {
+            String imageUrl = this.cloudinaryService.uploadImage(productServiceModel.getImage());
+            product.setImageUrl(imageUrl);
         }
 
         this.productRepository.save(product);

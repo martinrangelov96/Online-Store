@@ -55,8 +55,8 @@ public class CategoryController extends BaseController {
         }
 
         CategoryServiceModel categoryServiceModel = this.modelMapper.map(model, CategoryServiceModel.class);
-        this.categoryService.addCategory(categoryServiceModel);
 
+        this.categoryService.addCategory(categoryServiceModel);
         return redirect("/categories/all-categories");
     }
 
@@ -70,7 +70,6 @@ public class CategoryController extends BaseController {
                 .collect(Collectors.toList());
 
         modelAndView.addObject("categories", categoryViewModels);
-
         return view("/categories/all-categories", modelAndView);
     }
 
@@ -84,7 +83,6 @@ public class CategoryController extends BaseController {
         modelAndView.addObject("id", categoryViewModel.getId());
         modelAndView.addObject("name", categoryViewModel.getName());
         modelAndView.addObject(MODEL_NAME, model);
-
         return view("/categories/edit-category", modelAndView);
     }
 
@@ -102,8 +100,8 @@ public class CategoryController extends BaseController {
         }
 
         CategoryServiceModel categoryServiceModel = this.modelMapper.map(model, CategoryServiceModel.class);
-        this.categoryService.editCategory(id, categoryServiceModel);
 
+        this.categoryService.editCategory(id, categoryServiceModel);
         return redirect("/categories/all-categories");
     }
 
@@ -115,7 +113,6 @@ public class CategoryController extends BaseController {
         CategoryViewModel categoryViewModel = this.modelMapper.map(categoryServiceModel, CategoryViewModel.class);
 
         modelAndView.addObject("category", categoryViewModel);
-
         return view("/categories/delete-category", modelAndView);
     }
 
@@ -123,7 +120,6 @@ public class CategoryController extends BaseController {
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView deleteCategoryConfirm(@PathVariable String id) {
         this.categoryService.deleteCategory(id);
-
         return redirect("/categories/all-categories");
     }
 
@@ -135,7 +131,6 @@ public class CategoryController extends BaseController {
                 .stream()
                 .map(categoryServiceModel -> this.modelMapper.map(categoryServiceModel, CategoryViewModel.class))
                 .collect(Collectors.toList());
-
         return categoryViewModels;
     }
 

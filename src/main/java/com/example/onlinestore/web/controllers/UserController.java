@@ -73,8 +73,8 @@ public class UserController extends BaseController {
         }
 
         UserServiceModel userServiceModel = this.modelMapper.map(model, UserServiceModel.class);
-        this.userService.registerUser(userServiceModel);
 
+        this.userService.registerUser(userServiceModel);
         return view("/users/login");
     }
 
@@ -97,7 +97,6 @@ public class UserController extends BaseController {
                         .collect(Collectors.toList());
 
         modelAndView.addObject("categories", categories);
-
         return super.view("/users/home", modelAndView);
     }
 
@@ -107,8 +106,8 @@ public class UserController extends BaseController {
     public ModelAndView profile(Principal principal, ModelAndView modelAndView) {
         UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
         UserProfileViewModel userProfileViewModel = this.modelMapper.map(userServiceModel, UserProfileViewModel.class);
-        modelAndView.addObject(MODEL_NAME, userProfileViewModel);
 
+        modelAndView.addObject(MODEL_NAME, userProfileViewModel);
         return view("/users/profile", modelAndView);
     }
 
@@ -118,7 +117,6 @@ public class UserController extends BaseController {
         UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
 
         this.userService.addMoneyToBalance(userServiceModel, moneyToAdd);
-
         return redirect("/users/profile");
     }
 
@@ -130,7 +128,6 @@ public class UserController extends BaseController {
         UserEditProfileViewModel userEditProfileViewModel = this.modelMapper.map(userServiceModel, UserEditProfileViewModel.class);
 
         modelAndView.addObject(MODEL_NAME, userEditProfileViewModel);
-
         return view("/users/edit-profile", modelAndView);
     }
 
@@ -149,8 +146,8 @@ public class UserController extends BaseController {
             );
         }
         String oldPassword = model.getOldPassword();
-        this.userService.editServiceProfile(userServiceModel, oldPassword);
 
+        this.userService.editServiceProfile(userServiceModel, oldPassword);
         return redirect("/users/profile");
     }
 
@@ -172,7 +169,6 @@ public class UserController extends BaseController {
                 .collect(Collectors.toList());
 
         modelAndView.addObject("users", users);
-
         return view("/users/all-users", modelAndView);
     }
 
@@ -180,7 +176,6 @@ public class UserController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView setUser(@PathVariable String id) {
         this.userService.setRole(id, USER_STRING);
-
         return redirect("/users/all-users");
     }
 
@@ -188,7 +183,6 @@ public class UserController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView setModerator(@PathVariable String id) {
         this.userService.setRole(id, MODERATOR_STRING);
-
         return redirect("/users/all-users");
     }
 
@@ -196,7 +190,6 @@ public class UserController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView setAdmin(@PathVariable String id) {
         this.userService.setRole(id, ADMIN_STRING);
-
         return redirect("/users/all-users");
     }
 

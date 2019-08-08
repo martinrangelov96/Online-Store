@@ -50,7 +50,6 @@ public class OrderController extends BaseController {
                 .collect(Collectors.toList());
 
         modelAndView.addObject("orders", orderViewModels);
-
         return view("/orders/list-orders", modelAndView);
     }
 
@@ -66,7 +65,6 @@ public class OrderController extends BaseController {
                 .collect(Collectors.toList());
 
         modelAndView.addObject("orders", orderViewModels);
-
         return view("/orders/list-orders", modelAndView);
     }
 
@@ -78,7 +76,6 @@ public class OrderController extends BaseController {
         OrderViewModel orderViewModel = this.modelMapper.map(orderServiceModel, OrderViewModel.class);
 
         modelAndView.addObject("order", orderViewModel);
-
         return view("/orders/details-order", modelAndView);
     }
 

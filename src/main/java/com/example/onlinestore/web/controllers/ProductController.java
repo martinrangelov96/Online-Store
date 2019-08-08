@@ -9,7 +9,6 @@ import com.example.onlinestore.domain.models.view.products.ProductDetailsViewMod
 import com.example.onlinestore.domain.models.view.products.ProductEditViewModel;
 import com.example.onlinestore.domain.models.view.products.ProductViewModel;
 import com.example.onlinestore.services.category.CategoryService;
-import com.example.onlinestore.services.cloudinary.CloudinaryService;
 import com.example.onlinestore.services.product.ProductService;
 import com.example.onlinestore.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
@@ -30,14 +29,12 @@ import static com.example.onlinestore.constants.Constants.MODEL_NAME;
 public class ProductController extends BaseController {
 
     private final ProductService productService;
-    private final CloudinaryService cloudinaryService;
     private final CategoryService categoryService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductController(ProductService productService, CloudinaryService cloudinaryService, CategoryService categoryService, ModelMapper modelMapper) {
+    public ProductController(ProductService productService, CategoryService categoryService, ModelMapper modelMapper) {
         this.productService = productService;
-        this.cloudinaryService = cloudinaryService;
         this.categoryService = categoryService;
         this.modelMapper = modelMapper;
     }
@@ -53,18 +50,15 @@ public class ProductController extends BaseController {
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView addProductConfirm(@ModelAttribute(name = MODEL_NAME) ProductAddBindingModel model) throws IOException {
         ProductServiceModel productServiceModel = this.modelMapper.map(model, ProductServiceModel.class);
+
         List<CategoryServiceModel> categories = this.categoryService.findAllCategories()
                 .stream()
                 .filter(categoryServiceModel -> model.getCategories().contains(categoryServiceModel.getId()))
                 .collect(Collectors.toList());
 
         productServiceModel.setCategories(categories);
-        productServiceModel.setImageUrl(
-                this.cloudinaryService.uploadImage(model.getImage())
-        );
 
         this.productService.addProduct(productServiceModel);
-
         return redirect("/products/all-products");
     }
 
@@ -78,7 +72,6 @@ public class ProductController extends BaseController {
                 .collect(Collectors.toList());
 
         modelAndView.addObject("products", productViewModels);
-
         return view("/products/all-products", modelAndView);
     }
 
@@ -90,7 +83,6 @@ public class ProductController extends BaseController {
         ProductDetailsViewModel productDetailsViewModel = this.modelMapper.map(productServiceModel, ProductDetailsViewModel.class);
 
         modelAndView.addObject("product", productDetailsViewModel);
-
         return view("/products/details-product", modelAndView);
     }
 
@@ -109,7 +101,6 @@ public class ProductController extends BaseController {
                         .collect(Collectors.toList()));
 
         modelAndView.addObject("product", productEditViewModel);
-
         return view("/products/edit-product", modelAndView);
     }
 
@@ -129,14 +120,8 @@ public class ProductController extends BaseController {
                 .collect(Collectors.toList());
 
         productServiceModel.setCategories(categories);
-        //TODO: if file image is different - change it. if not - don't do anything
-        if (productServiceModel.getImageUrl() != null) {
-            productServiceModel.setImageUrl(
-                    this.cloudinaryService.uploadImage(model.getImage())
-            );
-        }
-        this.productService.editProduct(id, productServiceModel);
 
+        this.productService.editProduct(id, productServiceModel);
         return redirect("/products/all-products");
     }
 
@@ -153,7 +138,6 @@ public class ProductController extends BaseController {
                 .collect(Collectors.toList()));
 
         modelAndView.addObject("product", productDeleteViewModel);
-
         return view("/products/delete-product", modelAndView);
     }
 
@@ -161,7 +145,6 @@ public class ProductController extends BaseController {
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView deleteProductConfirm(@PathVariable String id) {
         this.productService.deleteProduct(id);
-
         return redirect("/products/all-products/");
     }
 
@@ -174,7 +157,6 @@ public class ProductController extends BaseController {
                     .map(product -> this.modelMapper.map(product, ProductViewModel.class))
                     .collect(Collectors.toList());
         }
-
         return this.productService.findAllByCategory(category)
                 .stream()
                 .map(product -> this.modelMapper.map(product, ProductViewModel.class))

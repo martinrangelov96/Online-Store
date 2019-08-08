@@ -1,6 +1,5 @@
 package com.example.onlinestore.web.controllers;
 
-import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.models.service.OrderServiceModel;
 import com.example.onlinestore.domain.models.service.ProductServiceModel;
 import com.example.onlinestore.domain.models.service.UserServiceModel;
@@ -26,7 +25,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.onlinestore.constants.Constants.*;
+import static com.example.onlinestore.constants.Constants.SHOPPING_CART;
 
 @Controller
 @RequestMapping("/cart")
@@ -82,8 +81,8 @@ public class CartController extends BaseController {
         if (!(userServiceModel.getBalance().compareTo(orderTotalPrice) >= 0)) {
             modelAndView.addObject(NOT_ENOUGH_MONEY_ATTRIBUTE_NAME, NOT_ENOUGH_MONEY_MESSAGE);
         }
-        modelAndView.addObject("totalPrice", this.calculateTotalPrice(cart));
 
+        modelAndView.addObject("totalPrice", this.calculateTotalPrice(cart));
         return view("/cart/details-cart", modelAndView);
     }
 
@@ -93,7 +92,6 @@ public class CartController extends BaseController {
         var cart = this.retrieveCart(session);
 
         this.removeItemFromCart(id, cart);
-
         return redirect("/cart/details-cart");
     }
 
@@ -123,7 +121,6 @@ public class CartController extends BaseController {
     @SuppressWarnings("unchecked")
     private List<ShoppingCartItem> retrieveCart(HttpSession session) {
         this.initCart(session);
-
         return (List<ShoppingCartItem>) session.getAttribute(SHOPPING_CART);
     }
 
