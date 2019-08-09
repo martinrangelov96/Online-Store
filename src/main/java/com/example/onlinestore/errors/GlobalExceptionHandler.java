@@ -18,7 +18,6 @@ public class GlobalExceptionHandler {
         }
 
         modelAndView.addObject("message", throwable.getMessage());
-
         return modelAndView;
     }
 
