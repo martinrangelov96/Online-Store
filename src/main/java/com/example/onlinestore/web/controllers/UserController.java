@@ -1,5 +1,6 @@
 package com.example.onlinestore.web.controllers;
 
+import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.models.binding.UserEditBindingModel;
 import com.example.onlinestore.domain.models.binding.UserRegisterBindingModel;
 import com.example.onlinestore.domain.models.service.RoleServiceModel;
@@ -10,6 +11,7 @@ import com.example.onlinestore.domain.models.view.users.UserProfileViewModel;
 import com.example.onlinestore.domain.models.view.users.UserViewModel;
 import com.example.onlinestore.services.category.CategoryService;
 import com.example.onlinestore.services.cloudinary.CloudinaryService;
+import com.example.onlinestore.services.recaptcha.RecaptchaService;
 import com.example.onlinestore.services.user.UserService;
 import com.example.onlinestore.validation.UserEditProfileValidator;
 import com.example.onlinestore.web.annotations.PageTitle;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -39,18 +42,21 @@ public class UserController extends BaseController {
     private final static String CUSTOMER_BALANCE = "customer-balance";
     private final static String PASSWORDS_DONT_MATCH_ATTRIBUTE = "passDontMatch";
     private final static String PASSWORDS_DONT_MATCH_MESSAGE = "Passwords don't match!";
+    private final static String G_RECAPTCHA_RESPONSE = "g-recaptcha-response";
 
     private final UserService userService;
     private final CategoryService categoryService;
     private final CloudinaryService cloudinaryService;
+    private final RecaptchaService recaptchaService;
     private final ModelMapper modelMapper;
     private final UserEditProfileValidator userEditProfileValidator;
 
     @Autowired
-    public UserController(UserService userService, CategoryService categoryService, CloudinaryService cloudinaryService, ModelMapper modelMapper, UserEditProfileValidator userEditProfileValidator) {
+    public UserController(UserService userService, CategoryService categoryService, CloudinaryService cloudinaryService, RecaptchaService recaptchaService, ModelMapper modelMapper, UserEditProfileValidator userEditProfileValidator) {
         this.userService = userService;
         this.categoryService = categoryService;
         this.cloudinaryService = cloudinaryService;
+        this.recaptchaService = recaptchaService;
         this.modelMapper = modelMapper;
         this.userEditProfileValidator = userEditProfileValidator;
     }
@@ -64,12 +70,19 @@ public class UserController extends BaseController {
 
     @PostMapping("/register")
     @PreAuthorize("isAnonymous()")
-    public ModelAndView registerConfirm(@ModelAttribute(name = MODEL_NAME) UserRegisterBindingModel model, ModelAndView modelAndView) {
+    public ModelAndView registerConfirm(@ModelAttribute(name = MODEL_NAME) UserRegisterBindingModel model,
+                                        @RequestParam(name = G_RECAPTCHA_RESPONSE) String gRecaptchaResponse,
+                                        ModelAndView modelAndView,
+                                        HttpServletRequest request) {
         this.userService.existsByUsername(model.getUsername());
         this.userService.existsByEmail(model.getEmail());
         if (!model.getPassword().equals(model.getConfirmPassword())) {
             modelAndView.addObject(PASSWORDS_DONT_MATCH_ATTRIBUTE, PASSWORDS_DONT_MATCH_MESSAGE);
             return view("/users/register", modelAndView);
+        }
+
+        if (this.recaptchaService.verifyRecaptcha(request.getRemoteAddr(), gRecaptchaResponse) == null) {
+            return view("/users/register");
         }
 
         UserServiceModel userServiceModel = this.modelMapper.map(model, UserServiceModel.class);
