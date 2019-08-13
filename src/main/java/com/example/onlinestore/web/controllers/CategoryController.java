@@ -1,5 +1,6 @@
 package com.example.onlinestore.web.controllers;
 
+import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.models.binding.CategoryAddBindingModel;
 import com.example.onlinestore.domain.models.binding.CategoryEditBindingModel;
 import com.example.onlinestore.domain.models.service.CategoryServiceModel;
@@ -19,7 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.onlinestore.constants.Constants.MODEL_NAME;
+import static com.example.onlinestore.constants.Constants.CATEGORIES_ATTRIBUTE;
+import static com.example.onlinestore.constants.Constants.MODEL_ATTRIBUTE;
 
 @Controller
 @RequestMapping("/categories")
@@ -41,13 +43,13 @@ public class CategoryController extends BaseController {
     @GetMapping("/add-category")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     @PageTitle("Add Category")
-    public ModelAndView addCategory(@ModelAttribute(name = MODEL_NAME) CategoryAddBindingModel model) {
+    public ModelAndView addCategory(@ModelAttribute(name = MODEL_ATTRIBUTE) CategoryAddBindingModel model) {
         return view("/categories/add-category");
     }
 
     @PostMapping("/add-category")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView addCategoryConfirm(@ModelAttribute(name = MODEL_NAME) CategoryAddBindingModel model, BindingResult bindingResult) {
+    public ModelAndView addCategoryConfirm(@ModelAttribute(name = MODEL_ATTRIBUTE) CategoryAddBindingModel model, BindingResult bindingResult) {
         this.categoryAddValidator.validate(model, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -69,7 +71,7 @@ public class CategoryController extends BaseController {
                 .map(categoryServiceModel -> this.modelMapper.map(categoryServiceModel, CategoryViewModel.class))
                 .collect(Collectors.toList());
 
-        modelAndView.addObject("categories", categoryViewModels);
+        modelAndView.addObject(Constants.CATEGORIES_ATTRIBUTE, categoryViewModels);
         return view("/categories/all-categories", modelAndView);
     }
 
@@ -82,19 +84,19 @@ public class CategoryController extends BaseController {
 
         modelAndView.addObject("id", categoryViewModel.getId());
         modelAndView.addObject("name", categoryViewModel.getName());
-        modelAndView.addObject(MODEL_NAME, model);
+        modelAndView.addObject(MODEL_ATTRIBUTE, model);
         return view("/categories/edit-category", modelAndView);
     }
 
     @PatchMapping("/edit-category/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView editCategoryConfirm(@PathVariable String id, @ModelAttribute(name = MODEL_NAME) CategoryEditBindingModel model, BindingResult bindingResult, ModelAndView modelAndView) {
+    public ModelAndView editCategoryConfirm(@PathVariable String id, @ModelAttribute(name = MODEL_ATTRIBUTE) CategoryEditBindingModel model, BindingResult bindingResult, ModelAndView modelAndView) {
         this.categoryEditValidator.validate(model, bindingResult);
 
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("id", id);
             modelAndView.addObject("name", model.getName());
-            modelAndView.addObject(MODEL_NAME, model);
+            modelAndView.addObject(MODEL_ATTRIBUTE, model);
 
             return view("/categories/edit-category", modelAndView);
         }
@@ -112,7 +114,7 @@ public class CategoryController extends BaseController {
         CategoryServiceModel categoryServiceModel = this.categoryService.findCategoryById(id);
         CategoryViewModel categoryViewModel = this.modelMapper.map(categoryServiceModel, CategoryViewModel.class);
 
-        modelAndView.addObject("category", categoryViewModel);
+        modelAndView.addObject(CATEGORIES_ATTRIBUTE, categoryViewModel);
         return view("/categories/delete-category", modelAndView);
     }
 

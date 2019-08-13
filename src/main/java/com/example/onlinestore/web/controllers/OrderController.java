@@ -1,5 +1,6 @@
 package com.example.onlinestore.web.controllers;
 
+import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.models.service.OrderServiceModel;
 import com.example.onlinestore.domain.models.service.RoleServiceModel;
 import com.example.onlinestore.domain.models.view.orders.OrderViewModel;
@@ -17,6 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.example.onlinestore.constants.Constants.ORDERS_ATTRIBUTE;
+import static com.example.onlinestore.constants.Constants.ORDER_ATTRIBUTE;
 
 @Controller
 @RequestMapping("/orders")
@@ -49,7 +53,7 @@ public class OrderController extends BaseController {
                 })
                 .collect(Collectors.toList());
 
-        modelAndView.addObject("orders", orderViewModels);
+        modelAndView.addObject(ORDERS_ATTRIBUTE, orderViewModels);
         return view("/orders/list-orders", modelAndView);
     }
 
@@ -64,7 +68,7 @@ public class OrderController extends BaseController {
                 .map(orderServiceModel -> this.modelMapper.map(orderServiceModel, OrderViewModel.class))
                 .collect(Collectors.toList());
 
-        modelAndView.addObject("orders", orderViewModels);
+        modelAndView.addObject(ORDERS_ATTRIBUTE, orderViewModels);
         return view("/orders/list-orders", modelAndView);
     }
 
@@ -75,7 +79,7 @@ public class OrderController extends BaseController {
         OrderServiceModel orderServiceModel = this.orderService.findOrderById(id);
         OrderViewModel orderViewModel = this.modelMapper.map(orderServiceModel, OrderViewModel.class);
 
-        modelAndView.addObject("order", orderViewModel);
+        modelAndView.addObject(ORDER_ATTRIBUTE, orderViewModel);
         return view("/orders/details-order", modelAndView);
     }
 

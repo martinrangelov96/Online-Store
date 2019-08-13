@@ -15,10 +15,10 @@ import static com.example.onlinestore.constants.Constants.SUCCESS_STRING;
 public class RecaptchaServiceImpl implements RecaptchaService {
 
     private static final String GOOGLE_RECAPTCHA_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
+    private static final String URL_PARAMETERS = "?secret={secret}&response={response}&remoteip={remoteip}";
 
     @Value("${google.recaptcha.secret-key}")
     private String recaptchaSecretKey;
-
     private final RestTemplateBuilder restTemplateBuilder;
 
     @Autowired
@@ -36,8 +36,7 @@ public class RecaptchaServiceImpl implements RecaptchaService {
 
         ResponseEntity<Map> recaptchaResponseEntity =
                 restTemplateBuilder.build()
-                .postForEntity(GOOGLE_RECAPTCHA_VERIFY_URL+"?secret={secret}&response={response}&remoteip={remoteip}",
-                        body, Map.class, body);
+                .postForEntity(GOOGLE_RECAPTCHA_VERIFY_URL+URL_PARAMETERS, body, Map.class, body);
 
         Map<String, Object> responseBody = recaptchaResponseEntity.getBody();
 

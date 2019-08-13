@@ -1,6 +1,5 @@
 package com.example.onlinestore.web.controllers;
 
-import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.models.binding.UserEditBindingModel;
 import com.example.onlinestore.domain.models.binding.UserRegisterBindingModel;
 import com.example.onlinestore.domain.models.service.RoleServiceModel;
@@ -43,6 +42,12 @@ public class UserController extends BaseController {
     private final static String PASSWORDS_DONT_MATCH_ATTRIBUTE = "passDontMatch";
     private final static String PASSWORDS_DONT_MATCH_MESSAGE = "Passwords don't match!";
     private final static String G_RECAPTCHA_RESPONSE = "g-recaptcha-response";
+    private final static String RECAPTCHA_ERROR_ATTRIBUTE = "recaptchaError";
+    private final static String RECAPTCHA_ERROR_MESSAGE = "You did not complete reCaptcha. Please try again!";
+    private final static String SUCCESSFUL_REGISTER_ATTRIBUTE = "successfulRegistration";
+    private final static String SUCCESSFUL_REGISTER_MESSAGE = "You have registered successfully, %s!";
+    private final static String YOU_CAN_LOGIN_ATTRIBUTE = "youCanLogin";
+    private final static String YOU_CAN_LOGIN_MESSAGE = "You can login now.";
 
     private final UserService userService;
     private final CategoryService categoryService;
@@ -64,13 +69,13 @@ public class UserController extends BaseController {
     @GetMapping("/register")
     @PreAuthorize("isAnonymous()")
     @PageTitle("Register")
-    public ModelAndView register(@ModelAttribute(name = MODEL_NAME) UserRegisterBindingModel model) {
+    public ModelAndView register(@ModelAttribute(name = MODEL_ATTRIBUTE) UserRegisterBindingModel model) {
         return view("/users/register");
     }
 
     @PostMapping("/register")
     @PreAuthorize("isAnonymous()")
-    public ModelAndView registerConfirm(@ModelAttribute(name = MODEL_NAME) UserRegisterBindingModel model,
+    public ModelAndView registerConfirm(@ModelAttribute(name = MODEL_ATTRIBUTE) UserRegisterBindingModel model,
                                         @RequestParam(name = G_RECAPTCHA_RESPONSE) String gRecaptchaResponse,
                                         ModelAndView modelAndView,
                                         HttpServletRequest request) {
@@ -82,13 +87,16 @@ public class UserController extends BaseController {
         }
 
         if (this.recaptchaService.verifyRecaptcha(request.getRemoteAddr(), gRecaptchaResponse) == null) {
-            return view("/users/register");
+            modelAndView.addObject(RECAPTCHA_ERROR_ATTRIBUTE, RECAPTCHA_ERROR_MESSAGE);
+            return view("/users/register", modelAndView);
         }
 
         UserServiceModel userServiceModel = this.modelMapper.map(model, UserServiceModel.class);
 
         this.userService.registerUser(userServiceModel);
-        return view("/users/login");
+        modelAndView.addObject(SUCCESSFUL_REGISTER_ATTRIBUTE, String.format(SUCCESSFUL_REGISTER_MESSAGE, model.getUsername()));
+        modelAndView.addObject(YOU_CAN_LOGIN_ATTRIBUTE, YOU_CAN_LOGIN_MESSAGE);
+        return view("/users/login", modelAndView);
     }
 
     @GetMapping("/login")
@@ -109,7 +117,7 @@ public class UserController extends BaseController {
                         .map(categoryServiceModel -> this.modelMapper.map(categoryServiceModel, CategoryViewModel.class))
                         .collect(Collectors.toList());
 
-        modelAndView.addObject("categories", categories);
+        modelAndView.addObject(CATEGORIES_ATTRIBUTE, categories);
         return super.view("/users/home", modelAndView);
     }
 
@@ -120,7 +128,7 @@ public class UserController extends BaseController {
         UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
         UserProfileViewModel userProfileViewModel = this.modelMapper.map(userServiceModel, UserProfileViewModel.class);
 
-        modelAndView.addObject(MODEL_NAME, userProfileViewModel);
+        modelAndView.addObject(MODEL_ATTRIBUTE, userProfileViewModel);
         return view("/users/profile", modelAndView);
     }
 
@@ -140,13 +148,13 @@ public class UserController extends BaseController {
         UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
         UserEditProfileViewModel userEditProfileViewModel = this.modelMapper.map(userServiceModel, UserEditProfileViewModel.class);
 
-        modelAndView.addObject(MODEL_NAME, userEditProfileViewModel);
+        modelAndView.addObject(MODEL_ATTRIBUTE, userEditProfileViewModel);
         return view("/users/edit-profile", modelAndView);
     }
 
     @PatchMapping("/edit-profile")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView editProfileConfirm(@ModelAttribute(name = MODEL_NAME) UserEditBindingModel model, BindingResult bindingResult) throws IOException {
+    public ModelAndView editProfileConfirm(@ModelAttribute(name = MODEL_ATTRIBUTE) UserEditBindingModel model, BindingResult bindingResult) throws IOException {
         this.userEditProfileValidator.validate(model, bindingResult);
         if (bindingResult.hasErrors()) {
             return view("/users/edit-profile");
@@ -181,7 +189,7 @@ public class UserController extends BaseController {
                 })
                 .collect(Collectors.toList());
 
-        modelAndView.addObject("users", users);
+        modelAndView.addObject(USERS_ATTRIBUTE, users);
         return view("/users/all-users", modelAndView);
     }
 

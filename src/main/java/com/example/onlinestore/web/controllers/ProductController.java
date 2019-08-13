@@ -1,5 +1,6 @@
 package com.example.onlinestore.web.controllers;
 
+import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.models.binding.ProductAddBindingModel;
 import com.example.onlinestore.domain.models.binding.ProductEditBindingModel;
 import com.example.onlinestore.domain.models.service.CategoryServiceModel;
@@ -11,6 +12,7 @@ import com.example.onlinestore.domain.models.view.products.ProductViewModel;
 import com.example.onlinestore.services.category.CategoryService;
 import com.example.onlinestore.services.product.ProductService;
 import com.example.onlinestore.web.annotations.PageTitle;
+import org.aspectj.apache.bcel.classfile.Constant;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,7 +24,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.onlinestore.constants.Constants.MODEL_NAME;
+import static com.example.onlinestore.constants.Constants.*;
 
 @Controller
 @RequestMapping("/products")
@@ -48,7 +50,7 @@ public class ProductController extends BaseController {
 
     @PostMapping("/add-product")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView addProductConfirm(@ModelAttribute(name = MODEL_NAME) ProductAddBindingModel model) throws IOException {
+    public ModelAndView addProductConfirm(@ModelAttribute(name = MODEL_ATTRIBUTE) ProductAddBindingModel model) throws IOException {
         ProductServiceModel productServiceModel = this.modelMapper.map(model, ProductServiceModel.class);
 
         List<CategoryServiceModel> categories = this.categoryService.findAllCategories()
@@ -71,7 +73,7 @@ public class ProductController extends BaseController {
                 .map(productServiceModel -> this.modelMapper.map(productServiceModel, ProductViewModel.class))
                 .collect(Collectors.toList());
 
-        modelAndView.addObject("products", productViewModels);
+        modelAndView.addObject(PRODUCTS_ATTRIBUTE, productViewModels);
         return view("/products/all-products", modelAndView);
     }
 
@@ -82,7 +84,7 @@ public class ProductController extends BaseController {
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
         ProductDetailsViewModel productDetailsViewModel = this.modelMapper.map(productServiceModel, ProductDetailsViewModel.class);
 
-        modelAndView.addObject("product", productDetailsViewModel);
+        modelAndView.addObject(PRODUCT_ATTRIBUTE, productDetailsViewModel);
         return view("/products/details-product", modelAndView);
     }
 
@@ -100,13 +102,13 @@ public class ProductController extends BaseController {
                         .map(CategoryServiceModel::getName)
                         .collect(Collectors.toList()));
 
-        modelAndView.addObject("product", productEditViewModel);
+        modelAndView.addObject(PRODUCT_ATTRIBUTE, productEditViewModel);
         return view("/products/edit-product", modelAndView);
     }
 
     @PatchMapping("/edit-product/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView editProductConfirm(@PathVariable String id, @ModelAttribute(name = MODEL_NAME) ProductEditBindingModel model) throws IOException {
+    public ModelAndView editProductConfirm(@PathVariable String id, @ModelAttribute(name = MODEL_ATTRIBUTE) ProductEditBindingModel model) throws IOException {
         ProductServiceModel productServiceModel = this.modelMapper.map(model, ProductServiceModel.class);
 
         List<CategoryServiceModel> categories = model.getCategories()
@@ -137,7 +139,7 @@ public class ProductController extends BaseController {
                 .map(CategoryServiceModel::getName)
                 .collect(Collectors.toList()));
 
-        modelAndView.addObject("product", productDeleteViewModel);
+        modelAndView.addObject(PRODUCT_ATTRIBUTE, productDeleteViewModel);
         return view("/products/delete-product", modelAndView);
     }
 

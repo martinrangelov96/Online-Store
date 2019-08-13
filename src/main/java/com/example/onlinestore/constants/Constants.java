@@ -31,6 +31,12 @@ public final class Constants {
     public static final String INCORRECT_PASSWORD_VALIDATION_CODE = "Passwords not matching";
     public static final String INCORRECT_PASSWORD_VALIDATION_MESSAGE = "Passwords don't match!";
 
-    public final static String MODEL_NAME = "model";
+    public final static String MODEL_ATTRIBUTE = "model";
+    public final static String CATEGORIES_ATTRIBUTE = "categories";
+    public final static String USERS_ATTRIBUTE = "users";
+    public final static String ORDER_ATTRIBUTE = "order";
+    public final static String ORDERS_ATTRIBUTE = "orders";
+    public final static String PRODUCT_ATTRIBUTE = "products";
+    public final static String PRODUCTS_ATTRIBUTE = "products";
 
 }

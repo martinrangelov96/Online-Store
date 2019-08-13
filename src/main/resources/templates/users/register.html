@@ -35,6 +35,9 @@
         <div class="recaptcha-holder d-flex justify-content-center">
             <div class="g-recaptcha" data-sitekey="6LcapLIUAAAAAKrhy_r08Hv6O56OPiUMVFBp3jFy"></div>
         </div>
+        <div class="form-group">
+            <small style="color: red" th:text="${recaptchaError}"></small>
+        </div>
         <hr class="hr-2 bg-dark">
         <div class="button-holder d-flex justify-content-center">
             <button type="submit" class="btn btn-dark">Register</button>

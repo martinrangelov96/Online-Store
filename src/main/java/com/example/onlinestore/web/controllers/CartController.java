@@ -35,6 +35,7 @@ public class CartController extends BaseController {
     private final static String EMPTY_SHOPPING_CART_MESSAGE = "Your shopping cart is empty!";
     private final static String NOT_ENOUGH_MONEY_ATTRIBUTE_NAME = "notEnoughMoneyMessage";
     private final static String NOT_ENOUGH_MONEY_MESSAGE = "You don't have enough money for this order!";
+    private final static String TOTAL_PRICE_ATTRIBUTE = "totalPrice";
 
     private final ProductService productService;
     private final UserService userService;
@@ -82,7 +83,7 @@ public class CartController extends BaseController {
             modelAndView.addObject(NOT_ENOUGH_MONEY_ATTRIBUTE_NAME, NOT_ENOUGH_MONEY_MESSAGE);
         }
 
-        modelAndView.addObject("totalPrice", this.calculateTotalPrice(cart));
+        modelAndView.addObject(TOTAL_PRICE_ATTRIBUTE, this.calculateTotalPrice(cart));
         return view("/cart/details-cart", modelAndView);
     }
 
