@@ -1,6 +1,5 @@
 package com.example.onlinestore.web.controllers;
 
-import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.models.binding.CategoryAddBindingModel;
 import com.example.onlinestore.domain.models.binding.CategoryEditBindingModel;
 import com.example.onlinestore.domain.models.service.CategoryServiceModel;
@@ -20,8 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.onlinestore.constants.Constants.CATEGORIES_ATTRIBUTE;
-import static com.example.onlinestore.constants.Constants.MODEL_ATTRIBUTE;
+import static com.example.onlinestore.constants.Constants.*;
 
 @Controller
 @RequestMapping("/categories")
@@ -71,7 +69,7 @@ public class CategoryController extends BaseController {
                 .map(categoryServiceModel -> this.modelMapper.map(categoryServiceModel, CategoryViewModel.class))
                 .collect(Collectors.toList());
 
-        modelAndView.addObject(Constants.CATEGORIES_ATTRIBUTE, categoryViewModels);
+        modelAndView.addObject(CATEGORIES_ATTRIBUTE, categoryViewModels);
         return view("/categories/all-categories", modelAndView);
     }
 
@@ -114,7 +112,7 @@ public class CategoryController extends BaseController {
         CategoryServiceModel categoryServiceModel = this.categoryService.findCategoryById(id);
         CategoryViewModel categoryViewModel = this.modelMapper.map(categoryServiceModel, CategoryViewModel.class);
 
-        modelAndView.addObject(CATEGORIES_ATTRIBUTE, categoryViewModel);
+        modelAndView.addObject(CATEGORY_ATTRIBUTE, categoryViewModel);
         return view("/categories/delete-category", modelAndView);
     }
 

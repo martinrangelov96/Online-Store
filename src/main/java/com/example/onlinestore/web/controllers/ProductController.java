@@ -1,6 +1,5 @@
 package com.example.onlinestore.web.controllers;
 
-import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.models.binding.ProductAddBindingModel;
 import com.example.onlinestore.domain.models.binding.ProductEditBindingModel;
 import com.example.onlinestore.domain.models.service.CategoryServiceModel;
@@ -12,7 +11,6 @@ import com.example.onlinestore.domain.models.view.products.ProductViewModel;
 import com.example.onlinestore.services.category.CategoryService;
 import com.example.onlinestore.services.product.ProductService;
 import com.example.onlinestore.web.annotations.PageTitle;
-import org.aspectj.apache.bcel.classfile.Constant;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
