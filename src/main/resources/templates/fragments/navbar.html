@@ -26,10 +26,20 @@
     <th:block sec:authorize="isAuthenticated()">
         <nav class="navbar navbar-expand-lg navbar-light bg-light rounded font-weight-bold">
 
-            <a class="navbar-brand" th:href="@{/users/home}">𝗢𝗻𝗹𝗶𝗻𝗲 𝗦𝘁𝗼𝗿𝗲</a>
-            <a class="navbar-brand" th:href="@{/users/profile}"
-               style="color: green" th:text="|Balance: ${#session.getAttribute('customer-balance')} $|">
-            </a>
+                <a class="navbar-brand" th:href="@{/users/home}">𝗢𝗻𝗹𝗶𝗻𝗲 𝗦𝘁𝗼𝗿𝗲</a>
+                <th:block th:if="${#session.getAttribute('profilePicture') == null}">
+                    <a class="navbar-brand" th:href="@{/users/profile}">
+                        <img src="https://res-console.cloudinary.com/martoraneca/thumbnails/v1/image/upload/v1563972870/MzYtMi01MTJfd3MweGdh/preview" width="40" style="border-radius: 50%" />
+                    </a>
+                </th:block>
+                <th:block th:if="${#session.getAttribute('profilePicture') != null}">
+                    <a class="navbar-brand" th:href="@{/users/profile}">
+                        <img th:src="${#session.getAttribute('profilePicture')}" width="40" style="border-radius: 50%" />
+                    </a>
+                </th:block>
+                <a class="navbar-brand" style="color: green" sec:authentication="name"></a>
+                <a class="navbar-brand" style="color: green" th:text="|${#session.getAttribute('customer-balance')} $|">
+                </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#userNavBar"
                     aria-controls="userNavBar" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
