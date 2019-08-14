@@ -2,6 +2,12 @@ hr.hr-2 {
     height: 2px;
 }
 
+hr {
+
+    color: #123455;
+
+}
+
 .logout-button {
     background: transparent;
     border: none;
