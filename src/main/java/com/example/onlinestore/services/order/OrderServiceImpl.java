@@ -32,7 +32,6 @@ public class OrderServiceImpl implements OrderService {
         Order order = this.modelMapper.map(orderServiceModel, Order.class);
 
         this.orderRepository.save(order);
-
         return this.modelMapper.map(order, OrderServiceModel.class);
     }
 

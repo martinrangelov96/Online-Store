@@ -53,7 +53,6 @@ public class UserServiceImpl implements UserService {
         user.setPassword(this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
 
         this.userRepository.save(user);
-
         return this.modelMapper.map(user, UserServiceModel.class);
     }
 
@@ -69,7 +68,6 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UsernameNotFoundException(USERNAME_NOT_FOUND_EXCEPTION_MESSAGE));
 
         UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
-
         return userServiceModel;
     }
 
@@ -86,8 +84,8 @@ public class UserServiceImpl implements UserService {
         if (userServiceModel.getImageUrl() != null) {
             user.setImageUrl(userServiceModel.getImageUrl());
         }
-        this.userRepository.save(user);
 
+        this.userRepository.save(user);
         return this.modelMapper.map(user, UserServiceModel.class);
     }
 
@@ -125,7 +123,6 @@ public class UserServiceImpl implements UserService {
         }
 
         user = this.modelMapper.map(userServiceModel, User.class);
-
         this.userRepository.save(user);
     }
 
@@ -151,7 +148,6 @@ public class UserServiceImpl implements UserService {
         user.setBalance(currentBalance.add(moneyToAdd));
 
         this.userRepository.save(user);
-
         return this.modelMapper.map(user, UserServiceModel.class);
     }
 
@@ -163,7 +159,6 @@ public class UserServiceImpl implements UserService {
         user.setBalance(userBalance.subtract(orderTotalPrice));
 
         this.userRepository.save(user);
-
         return this.modelMapper.map(user, UserServiceModel.class);
     }
 

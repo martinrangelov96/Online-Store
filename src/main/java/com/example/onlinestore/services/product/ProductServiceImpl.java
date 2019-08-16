@@ -46,7 +46,6 @@ public class ProductServiceImpl implements ProductService {
         product.setImageUrl(imageUrl);
 
         this.productRepository.save(product);
-
         return this.modelMapper.map(product, ProductServiceModel.class);
     }
 
@@ -66,7 +65,6 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND_EXCEPTION_MESSAGE));
 
         this.productRepository.save(product);
-
         return this.modelMapper.map(product, ProductServiceModel.class);
     }
 
@@ -90,7 +88,6 @@ public class ProductServiceImpl implements ProductService {
         }
 
         this.productRepository.save(product);
-
         return this.modelMapper.map(product, ProductServiceModel.class);
     }
 
@@ -121,7 +118,6 @@ public class ProductServiceImpl implements ProductService {
         product.setQuantityAvailable(product.getQuantityAvailable() - quantity);
 
         this.productRepository.saveAndFlush(product);
-
         return this.modelMapper.map(product, ProductServiceModel.class);
     }
 
@@ -133,7 +129,6 @@ public class ProductServiceImpl implements ProductService {
         product.setQuantityAvailable(product.getQuantityAvailable() + quantity);
 
         this.productRepository.save(product);
-
         return this.modelMapper.map(product, ProductServiceModel.class);
     }
 

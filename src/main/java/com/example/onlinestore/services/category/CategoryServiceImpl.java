@@ -30,7 +30,6 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = this.modelMapper.map(categoryServiceModel, Category.class);
 
         this.categoryRepository.save(category);
-
         return this.modelMapper.map(category, CategoryServiceModel.class);
     }
 
@@ -50,7 +49,6 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new CategoryNotFoundException(CATEGORY_NOT_FOUND_EXCEPTION_MESSAGE));
 
         CategoryServiceModel categoryServiceModel = this.modelMapper.map(category, CategoryServiceModel.class);
-
         return categoryServiceModel;
     }
 
@@ -62,7 +60,6 @@ public class CategoryServiceImpl implements CategoryService {
         category.setName(categoryServiceModel.getName());
 
         this.categoryRepository.save(category);
-
         return this.modelMapper.map(category, CategoryServiceModel.class);
     }
 
@@ -72,7 +69,6 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new CategoryNotFoundException(CATEGORY_NOT_FOUND_EXCEPTION_MESSAGE));
 
         this.categoryRepository.delete(category);
-
         return this.modelMapper.map(category, CategoryServiceModel.class);
     }
 }
