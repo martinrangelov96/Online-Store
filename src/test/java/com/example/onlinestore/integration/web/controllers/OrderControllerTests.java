@@ -28,13 +28,13 @@ import static org.mockito.Mockito.when;
 public class OrderControllerTests {
 
     @Autowired
-    OrderController orderController;
+    private OrderController orderController;
 
     @MockBean
-    Principal principal;
+    private Principal principal;
 
     @MockBean
-    OrderRepository mockOrderRepository;
+    private OrderRepository mockOrderRepository;
 
     private ArrayList<Order> orders;
 

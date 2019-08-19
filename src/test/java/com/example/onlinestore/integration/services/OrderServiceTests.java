@@ -15,11 +15,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -39,6 +43,26 @@ public class OrderServiceTests {
         this.orders = new ArrayList<>();
         when(this.mockOrderRepository.findAllByOrderByOrderedOn())
                 .thenReturn(this.orders);
+    }
+
+    @Test
+    public void createOrder_whenValid_orderCreated() {
+        OrderServiceModel orderServiceModel = this.orderService.createOrder(new OrderServiceModel());
+        LocalDateTime time = LocalDateTime.now();
+        orderServiceModel.setOrderedOn(time);
+
+        verify(this.mockOrderRepository)
+                .save(any());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void createOrder_whenServiceIsNull_throwException() {
+        OrderServiceModel orderServiceModel = this.orderService.createOrder(null);
+        LocalDateTime time = LocalDateTime.now();
+        orderServiceModel.setOrderedOn(time);
+
+        verify(this.mockOrderRepository)
+                .save(any());
     }
 
     @Test
@@ -76,5 +100,22 @@ public class OrderServiceTests {
         List<OrderServiceModel> result = this.orderService.findAllOrdersOrderedByDate();
         assertTrue(result.isEmpty());
     }
+
+    @Test
+    public void findOrderById_whenValidId_returnOrder() {
+        Order orderToReturn = new Order();
+        String orderId = "123";
+
+        when(this.mockOrderRepository.findById(orderId))
+                .thenReturn(Optional.of(orderToReturn));
+    }
+
+    @Test()
+    public void findOrderById_whenIdIsNull_throwException() {
+        when(this.mockOrderRepository.findById(null))
+                .thenThrow(NullPointerException.class);
+    }
+
+    //TODO: findAllOrdersByCustomer test
 
 }
