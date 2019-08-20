@@ -78,6 +78,7 @@ public class RoleServiceTests {
         assertEquals(0, actualRoles.size());
     }
 
+
 //    @Test
 //    public void findByAuthority_whenValidAuthority_returnNotNullRole() {
 //        Role role = new Role();
