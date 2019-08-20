@@ -1,9 +1,8 @@
-package com.example.onlinestore.integration.web.controllers;
+package com.example.onlinestore.web.controllers;
 
 import com.example.onlinestore.domain.entities.Order;
 import com.example.onlinestore.domain.models.view.orders.OrderViewModel;
 import com.example.onlinestore.repository.OrderRepository;
-import com.example.onlinestore.web.controllers.OrderController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
