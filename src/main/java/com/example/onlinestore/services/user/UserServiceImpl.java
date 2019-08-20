@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserServiceModel editServiceProfile(UserServiceModel userServiceModel, String oldPassword) {
+    public UserServiceModel editProfile(UserServiceModel userServiceModel, String oldPassword) {
         User user = this.userRepository.findByUsername(userServiceModel.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException(USERNAME_NOT_FOUND_EXCEPTION_MESSAGE));
 

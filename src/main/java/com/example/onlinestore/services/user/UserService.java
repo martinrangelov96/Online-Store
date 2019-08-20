@@ -12,7 +12,7 @@ public interface UserService extends UserDetailsService {
 
     UserServiceModel findUserByUsername(String username);
 
-    UserServiceModel editServiceProfile(UserServiceModel userServiceModel, String oldPassword);
+    UserServiceModel editProfile(UserServiceModel userServiceModel, String oldPassword);
 
     List<UserServiceModel> findAllUsersOrderedByDate();
 

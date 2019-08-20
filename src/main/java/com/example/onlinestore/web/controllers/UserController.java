@@ -169,7 +169,7 @@ public class UserController extends BaseController {
         }
         String oldPassword = model.getOldPassword();
 
-        this.userService.editServiceProfile(userServiceModel, oldPassword);
+        this.userService.editProfile(userServiceModel, oldPassword);
         return redirect("/users/profile");
     }
 

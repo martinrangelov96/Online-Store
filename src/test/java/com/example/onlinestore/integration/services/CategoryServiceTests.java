@@ -2,7 +2,6 @@ package com.example.onlinestore.integration.services;
 
 import com.example.onlinestore.domain.entities.Category;
 import com.example.onlinestore.domain.models.service.CategoryServiceModel;
-import com.example.onlinestore.errors.CategoryNotFoundException;
 import com.example.onlinestore.repository.CategoryRepository;
 import com.example.onlinestore.services.category.CategoryService;
 import org.junit.Before;
@@ -19,7 +18,8 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -127,5 +127,24 @@ public class CategoryServiceTests {
     }
 
     //TODO: deleteCategory test
+
+    @Test
+    public void deleteCategory_whenSuccessfullyDeleted_verifyDelete() {
+        Category category = new Category();
+        category.setId(CATEGORY_ID);
+        category.setName(CATEGORY_NAME);
+
+        when(this.mockCategoryRepository.findById(any()))
+                .thenReturn(Optional.of(category));
+
+        this.categories.add(category);
+
+        List<CategoryServiceModel> actualCategories = this.categoryService.findAllCategories();
+        CategoryServiceModel actualCategory = actualCategories.get(0);
+        this.categoryService.deleteCategory(actualCategory.getId());
+
+        verify(this.mockCategoryRepository)
+                .delete(any());
+    }
 
 }
