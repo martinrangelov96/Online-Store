@@ -26,7 +26,7 @@
     <th:block sec:authorize="isAuthenticated()">
         <nav class="navbar navbar-expand-lg navbar-light bg-light rounded font-weight-bold">
 
-                <a class="navbar-brand" th:href="@{/users/home}">𝗢𝗻𝗹𝗶𝗻𝗲 𝗦𝘁𝗼𝗿𝗲</a>
+                <a class="navbar-brand" th:href="@{/users/home}">𝐇𝐨𝐦𝐞 𝐏𝐚𝐠𝐞</a>
                 <th:block th:if="${#session.getAttribute('profilePicture') == null}">
                     <a class="navbar-brand" th:href="@{/users/profile}">
                         <img src="https://res.cloudinary.com/martoraneca/image/upload/v1563972870/36-2-512_ws0xga.png" width="40" style="border-radius: 50%" />
@@ -38,7 +38,7 @@
                     </a>
                 </th:block>
                 <a class="navbar-brand" style="color: green" sec:authentication="name"></a>
-                <a class="navbar-brand" style="color: green" th:text="|${#session.getAttribute('customer-balance')} $|">
+                <a class="navbar-brand" style="color: green" th:text="|balance: (${#session.getAttribute('customer-balance')} $)|">
                 </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#userNavBar"
                     aria-controls="userNavBar" aria-expanded="false" aria-label="Toggle navigation">
