@@ -80,6 +80,7 @@ public class UserController extends BaseController {
                                         @RequestParam(name = G_RECAPTCHA_RESPONSE) String gRecaptchaResponse,
                                         ModelAndView modelAndView,
                                         HttpServletRequest request) {
+
         this.userService.existsByUsername(model.getUsername());
         this.userService.existsByEmail(model.getEmail());
         if (!model.getPassword().equals(model.getConfirmPassword())) {
