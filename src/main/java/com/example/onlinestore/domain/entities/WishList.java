@@ -5,7 +5,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "wishlists")
-public class WishList extends BaseEntity {
+    public class WishList extends BaseEntity {
 
     private List<Product> products;
     private User customer;

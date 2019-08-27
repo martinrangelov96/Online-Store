@@ -44,6 +44,11 @@
                 <button type="submit" class="btn btn-success">Add to shopping cart</button>
             </form>
         </div>
+        <div class="row">
+            <form class="form w-25 mx-auto mt-3" th:action="@{/wishlist/add-to-wishlist}" th:method="post">
+                <button type="submit" class="btn btn-info">Add to wishlist</button>
+            </form>
+        </div>
     </div>
 </main>
 <footer>

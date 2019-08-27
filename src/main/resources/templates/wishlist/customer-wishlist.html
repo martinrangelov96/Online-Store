@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{/fragments/head}"></th:block>
+</head>
+<body>
+<header>
+    <th:block th:include="~{/fragments/navbar}"></th:block>
+</header>
+<main class="mt-3">
+    <h1 class="text-center text-dark">Wishlist</h1>
+    <hr class="hr-2 bg-dark w-75">
+    <table class="table table-hover w-75 mx-auto">
+        <thead class="thead-light">
+        <tr class="row mx-auto">
+            <th class="col-md-1 text-center">#</th>
+            <th class="col-md-2 text-center">Image</th>
+            <th class="col-md-2 text-center">Name</th>
+            <th class="col-md-1 text-center">Price</th>
+            <th class="col-md-2 text-center">Description</th>
+            <th class="col-md-2 text-center">Quantity Available</th>
+            <th class="col-md-2 text-center">Actions</th>
+        </tr>
+        </thead>
+
+    </table>
+    <hr class="hr-2 bg-dark">
+</main>
+<footer>
+    <th:block th:include="~{/fragments/footer}"></th:block>
+</footer>
+</body>
+</html>
