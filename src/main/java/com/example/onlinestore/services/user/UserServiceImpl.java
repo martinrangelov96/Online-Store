@@ -1,10 +1,12 @@
 package com.example.onlinestore.services.user;
 
 import com.example.onlinestore.domain.entities.User;
+import com.example.onlinestore.domain.entities.WishList;
 import com.example.onlinestore.domain.models.service.UserServiceModel;
 import com.example.onlinestore.errors.DuplicateEmailException;
 import com.example.onlinestore.errors.DuplicateUsernameException;
 import com.example.onlinestore.repository.UserRepository;
+import com.example.onlinestore.repository.WishListRepository;
 import com.example.onlinestore.services.role.RoleService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +30,15 @@ public class UserServiceImpl implements UserService {
     private final RoleService roleService;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final WishListRepository wishListRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleService roleService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder, WishListRepository wishListRepository) {
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.wishListRepository = wishListRepository;
     }
 
 
@@ -52,7 +56,11 @@ public class UserServiceImpl implements UserService {
         user.setRegisteredOn(LocalDateTime.now());
         user.setPassword(this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
 
+        WishList wishList = new WishList();
+        wishList.setCustomer(user);
+
         this.userRepository.save(user);
+        this.wishListRepository.save(wishList);
         return this.modelMapper.map(user, UserServiceModel.class);
     }
 

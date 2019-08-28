@@ -20,6 +20,7 @@ public final class Constants {
     public static final String CATEGORY_NOT_FOUND_EXCEPTION_MESSAGE = "Category with this id does not exist!";
     public static final String PRODUCT_NOT_FOUND_EXCEPTION_MESSAGE = "Product with this id does not exist!";
     public static final String ORDER_NOT_FOUND_EXCEPTION_MESSAGE = "Order with this id does not exist!";
+    public static final String WISHLIST_NOT_FOUND_EXCEPTION_MESSAGE = "Wishlist with this id does not exist!";
     public static final String DUPLICATE_USER_EXCEPTION_MESSAGE = "User with this username already exists!";
     public static final String DUPLICATE_EMAIL_EXCEPTION_MESSAGE = "User with this email already exists!";
 
