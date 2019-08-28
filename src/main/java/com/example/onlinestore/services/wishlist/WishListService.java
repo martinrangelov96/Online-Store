@@ -9,4 +9,8 @@ public interface WishListService {
     WishListServiceModel addProductToWishlist(ProductServiceModel productServiceModel,
                                               UserServiceModel userServiceModel);
 
+    WishListServiceModel findAllProductsInWishlistByCustomer(UserServiceModel userServiceModel);
+
+    WishListServiceModel removeProductById(String productId, UserServiceModel userServiceModel);
+
 }

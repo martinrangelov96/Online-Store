@@ -35,7 +35,7 @@
                 <td class="col-md-2 text-center">
                     <form th:action="@{/cart/remove-product}" th:method="delete">
                         <div class="button-holder d-flex justify-content-center">
-                            <button type="submit" class="btn btn-danger">Remove</button>
+                            <button type="submit" class="btn btn-danger">Remove from cart</button>
                             <input type="hidden" name="id" th:value="*{product.id}">
                         </div>
                     </form>
