@@ -51,7 +51,7 @@ public class WishListController extends BaseController {
                 .collect(Collectors.toSet());
 
         if (productDetailsViewModels.isEmpty()) {
-            modelAndView.addObject(EMPTY_LIST_NAME, String.format(EMPTY_LIST_MESSAGE, WISHLIST_CONST));
+            modelAndView.addObject(EMPTY_LIST_NAME, String.format(EMPTY_LIST_SINGULAR_MESSAGE, WISHLIST_CONST));
         }
 
         modelAndView.addObject(PRODUCTS_ATTRIBUTE, productDetailsViewModels);

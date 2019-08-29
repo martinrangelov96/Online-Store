@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import static com.example.onlinestore.constants.Constants.WISHLIST_NOT_FOUND_EXCEPTION_MESSAGE;
 
-
 @Service
 public class WishListServiceImpl implements WishListService {
 

@@ -26,8 +26,8 @@ public final class Constants {
     public static final String DUPLICATE_USER_EXCEPTION_MESSAGE = "User with this username already exists!";
     public static final String DUPLICATE_EMAIL_EXCEPTION_MESSAGE = "User with this email already exists!";
     public final static String EMPTY_LIST_NAME = "emptyList";
-    public final static String EMPTY_LIST_MESSAGE = "Your %s is empty!";
-    public final static String EMPTY_CUSTOMER_ORDERS_MESSAGE = "Your %s are empty!";
+    public final static String EMPTY_LIST_SINGULAR_MESSAGE = "Your %s is empty!";
+    public final static String EMPTY_LIST_PLURAL_MESSAGE = "Your %s are empty!";
     public final static String EMPTY_MODERATOR_ORDERS_MESSAGE = "There are currently no orders!";
 
     public static final String NAME_LENGTH_VALIDATION = "Name length validation";

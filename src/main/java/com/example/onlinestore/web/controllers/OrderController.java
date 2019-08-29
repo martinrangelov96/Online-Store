@@ -71,7 +71,7 @@ public class OrderController extends BaseController {
                 .collect(Collectors.toList());
 
         if (orderViewModels.isEmpty()) {
-            modelAndView.addObject(EMPTY_LIST_NAME, String.format(EMPTY_CUSTOMER_ORDERS_MESSAGE, ORDERS_CONST));
+            modelAndView.addObject(EMPTY_LIST_NAME, String.format(EMPTY_LIST_PLURAL_MESSAGE, ORDERS_CONST));
         }
 
         modelAndView.addObject(ORDERS_ATTRIBUTE, orderViewModels);

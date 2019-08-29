@@ -75,7 +75,7 @@ public class CartController extends BaseController {
         BigDecimal orderTotalPrice = this.calculateTotalPrice(cart);
 
         if (cart.size() == 0) {
-            modelAndView.addObject(EMPTY_LIST_NAME, String.format(EMPTY_LIST_MESSAGE, SHOPPING_CART_CONST));
+            modelAndView.addObject(EMPTY_LIST_NAME, String.format(EMPTY_LIST_SINGULAR_MESSAGE, SHOPPING_CART_CONST));
         }
         if (!(userServiceModel.getBalance().compareTo(orderTotalPrice) >= 0)) {
             modelAndView.addObject(NOT_ENOUGH_MONEY_ATTRIBUTE_NAME, NOT_ENOUGH_MONEY_MESSAGE);
