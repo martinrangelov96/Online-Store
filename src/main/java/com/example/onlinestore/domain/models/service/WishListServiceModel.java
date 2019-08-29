@@ -1,20 +1,21 @@
 package com.example.onlinestore.domain.models.service;
 
 import java.util.List;
+import java.util.Set;
 
 public class WishListServiceModel {
 
-    private List<ProductServiceModel> products;
+    private Set<ProductServiceModel> products;
     private UserServiceModel customer;
 
     public WishListServiceModel() {
     }
 
-    public List<ProductServiceModel> getProducts() {
+    public Set<ProductServiceModel> getProducts() {
         return products;
     }
 
-    public void setProducts(List<ProductServiceModel> products) {
+    public void setProducts(Set<ProductServiceModel> products) {
         this.products = products;
     }
 

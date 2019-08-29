@@ -4,12 +4,15 @@ import com.example.onlinestore.domain.models.binding.ProductAddBindingModel;
 import com.example.onlinestore.domain.models.binding.ProductEditBindingModel;
 import com.example.onlinestore.domain.models.service.CategoryServiceModel;
 import com.example.onlinestore.domain.models.service.ProductServiceModel;
+import com.example.onlinestore.domain.models.service.UserServiceModel;
 import com.example.onlinestore.domain.models.view.products.ProductDeleteViewModel;
 import com.example.onlinestore.domain.models.view.products.ProductDetailsViewModel;
 import com.example.onlinestore.domain.models.view.products.ProductEditViewModel;
 import com.example.onlinestore.domain.models.view.products.ProductViewModel;
 import com.example.onlinestore.services.category.CategoryService;
 import com.example.onlinestore.services.product.ProductService;
+import com.example.onlinestore.services.user.UserService;
+import com.example.onlinestore.services.wishlist.WishListService;
 import com.example.onlinestore.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,14 +32,21 @@ import static com.example.onlinestore.constants.Constants.*;
 @RequestMapping("/products")
 public class ProductController extends BaseController {
 
+    private final static String ADDED_ATTRIBUTE = "added";
+    private final static String ADDED_MESSAGE = "%s is in your wishlist!";
+
     private final ProductService productService;
     private final CategoryService categoryService;
+    private final UserService userService;
+    private final WishListService wishListService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductController(ProductService productService, CategoryService categoryService, ModelMapper modelMapper) {
+    public ProductController(ProductService productService, CategoryService categoryService, UserService userService, WishListService wishListService, ModelMapper modelMapper) {
         this.productService = productService;
         this.categoryService = categoryService;
+        this.userService = userService;
+        this.wishListService = wishListService;
         this.modelMapper = modelMapper;
     }
 
@@ -78,9 +89,16 @@ public class ProductController extends BaseController {
     @GetMapping("/details-product/{id}")
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Product Details")
-    public ModelAndView detailsProduct(@PathVariable String id, ModelAndView modelAndView) {
+    public ModelAndView detailsProduct(@PathVariable String id, Principal principal, ModelAndView modelAndView) {
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
         ProductDetailsViewModel productDetailsViewModel = this.modelMapper.map(productServiceModel, ProductDetailsViewModel.class);
+        UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
+
+        if (this.wishListService.checkIfProductExists(productServiceModel, userServiceModel)) {
+            modelAndView.addObject(PRODUCT_ATTRIBUTE, productDetailsViewModel);
+            modelAndView.addObject(ADDED_ATTRIBUTE, String.format(ADDED_MESSAGE, productDetailsViewModel.getName()));
+            return view("/products/details-product", modelAndView);
+        }
 
         modelAndView.addObject(PRODUCT_ATTRIBUTE, productDetailsViewModel);
         return view("/products/details-product", modelAndView);
@@ -146,6 +164,20 @@ public class ProductController extends BaseController {
     public ModelAndView deleteProductConfirm(@PathVariable String id) {
         this.productService.deleteProduct(id);
         return redirect("/products/all-products/");
+    }
+
+    @PostMapping("/add-to-wishlist")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView addProductToWishlist(@RequestParam String productId, Principal principal, ModelAndView modelAndView) {
+        ProductServiceModel productServiceModel = this.productService.findProductById(productId);
+        UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
+
+        if (this.wishListService.checkIfProductExists(productServiceModel, userServiceModel)) {
+            return this.detailsProduct(productId, principal, modelAndView);
+        }
+
+        this.wishListService.addProductToWishlist(productServiceModel, userServiceModel);
+        return redirect("/products/details-product/" + productId);
     }
 
     @GetMapping("/fetch/{category}")

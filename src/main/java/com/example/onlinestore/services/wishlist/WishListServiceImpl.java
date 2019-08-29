@@ -1,5 +1,6 @@
 package com.example.onlinestore.services.wishlist;
 
+import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.entities.Product;
 import com.example.onlinestore.domain.entities.WishList;
 import com.example.onlinestore.domain.models.service.ProductServiceModel;
@@ -11,6 +12,8 @@ import com.example.onlinestore.services.product.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 import static com.example.onlinestore.constants.Constants.WISHLIST_NOT_FOUND_EXCEPTION_MESSAGE;
 
@@ -58,6 +61,17 @@ public class WishListServiceImpl implements WishListService {
 
         this.wishListRepository.save(wishList);
         return this.modelMapper.map(wishList, WishListServiceModel.class);
+    }
+
+    @Override
+    public boolean checkIfProductExists(ProductServiceModel productServiceModel, UserServiceModel userServiceModel) {
+        WishList customerWishlist = this.wishListRepository.findByCustomer_Id(userServiceModel.getId())
+                .orElseThrow(() -> new WishListNotFoundException(WISHLIST_NOT_FOUND_EXCEPTION_MESSAGE));
+        if (customerWishlist.getProducts().stream().anyMatch(product -> product.getId().equals(productServiceModel.getId()))){
+            return true;
+        }
+
+        return false;
     }
 }
 

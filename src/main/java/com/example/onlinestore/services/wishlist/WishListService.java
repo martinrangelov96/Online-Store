@@ -13,4 +13,6 @@ public interface WishListService {
 
     WishListServiceModel removeProductById(String productId, UserServiceModel userServiceModel);
 
+    boolean checkIfProductExists(ProductServiceModel productServiceModel, UserServiceModel userServiceModel);
+
 }

@@ -1,13 +1,13 @@
 package com.example.onlinestore.domain.entities;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "wishlists")
     public class WishList extends BaseEntity {
 
-    private List<Product> products;
+    private Set<Product> products;
     private User customer;
 
     public WishList() {
@@ -19,11 +19,11 @@ import java.util.List;
             joinColumns = @JoinColumn(name = "wishlist_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id")
     )
-    public List<Product> getProducts() {
+    public Set<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(Set<Product> products) {
         this.products = products;
     }
 

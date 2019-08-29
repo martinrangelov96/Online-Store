@@ -45,10 +45,13 @@
             </form>
         </div>
         <div class="row">
-            <form class="form w-25 mx-auto mt-3" th:action="@{/wishlist/add-to-wishlist}" th:method="post">
+            <form class="form w-25 mx-auto mt-3" th:action="@{/products/add-to-wishlist}" th:method="post">
                 <input type="hidden" name="productId" th:value="${product.id}">
                 <button type="submit" class="btn btn-info">Add to wishlist</button>
             </form>
+        </div>
+        <div class="mt-3">
+            <h2 style="color: blue;" th:text="${added}"></h2>
         </div>
     </div>
 </main>
