@@ -21,7 +21,7 @@ import java.security.Principal;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.example.onlinestore.constants.Constants.PRODUCTS_ATTRIBUTE;
+import static com.example.onlinestore.constants.Constants.*;
 
 @Controller
 @RequestMapping("/wishlist")
@@ -49,6 +49,10 @@ public class WishListController extends BaseController {
                 .stream()
                 .map(productServiceModel -> this.modelMapper.map(productServiceModel, ProductDetailsViewModel.class))
                 .collect(Collectors.toSet());
+
+        if (productDetailsViewModels.isEmpty()) {
+            modelAndView.addObject(EMPTY_LIST_NAME, String.format(EMPTY_LIST_MESSAGE, WISHLIST_CONST));
+        }
 
         modelAndView.addObject(PRODUCTS_ATTRIBUTE, productDetailsViewModels);
         return view("/wishlist/customer-wishlist", modelAndView);

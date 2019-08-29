@@ -14,7 +14,9 @@ public final class Constants {
     public static final String ADMIN_STRING = "admin";
     public static final String SUCCESS_STRING = "success";
 
-    public final static String SHOPPING_CART = "shopping-cart";
+    public final static String WISHLIST_CONST = "wishlist";
+    public final static String SHOPPING_CART_CONST = "shopping-cart";
+    public final static String ORDERS_CONST = "orders";
 
     public static final String USERNAME_NOT_FOUND_EXCEPTION_MESSAGE = "Username not found!";
     public static final String CATEGORY_NOT_FOUND_EXCEPTION_MESSAGE = "Category with this id does not exist!";
@@ -23,6 +25,10 @@ public final class Constants {
     public static final String WISHLIST_NOT_FOUND_EXCEPTION_MESSAGE = "Wishlist with this id does not exist!";
     public static final String DUPLICATE_USER_EXCEPTION_MESSAGE = "User with this username already exists!";
     public static final String DUPLICATE_EMAIL_EXCEPTION_MESSAGE = "User with this email already exists!";
+    public final static String EMPTY_LIST_NAME = "emptyList";
+    public final static String EMPTY_LIST_MESSAGE = "Your %s is empty!";
+    public final static String EMPTY_CUSTOMER_ORDERS_MESSAGE = "Your %s are empty!";
+    public final static String EMPTY_MODERATOR_ORDERS_MESSAGE = "There are currently no orders!";
 
     public static final String NAME_LENGTH_VALIDATION = "Name length validation";
     public static final String CATEGORY_ALREADY_EXISTS_VALIDATION_MESSAGE = "Category with name '%s' already exists!";

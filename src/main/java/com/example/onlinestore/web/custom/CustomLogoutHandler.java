@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-import static com.example.onlinestore.constants.Constants.SHOPPING_CART;
+import static com.example.onlinestore.constants.Constants.SHOPPING_CART_CONST;
 
 @Component
 public class CustomLogoutHandler implements LogoutHandler {
@@ -26,7 +26,7 @@ public class CustomLogoutHandler implements LogoutHandler {
     @Override
     @SuppressWarnings("unchecked")
     public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
-        List<ShoppingCartItem> cart = (List<ShoppingCartItem>) httpServletRequest.getSession().getAttribute(SHOPPING_CART);
+        List<ShoppingCartItem> cart = (List<ShoppingCartItem>) httpServletRequest.getSession().getAttribute(SHOPPING_CART_CONST);
         if (cart != null) {
             cart.forEach(cartItem -> this.productService.updateQuantityAfterRemovingFromCart(
                     cartItem.getProduct().getId(), cartItem.getQuantity()));

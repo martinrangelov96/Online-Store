@@ -18,8 +18,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.onlinestore.constants.Constants.ORDERS_ATTRIBUTE;
-import static com.example.onlinestore.constants.Constants.ORDER_ATTRIBUTE;
+import static com.example.onlinestore.constants.Constants.*;
 
 @Controller
 @RequestMapping("/orders")
@@ -52,6 +51,10 @@ public class OrderController extends BaseController {
                 })
                 .collect(Collectors.toList());
 
+        if (orderViewModels.isEmpty()) {
+            modelAndView.addObject(EMPTY_LIST_NAME, EMPTY_MODERATOR_ORDERS_MESSAGE);
+        }
+
         modelAndView.addObject(ORDERS_ATTRIBUTE, orderViewModels);
         return view("/orders/list-orders", modelAndView);
     }
@@ -66,6 +69,10 @@ public class OrderController extends BaseController {
                 .stream()
                 .map(orderServiceModel -> this.modelMapper.map(orderServiceModel, OrderViewModel.class))
                 .collect(Collectors.toList());
+
+        if (orderViewModels.isEmpty()) {
+            modelAndView.addObject(EMPTY_LIST_NAME, String.format(EMPTY_CUSTOMER_ORDERS_MESSAGE, ORDERS_CONST));
+        }
 
         modelAndView.addObject(ORDERS_ATTRIBUTE, orderViewModels);
         return view("/orders/list-orders", modelAndView);

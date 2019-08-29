@@ -25,14 +25,12 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.onlinestore.constants.Constants.SHOPPING_CART;
+import static com.example.onlinestore.constants.Constants.*;
 
 @Controller
 @RequestMapping("/cart")
 public class CartController extends BaseController {
 
-    private final static String EMPTY_SHOPPING_CART_ATTRIBUTE_NAME = "emptyCartMessage";
-    private final static String EMPTY_SHOPPING_CART_MESSAGE = "Your shopping cart is empty!";
     private final static String NOT_ENOUGH_MONEY_ATTRIBUTE_NAME = "notEnoughMoneyMessage";
     private final static String NOT_ENOUGH_MONEY_MESSAGE = "You don't have enough money for this order!";
     private final static String TOTAL_PRICE_ATTRIBUTE = "totalPrice";
@@ -77,7 +75,7 @@ public class CartController extends BaseController {
         BigDecimal orderTotalPrice = this.calculateTotalPrice(cart);
 
         if (cart.size() == 0) {
-            modelAndView.addObject(EMPTY_SHOPPING_CART_ATTRIBUTE_NAME, EMPTY_SHOPPING_CART_MESSAGE);
+            modelAndView.addObject(EMPTY_LIST_NAME, String.format(EMPTY_LIST_MESSAGE, SHOPPING_CART_CONST));
         }
         if (!(userServiceModel.getBalance().compareTo(orderTotalPrice) >= 0)) {
             modelAndView.addObject(NOT_ENOUGH_MONEY_ATTRIBUTE_NAME, NOT_ENOUGH_MONEY_MESSAGE);
@@ -102,7 +100,7 @@ public class CartController extends BaseController {
         UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
         BigDecimal orderTotalPrice = this.calculateTotalPrice(cart);
 
-        if (cart.size() == 0) {
+        if (cart.isEmpty()) {
             return redirect("/cart/details-cart");
         }
 
@@ -122,12 +120,12 @@ public class CartController extends BaseController {
     @SuppressWarnings("unchecked")
     private List<ShoppingCartItem> retrieveCart(HttpSession session) {
         this.initCart(session);
-        return (List<ShoppingCartItem>) session.getAttribute(SHOPPING_CART);
+        return (List<ShoppingCartItem>) session.getAttribute(SHOPPING_CART_CONST);
     }
 
     private void initCart(HttpSession session) {
-        if (session.getAttribute(SHOPPING_CART) == null) {
-            session.setAttribute(SHOPPING_CART, new ArrayList<>());
+        if (session.getAttribute(SHOPPING_CART_CONST) == null) {
+            session.setAttribute(SHOPPING_CART_CONST, new ArrayList<>());
         }
     }
 
