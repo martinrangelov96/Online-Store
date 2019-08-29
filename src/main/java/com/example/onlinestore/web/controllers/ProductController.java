@@ -33,7 +33,7 @@ import static com.example.onlinestore.constants.Constants.*;
 public class ProductController extends BaseController {
 
     private final static String ADDED_ATTRIBUTE = "added";
-    private final static String ADDED_MESSAGE = "%s is in your wishlist!";
+    private final static String ADDED_MESSAGE = "%s is/are in your wishlist!";
 
     private final ProductService productService;
     private final CategoryService categoryService;
@@ -104,6 +104,21 @@ public class ProductController extends BaseController {
         return view("/products/details-product", modelAndView);
     }
 
+    @PostMapping("/add-to-wishlist")
+    @PreAuthorize("isAuthenticated()")
+    @PageTitle("Product Details")
+    public ModelAndView addProductToWishlist(@RequestParam String productId, Principal principal, ModelAndView modelAndView) {
+        ProductServiceModel productServiceModel = this.productService.findProductById(productId);
+        UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
+
+        if (this.wishListService.checkIfProductExists(productServiceModel, userServiceModel)) {
+            return this.detailsProduct(productId, principal, modelAndView);
+        }
+
+        this.wishListService.addProductToWishlist(productServiceModel, userServiceModel);
+        return redirect("/products/details-product/" + productId);
+    }
+
     @GetMapping("/edit-product/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     @PageTitle("Edit Product")
@@ -164,20 +179,6 @@ public class ProductController extends BaseController {
     public ModelAndView deleteProductConfirm(@PathVariable String id) {
         this.productService.deleteProduct(id);
         return redirect("/products/all-products/");
-    }
-
-    @PostMapping("/add-to-wishlist")
-    @PreAuthorize("isAuthenticated()")
-    public ModelAndView addProductToWishlist(@RequestParam String productId, Principal principal, ModelAndView modelAndView) {
-        ProductServiceModel productServiceModel = this.productService.findProductById(productId);
-        UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
-
-        if (this.wishListService.checkIfProductExists(productServiceModel, userServiceModel)) {
-            return this.detailsProduct(productId, principal, modelAndView);
-        }
-
-        this.wishListService.addProductToWishlist(productServiceModel, userServiceModel);
-        return redirect("/products/details-product/" + productId);
     }
 
     @GetMapping("/fetch/{category}")

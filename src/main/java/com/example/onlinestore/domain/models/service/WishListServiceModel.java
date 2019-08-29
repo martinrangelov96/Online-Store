@@ -1,6 +1,5 @@
 package com.example.onlinestore.domain.models.service;
 
-import java.util.List;
 import java.util.Set;
 
 public class WishListServiceModel {
