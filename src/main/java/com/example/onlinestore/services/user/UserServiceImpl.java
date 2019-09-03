@@ -84,6 +84,8 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepository.findByUsername(userServiceModel.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException(USERNAME_NOT_FOUND_EXCEPTION_MESSAGE));
 
+        this.existsByEmail(userServiceModel.getEmail());
+
         user.setPassword(userServiceModel.getPassword() != null ?
                 this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()) :
                 user.getPassword()

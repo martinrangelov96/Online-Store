@@ -24,8 +24,9 @@ import static com.example.onlinestore.constants.Constants.PRODUCT_NOT_FOUND_EXCE
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    //30 minutes
-    private final static int TIME_TO_LOAD_ORDERS = 1000 * 60 * 30;
+    private final static int NUMBER_OF_MINUTES = 30;
+    //loading order every 30 minutes (in running app)
+    private final static int TIME_TO_LOAD_ORDERS = 1000 * 60 * NUMBER_OF_MINUTES;
 
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
