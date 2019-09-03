@@ -32,7 +32,7 @@
             </form>
         </div>
         <div class="data col-md-9">
-            <h1 class="text-center font-weight-bold">Products</h1>
+            <h1 class="text-center font-weight-bold mr-5" style="color: royalblue">Products</h1>
             <div class="products-data"></div>
         </div>
     </div>
@@ -80,7 +80,7 @@
 
     function visualizeProducts(json) {
         for (let i = 0; i < json.length; i += 3) {
-            $('.products-data').append('<div class="products-row row d-flex justify-content-around mt-5">');
+            $('.products-data').append('<div class="products-row row d-flex justify-content-around mt-5 mr-5">');
             if(i < json.length) $('.products-data .products-row:last-child').append(formatProduct(json[i]));
             if(i + 1 < json.length) $('.products-data .products-row:last-child').append(formatProduct(json[i + 1]));
             if(i + 2 < json.length) $('.products-data .products-row:last-child').append(formatProduct(json[i + 2]));

@@ -38,7 +38,7 @@
                     </a>
                 </th:block>
                 <a class="navbar-brand" style="color: green" sec:authentication="name"></a>
-                <a class="navbar-brand" style="color: green" th:text="|balance: (${#session.getAttribute('customer-balance')} $)|">
+                <a class="navbar-brand" style="color: green" th:text="|(${#session.getAttribute('customer-balance')} $)|">
                 </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#userNavBar"
                     aria-controls="userNavBar" aria-expanded="false" aria-label="Toggle navigation">
