@@ -9,9 +9,9 @@
 <header>
     <th:block th:include="~{fragments/navbar}"></th:block>
 </header>
-<main class="mt-3 ml-1">
-    <div class="row d-flex justify-content-between">
-        <div class="products-navigation col-md-2 ml-1 mt-3" style="color: royalblue">
+<main class="mt-3">
+    <div class="d-flex justify-content-between">
+        <div class="products-navigation col-md-2 mt-3" style="color: royalblue">
             <h2 class="font-italic">Categories:</h2>
             <form class="mt-5">
                 <div class="custom-control custom-radio mt-3 ml-1">
@@ -86,6 +86,5 @@
             if(i + 2 < json.length) $('.products-data .products-row:last-child').append(formatProduct(json[i + 2]));
         }
     }
-
 </script>
 </html>
