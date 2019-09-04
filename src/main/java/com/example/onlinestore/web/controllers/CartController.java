@@ -26,14 +26,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.onlinestore.constants.Constants.*;
+import static com.example.onlinestore.constants.CartConstants.*;
 
 @Controller
-@RequestMapping("/cart")
+@RequestMapping(REQUEST_MAPPING_CONST)
 public class CartController extends BaseController {
-
-    private final static String NOT_ENOUGH_MONEY_ATTRIBUTE_NAME = "notEnoughMoneyMessage";
-    private final static String NOT_ENOUGH_MONEY_MESSAGE = "You don't have enough money for this order!";
-    private final static String TOTAL_PRICE_ATTRIBUTE = "totalPrice";
 
     private final ProductService productService;
     private final UserService userService;
@@ -48,7 +45,7 @@ public class CartController extends BaseController {
         this.modelMapper = modelMapper;
     }
 
-    @PostMapping("/add-product")
+    @PostMapping(ADD_PRODUCT_POST)
     @PreAuthorize("isAuthenticated()")
     public ModelAndView addToCartConfirm(String id, int quantity, HttpSession session) {
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
@@ -63,12 +60,12 @@ public class CartController extends BaseController {
         var cart = this.retrieveCart(session);
         this.addItemToCart(cartItem, cart);
 
-        return redirect("/users/home");
+        return redirect(USERS_HOME_ULR);
     }
 
-    @GetMapping("/details-cart")
+    @GetMapping(DETAILS_CART_GET)
     @PreAuthorize("isAuthenticated()")
-    @PageTitle("Cart Details")
+    @PageTitle(CART_DETAILS_PAGE_TITLE)
     public ModelAndView cartDetails(ModelAndView modelAndView, HttpSession session, Principal principal) {
         var cart = this.retrieveCart(session);
         UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
@@ -82,30 +79,30 @@ public class CartController extends BaseController {
         }
 
         modelAndView.addObject(TOTAL_PRICE_ATTRIBUTE, this.calculateTotalPrice(cart));
-        return view("/cart/details-cart", modelAndView);
+        return view(CART_DETAILS_CART_VIEW_NAME, modelAndView);
     }
 
-    @DeleteMapping("/remove-product")
+    @DeleteMapping(REMOVE_PRODUCT_DELETE)
     @PreAuthorize("isAuthenticated()")
     public ModelAndView removeFromCartConfirm(String id, HttpSession session) {
         var cart = this.retrieveCart(session);
 
         this.removeItemFromCart(id, cart);
-        return redirect("/cart/details-cart");
+        return redirect(CART_DETAILS_CART_URL);
     }
 
-    @PostMapping("/checkout-cart")
+    @PostMapping(CHECKOUT_CART_POST)
     public ModelAndView checkoutConfirm(HttpSession session, Principal principal) {
         var cart = this.retrieveCart(session);
         UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
         BigDecimal orderTotalPrice = this.calculateTotalPrice(cart);
 
         if (cart.isEmpty()) {
-            return redirect("/cart/details-cart");
+            return redirect(CART_DETAILS_CART_URL);
         }
 
         if (!(userServiceModel.getBalance().compareTo(orderTotalPrice) >= 0)) {
-            return redirect("/cart/details-cart");
+            return redirect(CART_DETAILS_CART_URL);
         }
 
         OrderServiceModel orderServiceModel = this.prepareOrder(cart, principal.getName());
@@ -114,7 +111,7 @@ public class CartController extends BaseController {
         this.userService.updateMoneyAfterCheckout(userServiceModel, orderTotalPrice);
         cart.clear();
 
-        return redirect("/users/home");
+        return redirect(USERS_HOME_ULR);
     }
 
     @SuppressWarnings("unchecked")

@@ -32,9 +32,6 @@ import static com.example.onlinestore.constants.Constants.*;
 @RequestMapping("/products")
 public class ProductController extends BaseController {
 
-    private final static String ADDED_ATTRIBUTE = "added";
-    private final static String ADDED_MESSAGE = "%s is/are in your wishlist!";
-
     private final ProductService productService;
     private final CategoryService categoryService;
     private final UserService userService;
@@ -184,7 +181,7 @@ public class ProductController extends BaseController {
     @GetMapping("/fetch/{category}")
     @ResponseBody
     public List<ProductViewModel> fetchByCategory(@PathVariable String category) {
-        if(category.equals("all")) {
+        if(category.equals(ALL_CONST)) {
             return this.productService.findAllProducts()
                     .stream()
                     .map(product -> this.modelMapper.map(product, ProductViewModel.class))

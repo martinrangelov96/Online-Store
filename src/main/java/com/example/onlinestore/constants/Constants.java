@@ -17,6 +17,8 @@ public final class Constants {
     public final static String WISHLIST_CONST = "wishlist";
     public final static String SHOPPING_CART_CONST = "shopping-cart";
     public final static String ORDERS_CONST = "orders";
+    public final static String ID_CONST = "id";
+    public final static String NAME_CONST = "name";
 
     public static final String USERNAME_NOT_FOUND_EXCEPTION_MESSAGE = "Username not found!";
     public static final String CATEGORY_NOT_FOUND_EXCEPTION_MESSAGE = "Category with this id does not exist!";
@@ -46,5 +48,26 @@ public final class Constants {
     public final static String ORDERS_ATTRIBUTE = "orders";
     public final static String PRODUCT_ATTRIBUTE = "product";
     public final static String PRODUCTS_ATTRIBUTE = "products";
+
+    //UserController Constants
+    public final static String CUSTOMER_BALANCE = "customer-balance";
+    public final static String PASSWORDS_DONT_MATCH_ATTRIBUTE = "passDontMatch";
+    public final static String PASSWORDS_DONT_MATCH_MESSAGE = "Passwords don't match!";
+    public final static String G_RECAPTCHA_RESPONSE = "g-recaptcha-response";
+    public final static String RECAPTCHA_ERROR_ATTRIBUTE = "recaptchaError";
+    public final static String RECAPTCHA_ERROR_MESSAGE = "You did not complete reCaptcha. Please try again!";
+    public final static String SUCCESSFUL_REGISTER_ATTRIBUTE = "successfulRegistration";
+    public final static String SUCCESSFUL_REGISTER_MESSAGE = "You have registered successfully, %s!";
+    public final static String YOU_CAN_LOGIN_ATTRIBUTE = "youCanLogin";
+    public final static String YOU_CAN_LOGIN_MESSAGE = "You can login now.";
+    public final static String PROFILE_PICTURE_ATTRIBUTE = "profilePicture";
+
+    //ProductController Constants
+    public final static String ADDED_ATTRIBUTE = "added";
+    public final static String ADDED_MESSAGE = "%s is/are in your wishlist!";
+    public final static String ALL_CONST = "all";
+
+    //URL Constants
+
 
 }

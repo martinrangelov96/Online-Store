@@ -38,18 +38,6 @@ import static com.example.onlinestore.constants.Constants.*;
 @RequestMapping("/users")
 public class UserController extends BaseController {
 
-    private final static String CUSTOMER_BALANCE = "customer-balance";
-    private final static String PASSWORDS_DONT_MATCH_ATTRIBUTE = "passDontMatch";
-    private final static String PASSWORDS_DONT_MATCH_MESSAGE = "Passwords don't match!";
-    private final static String G_RECAPTCHA_RESPONSE = "g-recaptcha-response";
-    private final static String RECAPTCHA_ERROR_ATTRIBUTE = "recaptchaError";
-    private final static String RECAPTCHA_ERROR_MESSAGE = "You did not complete reCaptcha. Please try again!";
-    private final static String SUCCESSFUL_REGISTER_ATTRIBUTE = "successfulRegistration";
-    private final static String SUCCESSFUL_REGISTER_MESSAGE = "You have registered successfully, %s!";
-    private final static String YOU_CAN_LOGIN_ATTRIBUTE = "youCanLogin";
-    private final static String YOU_CAN_LOGIN_MESSAGE = "You can login now.";
-    private final static String PROFILE_PICTURE_ATTRIBUTE = "profilePicture";
-
     private final UserService userService;
     private final CategoryService categoryService;
     private final CloudinaryService cloudinaryService;

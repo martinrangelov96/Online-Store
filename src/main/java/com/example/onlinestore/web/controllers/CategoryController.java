@@ -80,8 +80,8 @@ public class CategoryController extends BaseController {
         CategoryServiceModel categoryServiceModel = this.categoryService.findCategoryById(id);
         CategoryViewModel categoryViewModel = this.modelMapper.map(categoryServiceModel, CategoryViewModel.class);
 
-        modelAndView.addObject("id", categoryViewModel.getId());
-        modelAndView.addObject("name", categoryViewModel.getName());
+        modelAndView.addObject(ID_CONST, categoryViewModel.getId());
+        modelAndView.addObject(NAME_CONST, categoryViewModel.getName());
         modelAndView.addObject(MODEL_ATTRIBUTE, model);
         return view("/categories/edit-category", modelAndView);
     }
@@ -92,8 +92,8 @@ public class CategoryController extends BaseController {
         this.categoryEditValidator.validate(model, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject("id", id);
-            modelAndView.addObject("name", model.getName());
+            modelAndView.addObject(ID_CONST, id);
+            modelAndView.addObject(NAME_CONST, model.getName());
             modelAndView.addObject(MODEL_ATTRIBUTE, model);
 
             return view("/categories/edit-category", modelAndView);
