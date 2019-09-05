@@ -2,8 +2,9 @@ package com.example.onlinestore.constants;
 
 public final class CategoryConstants {
 
-    //Categories URL Constants
-    public final static String REQUEST_MAPPING_CATEGORIES = "/categories";
+    //Categories URL Constants etc
+    public final static String CATEGORIES_REQUEST_MAPPING = "/categories";
+
     public final static String ADD_CATEGORY_GET = "/add-category";
     public final static String ADD_CATEGORY_POST = "/add-category";
     public final static String ALL_CATEGORIES_GET = "/all-categories";

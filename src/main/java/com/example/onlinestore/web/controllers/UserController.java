@@ -36,7 +36,7 @@ import static com.example.onlinestore.constants.Constants.*;
 import static com.example.onlinestore.constants.UserConstants.*;
 
 @Controller
-@RequestMapping(REQUEST_MAPPING_USERS)
+@RequestMapping(USERS_REQUEST_MAPPING)
 public class UserController extends BaseController {
 
     private final UserService userService;

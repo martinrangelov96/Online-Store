@@ -2,8 +2,14 @@ package com.example.onlinestore.constants;
 
 public final class ProductConstants {
 
-    //Product URL Constants
-    public static final String REQUEST_MAPPING_PRODUCTS = "/products";
+    //ProductController Constants
+    public final static String ADDED_ATTRIBUTE = "added";
+    public final static String ADDED_MESSAGE = "%s is/are in your wishlist!";
+    public final static String ALL_CONST = "all";
+
+    //Product URL Constants etc
+    public static final String PRODUCTS_REQUEST_MAPPING = "/products";
+
     public static final String ADD_PRODUCT_GET = "/add-product";
     public static final String ADD_PRODUCT_POST = "/add-product";
     public static final String ALL_PRODUCTS_GET = "/all-products";

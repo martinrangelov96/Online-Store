@@ -30,7 +30,7 @@ import static com.example.onlinestore.constants.Constants.*;
 import static com.example.onlinestore.constants.ProductConstants.*;
 
 @Controller
-@RequestMapping(REQUEST_MAPPING_PRODUCTS)
+@RequestMapping(PRODUCTS_REQUEST_MAPPING)
 public class ProductController extends BaseController {
 
     private final ProductService productService;

@@ -22,7 +22,7 @@ import static com.example.onlinestore.constants.Constants.*;
 import static com.example.onlinestore.constants.OrderConstants.*;
 
 @Controller
-@RequestMapping(REQUEST_MAPPING_ORDERS_CONST)
+@RequestMapping(ORDERS_REQUEST_MAPPING)
 public class OrderController extends BaseController {
 
     private final OrderService orderService;

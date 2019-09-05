@@ -2,8 +2,22 @@ package com.example.onlinestore.constants;
 
 public final class UserConstants {
 
-    //Users URL Constants
-    public static final String REQUEST_MAPPING_USERS = "/users";
+    //UserController Constants
+    public final static String CUSTOMER_BALANCE = "customer-balance";
+    public final static String PASSWORDS_DONT_MATCH_ATTRIBUTE = "passDontMatch";
+    public final static String PASSWORDS_DONT_MATCH_MESSAGE = "Passwords don't match!";
+    public final static String G_RECAPTCHA_RESPONSE = "g-recaptcha-response";
+    public final static String RECAPTCHA_ERROR_ATTRIBUTE = "recaptchaError";
+    public final static String RECAPTCHA_ERROR_MESSAGE = "You did not complete reCaptcha. Please try again!";
+    public final static String SUCCESSFUL_REGISTER_ATTRIBUTE = "successfulRegistration";
+    public final static String SUCCESSFUL_REGISTER_MESSAGE = "You have registered successfully, %s!";
+    public final static String YOU_CAN_LOGIN_ATTRIBUTE = "youCanLogin";
+    public final static String YOU_CAN_LOGIN_MESSAGE = "You can login now.";
+    public final static String PROFILE_PICTURE_ATTRIBUTE = "profilePicture";
+
+    //Users URL Constants etc
+    public static final String USERS_REQUEST_MAPPING = "/users";
+
     public static final String REGISTER_GET = "/register";
     public static final String REGISTER_POST = "/register";
     public static final String LOGIN_GET = "/login";

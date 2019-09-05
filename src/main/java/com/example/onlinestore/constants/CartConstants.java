@@ -6,8 +6,9 @@ public final class CartConstants {
     public final static String NOT_ENOUGH_MONEY_MESSAGE = "You don't have enough money for this order!";
     public final static String TOTAL_PRICE_ATTRIBUTE = "totalPrice";
 
-    //Cart URL Constants
-    public final static String REQUEST_MAPPING_CART = "/cart";
+    //Cart URL Constants etc
+    public final static String CART_REQUEST_MAPPING = "/cart";
+
     public final static String ADD_PRODUCT_POST = "/add-product";
     public final static String DETAILS_CART_GET = "/details-cart";
     public final static String REMOVE_PRODUCT_DELETE = "/remove-product";

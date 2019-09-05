@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void setRole(String id, String role) {
         User user = this.userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Can't find user with this id!"));
+                .orElseThrow(() -> new IllegalArgumentException(CANT_FIND_USER_WITH_THIS_ID_EXCEPTION_MESSAGE));
 
         UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
         userServiceModel.getAuthorities().clear();

@@ -34,6 +34,7 @@ public final class Constants {
     public static final String WISHLIST_NOT_FOUND_EXCEPTION_MESSAGE = "Wishlist with this id does not exist!";
     public static final String DUPLICATE_USER_EXCEPTION_MESSAGE = "User with this username already exists!";
     public static final String DUPLICATE_EMAIL_EXCEPTION_MESSAGE = "User with this email already exists!";
+    public final static String CANT_FIND_USER_WITH_THIS_ID_EXCEPTION_MESSAGE = "Can't find user with this id!";
     public final static String EMPTY_LIST_NAME = "emptyList";
     public final static String EMPTY_LIST_SINGULAR_MESSAGE = "Your %s is empty!";
     public final static String EMPTY_LIST_PLURAL_MESSAGE = "Your %s are empty!";
@@ -57,7 +58,7 @@ public final class Constants {
     public final static String PRODUCT_ATTRIBUTE = "product";
     public final static String PRODUCTS_ATTRIBUTE = "products";
 
-    //URL Constants
+    //URL Global Constants
     public final static String FETCH_GET = "/fetch";
     public final static String FETCH_BY_CATEGORY_GET = "/fetch/{category}";
     public final static String INDEX_GET = "/";
@@ -84,24 +85,6 @@ public final class Constants {
     public final static String PROFILE_PAGE_TITLE = "Profile";
     public final static String EDIT_PROFILE_PAGE_TITLE = "Edit Profile";
     public final static String ALL_USERS_PAGE_TITLE = "All Users";
-
-    //UserController Constants
-    public final static String CUSTOMER_BALANCE = "customer-balance";
-    public final static String PASSWORDS_DONT_MATCH_ATTRIBUTE = "passDontMatch";
-    public final static String PASSWORDS_DONT_MATCH_MESSAGE = "Passwords don't match!";
-    public final static String G_RECAPTCHA_RESPONSE = "g-recaptcha-response";
-    public final static String RECAPTCHA_ERROR_ATTRIBUTE = "recaptchaError";
-    public final static String RECAPTCHA_ERROR_MESSAGE = "You did not complete reCaptcha. Please try again!";
-    public final static String SUCCESSFUL_REGISTER_ATTRIBUTE = "successfulRegistration";
-    public final static String SUCCESSFUL_REGISTER_MESSAGE = "You have registered successfully, %s!";
-    public final static String YOU_CAN_LOGIN_ATTRIBUTE = "youCanLogin";
-    public final static String YOU_CAN_LOGIN_MESSAGE = "You can login now.";
-    public final static String PROFILE_PICTURE_ATTRIBUTE = "profilePicture";
-
-    //ProductController Constants
-    public final static String ADDED_ATTRIBUTE = "added";
-    public final static String ADDED_MESSAGE = "%s is/are in your wishlist!";
-    public final static String ALL_CONST = "all";
-
+    public final static String MY_WISHLIST_PAGE_TITLE = "My Wishlist";
 
 }
