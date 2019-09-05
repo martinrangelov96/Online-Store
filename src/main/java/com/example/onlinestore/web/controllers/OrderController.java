@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.onlinestore.constants.Constants.*;
-import static com.example.onlinestore.constants.OrdersConstants.*;
+import static com.example.onlinestore.constants.OrderConstants.*;
 
 @Controller
 @RequestMapping(REQUEST_MAPPING_ORDERS_CONST)
