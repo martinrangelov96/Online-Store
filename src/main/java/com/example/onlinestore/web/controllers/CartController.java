@@ -29,7 +29,7 @@ import static com.example.onlinestore.constants.Constants.*;
 import static com.example.onlinestore.constants.CartConstants.*;
 
 @Controller
-@RequestMapping(REQUEST_MAPPING_CART_CONST)
+@RequestMapping(REQUEST_MAPPING_CART)
 public class CartController extends BaseController {
 
     private final ProductService productService;

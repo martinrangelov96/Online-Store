@@ -9,10 +9,13 @@ public final class Constants {
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
     public static final String ROLE_ROOT = "ROLE_ROOT";
 
+    //@PreAuthorize annotation Constants
     public static final String HAS_ROLE_USER = "ROLE_USER";
     public static final String HAS_ROLE_MODERATOR = "hasRole('ROLE_MODERATOR')";
-    public static final String HAS_ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String HAS_ROLE_ADMIN = "hasRole('ROLE_ADMIN')";
     public static final String HAS_ROLE_ROOT = "ROLE_ROOT";
+    public static final String IS_ANONYMOUS = "isAnonymous()";
+    public static final String IS_AUTHENTICATED = "isAuthenticated()";
 
     public static final String USER_STRING = "user";
     public static final String MODERATOR_STRING = "moderator";
@@ -58,6 +61,8 @@ public final class Constants {
 
     //URL Constants
     public final static String FETCH_GET = "/fetch";
+    public final static String INDEX_GET = "/";
+    public final static String INDEX_VIEW_NAME = "index";
 
     //@PageTitle annotation Constants
     public final static String CART_DETAILS_PAGE_TITLE = "Cart Details";
@@ -65,6 +70,10 @@ public final class Constants {
     public final static String ALL_CATEGORIES_PAGE_TITLE = "All Categories";
     public final static String EDIT_CATEGORY_PAGE_TITLE = "Edit Category";
     public final static String DELETE_CATEGORY_PAGE_TITLE = "Delete Category";
+    public final static String INDEX_PAGE_PAGE_TITLE = "Index Page";
+    public final static String ALL_ORDERS_PAGE_TITLE = "All Orders";
+    public final static String CUSTOMER_ORDERS_PAGE_TITLE = "Customer Orders";
+    public final static String ORDER_DETAILS_PAGE_TITLE = "Order Details";
 
     //UserController Constants
     public final static String CUSTOMER_BALANCE = "customer-balance";

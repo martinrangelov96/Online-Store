@@ -23,7 +23,7 @@ import static com.example.onlinestore.constants.Constants.*;
 import static com.example.onlinestore.constants.CategoryConstants.*;
 
 @Controller
-@RequestMapping(REQUEST_MAPPING_CATEGORIES_CONST)
+@RequestMapping(REQUEST_MAPPING_CATEGORIES)
 public class CategoryController extends BaseController {
 
     private final CategoryService categoryService;

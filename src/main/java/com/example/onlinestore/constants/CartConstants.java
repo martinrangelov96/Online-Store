@@ -7,7 +7,7 @@ public final class CartConstants {
     public final static String TOTAL_PRICE_ATTRIBUTE = "totalPrice";
 
     //Cart URL Constants
-    public final static String REQUEST_MAPPING_CART_CONST = "/cart";
+    public final static String REQUEST_MAPPING_CART = "/cart";
     public final static String ADD_PRODUCT_POST = "/add-product";
     public final static String DETAILS_CART_GET = "/details-cart";
     public final static String REMOVE_PRODUCT_DELETE = "/remove-product";

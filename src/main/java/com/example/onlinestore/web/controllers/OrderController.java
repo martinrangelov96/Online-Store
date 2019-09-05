@@ -19,9 +19,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.onlinestore.constants.Constants.*;
+import static com.example.onlinestore.constants.OrdersConstants.*;
 
 @Controller
-@RequestMapping("/orders")
+@RequestMapping(REQUEST_MAPPING_ORDERS_CONST)
 public class OrderController extends BaseController {
 
     private final OrderService orderService;
@@ -33,9 +34,9 @@ public class OrderController extends BaseController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/all-orders")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PageTitle("All Orders")
+    @GetMapping(ALL_ORDERS_GET)
+    @PreAuthorize(HAS_ROLE_ADMIN)
+    @PageTitle(ALL_ORDERS_PAGE_TITLE)
     public ModelAndView allOrders(ModelAndView modelAndView) {
         List<OrderServiceModel> orderServiceModels = this.orderService.findAllOrdersOrderedByDate();
         List<OrderViewModel> orderViewModels = orderServiceModels
@@ -56,12 +57,12 @@ public class OrderController extends BaseController {
         }
 
         modelAndView.addObject(ORDERS_ATTRIBUTE, orderViewModels);
-        return view("/orders/list-orders", modelAndView);
+        return view(LIST_ORDERS_VIEW_NAME, modelAndView);
     }
 
-    @GetMapping("/customer-orders")
-    @PreAuthorize("isAuthenticated()")
-    @PageTitle("Customer Orders")
+    @GetMapping(CUSTOMER_ORDERS_GET)
+    @PreAuthorize(IS_AUTHENTICATED)
+    @PageTitle(CUSTOMER_ORDERS_PAGE_TITLE)
     public ModelAndView customerOrders(Principal principal, ModelAndView modelAndView) {
         List<OrderServiceModel> orderServiceModels =
                 this.orderService.findAllOrdersByCustomerOrderedByTime(principal.getName());
@@ -75,18 +76,18 @@ public class OrderController extends BaseController {
         }
 
         modelAndView.addObject(ORDERS_ATTRIBUTE, orderViewModels);
-        return view("/orders/list-orders", modelAndView);
+        return view(LIST_ORDERS_VIEW_NAME, modelAndView);
     }
 
-    @GetMapping("/details-order/{id}")
-    @PreAuthorize("isAuthenticated()")
-    @PageTitle("Order Details")
+    @GetMapping(DETAILS_ORDER_BY_ID_GET)
+    @PreAuthorize(IS_AUTHENTICATED)
+    @PageTitle(ORDER_DETAILS_PAGE_TITLE)
     public ModelAndView allOrderDetails(@PathVariable String id, ModelAndView modelAndView) {
         OrderServiceModel orderServiceModel = this.orderService.findOrderById(id);
         OrderViewModel orderViewModel = this.modelMapper.map(orderServiceModel, OrderViewModel.class);
 
         modelAndView.addObject(ORDER_ATTRIBUTE, orderViewModel);
-        return view("/orders/details-order", modelAndView);
+        return view(DETAILS_ORDER_VIEW_NAME, modelAndView);
     }
 
 }
