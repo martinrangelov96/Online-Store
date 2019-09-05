@@ -20,9 +20,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.onlinestore.constants.Constants.*;
+import static com.example.onlinestore.constants.CategoryConstants.*;
 
 @Controller
-@RequestMapping("/categories")
+@RequestMapping(REQUEST_MAPPING_CATEGORIES_CONST)
 public class CategoryController extends BaseController {
 
     private final CategoryService categoryService;
@@ -38,31 +39,31 @@ public class CategoryController extends BaseController {
         this.categoryEditValidator = categoryEditValidator;
     }
 
-    @GetMapping("/add-category")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    @PageTitle("Add Category")
+    @GetMapping(ADD_CATEGORY_GET)
+    @PreAuthorize(HAS_ROLE_MODERATOR)
+    @PageTitle(ADD_CATEGORY_PAGE_TITLE)
     public ModelAndView addCategory(@ModelAttribute(name = MODEL_ATTRIBUTE) CategoryAddBindingModel model) {
-        return view("/categories/add-category");
+        return view(ADD_CATEGORY_VIEW_NAME);
     }
 
-    @PostMapping("/add-category")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PostMapping(ADD_CATEGORY_POST)
+    @PreAuthorize(HAS_ROLE_MODERATOR)
     public ModelAndView addCategoryConfirm(@ModelAttribute(name = MODEL_ATTRIBUTE) CategoryAddBindingModel model, BindingResult bindingResult) {
         this.categoryAddValidator.validate(model, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return view("/categories/add-category");
+            return view(ADD_CATEGORY_VIEW_NAME);
         }
 
         CategoryServiceModel categoryServiceModel = this.modelMapper.map(model, CategoryServiceModel.class);
 
         this.categoryService.addCategory(categoryServiceModel);
-        return redirect("/categories/all-categories");
+        return redirect(ALL_CATEGORIES_URL);
     }
 
-    @GetMapping("/all-categories")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    @PageTitle("All Categories")
+    @GetMapping(ALL_CATEGORIES_GET)
+    @PreAuthorize(HAS_ROLE_MODERATOR)
+    @PageTitle(ALL_CATEGORIES_PAGE_TITLE)
     public ModelAndView allCategories(ModelAndView modelAndView) {
         List<CategoryViewModel> categoryViewModels = this.categoryService.findAllCategories()
                 .stream()
@@ -70,12 +71,12 @@ public class CategoryController extends BaseController {
                 .collect(Collectors.toList());
 
         modelAndView.addObject(CATEGORIES_ATTRIBUTE, categoryViewModels);
-        return view("/categories/all-categories", modelAndView);
+        return view(ALL_CATEGORIES_VIEW_NAME, modelAndView);
     }
 
-    @GetMapping("/edit-category/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    @PageTitle("Edit Category")
+    @GetMapping(EDIT_CATEGORY_BY_ID_GET)
+    @PreAuthorize(HAS_ROLE_MODERATOR)
+    @PageTitle(EDIT_CATEGORY_PAGE_TITLE)
     public ModelAndView editCategory(@PathVariable String id, ModelAndView modelAndView, CategoryEditBindingModel model) {
         CategoryServiceModel categoryServiceModel = this.categoryService.findCategoryById(id);
         CategoryViewModel categoryViewModel = this.modelMapper.map(categoryServiceModel, CategoryViewModel.class);
@@ -83,11 +84,11 @@ public class CategoryController extends BaseController {
         modelAndView.addObject(ID_CONST, categoryViewModel.getId());
         modelAndView.addObject(NAME_CONST, categoryViewModel.getName());
         modelAndView.addObject(MODEL_ATTRIBUTE, model);
-        return view("/categories/edit-category", modelAndView);
+        return view(EDIT_CATEGORY_VIEW_NAME, modelAndView);
     }
 
-    @PatchMapping("/edit-category/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PatchMapping(EDIT_CATEGORY_BY_ID_PATCH)
+    @PreAuthorize(HAS_ROLE_MODERATOR)
     public ModelAndView editCategoryConfirm(@PathVariable String id, @ModelAttribute(name = MODEL_ATTRIBUTE) CategoryEditBindingModel model, BindingResult bindingResult, ModelAndView modelAndView) {
         this.categoryEditValidator.validate(model, bindingResult);
 
@@ -96,41 +97,42 @@ public class CategoryController extends BaseController {
             modelAndView.addObject(NAME_CONST, model.getName());
             modelAndView.addObject(MODEL_ATTRIBUTE, model);
 
-            return view("/categories/edit-category", modelAndView);
+            return view(EDIT_CATEGORY_VIEW_NAME, modelAndView);
         }
 
         CategoryServiceModel categoryServiceModel = this.modelMapper.map(model, CategoryServiceModel.class);
 
         this.categoryService.editCategory(id, categoryServiceModel);
-        return redirect("/categories/all-categories");
+        return redirect(ALL_CATEGORIES_URL);
     }
 
-    @GetMapping("/delete-category/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    @PageTitle("Delete Category")
+    @GetMapping(DELETE_CATEGORY_BY_ID_GET)
+    @PreAuthorize(HAS_ROLE_MODERATOR)
+    @PageTitle(DELETE_CATEGORY_PAGE_TITLE)
     public ModelAndView deleteCategory(@PathVariable String id, ModelAndView modelAndView) {
         CategoryServiceModel categoryServiceModel = this.categoryService.findCategoryById(id);
         CategoryViewModel categoryViewModel = this.modelMapper.map(categoryServiceModel, CategoryViewModel.class);
 
         modelAndView.addObject(CATEGORY_ATTRIBUTE, categoryViewModel);
-        return view("/categories/delete-category", modelAndView);
+        return view(DELETE_CATEGORY_VIEW_NAME, modelAndView);
     }
 
-    @DeleteMapping("/delete-category/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @DeleteMapping(DELETE_CATEGORY_BY_ID_DELETE)
+    @PreAuthorize(HAS_ROLE_MODERATOR)
     public ModelAndView deleteCategoryConfirm(@PathVariable String id) {
         this.categoryService.deleteCategory(id);
-        return redirect("/categories/all-categories");
+        return redirect(ALL_CATEGORIES_URL);
     }
 
-    @GetMapping("/fetch")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @GetMapping(FETCH_GET)
+    @PreAuthorize(HAS_ROLE_MODERATOR)
     @ResponseBody
     public List<CategoryViewModel> fetchCategories() {
         List<CategoryViewModel> categoryViewModels = this.categoryService.findAllCategories()
                 .stream()
                 .map(categoryServiceModel -> this.modelMapper.map(categoryServiceModel, CategoryViewModel.class))
                 .collect(Collectors.toList());
+
         return categoryViewModels;
     }
 

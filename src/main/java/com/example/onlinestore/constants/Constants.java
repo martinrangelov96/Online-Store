@@ -9,6 +9,11 @@ public final class Constants {
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
     public static final String ROLE_ROOT = "ROLE_ROOT";
 
+    public static final String HAS_ROLE_USER = "ROLE_USER";
+    public static final String HAS_ROLE_MODERATOR = "hasRole('ROLE_MODERATOR')";
+    public static final String HAS_ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String HAS_ROLE_ROOT = "ROLE_ROOT";
+
     public static final String USER_STRING = "user";
     public static final String MODERATOR_STRING = "moderator";
     public static final String ADMIN_STRING = "admin";
@@ -20,6 +25,7 @@ public final class Constants {
     public final static String ID_CONST = "id";
     public final static String NAME_CONST = "name";
 
+    //Exception Constants
     public static final String USERNAME_NOT_FOUND_EXCEPTION_MESSAGE = "Username not found!";
     public static final String CATEGORY_NOT_FOUND_EXCEPTION_MESSAGE = "Category with this id does not exist!";
     public static final String PRODUCT_NOT_FOUND_EXCEPTION_MESSAGE = "Product with this id does not exist!";
@@ -32,6 +38,7 @@ public final class Constants {
     public final static String EMPTY_LIST_PLURAL_MESSAGE = "Your %s are empty!";
     public final static String EMPTY_MODERATOR_ORDERS_MESSAGE = "There are currently no orders!";
 
+    //Validation Constants
     public static final String NAME_LENGTH_VALIDATION = "Name length validation";
     public static final String CATEGORY_ALREADY_EXISTS_VALIDATION_MESSAGE = "Category with name '%s' already exists!";
     public static final String NAME_MUST_CONTAINS_SYMBOLS_MESSAGE = "Name must contains at least 3 symbols!";
@@ -48,6 +55,16 @@ public final class Constants {
     public final static String ORDERS_ATTRIBUTE = "orders";
     public final static String PRODUCT_ATTRIBUTE = "product";
     public final static String PRODUCTS_ATTRIBUTE = "products";
+
+    //URL Constants
+    public final static String FETCH_GET = "/fetch";
+
+    //@PageTitle annotation Constants
+    public final static String CART_DETAILS_PAGE_TITLE = "Cart Details";
+    public final static String ADD_CATEGORY_PAGE_TITLE = "Add Category";
+    public final static String ALL_CATEGORIES_PAGE_TITLE = "All Categories";
+    public final static String EDIT_CATEGORY_PAGE_TITLE = "Edit Category";
+    public final static String DELETE_CATEGORY_PAGE_TITLE = "Delete Category";
 
     //UserController Constants
     public final static String CUSTOMER_BALANCE = "customer-balance";
@@ -66,8 +83,6 @@ public final class Constants {
     public final static String ADDED_ATTRIBUTE = "added";
     public final static String ADDED_MESSAGE = "%s is/are in your wishlist!";
     public final static String ALL_CONST = "all";
-
-    //URL Constants
 
 
 }
