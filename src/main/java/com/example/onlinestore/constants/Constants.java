@@ -61,7 +61,6 @@ public final class Constants {
 
     //URL Constants
     public final static String FETCH_GET = "/fetch";
-    public final static String FETCH_BY_CATEGORY_GET = "/fetch/{category}";
     public final static String INDEX_GET = "/";
     public final static String INDEX_VIEW_NAME = "index";
 
@@ -75,11 +74,6 @@ public final class Constants {
     public final static String ALL_ORDERS_PAGE_TITLE = "All Orders";
     public final static String CUSTOMER_ORDERS_PAGE_TITLE = "Customer Orders";
     public final static String ORDER_DETAILS_PAGE_TITLE = "Order Details";
-    public final static String ADD_PRODUCT_PAGE_TITLE = "Add Product";
-    public final static String ALL_PRODUCTS_PAGE_TITLE = "All Products";
-    public final static String PRODUCT_DETAILS_PAGE_TITLE = "Product Details";
-    public final static String EDIT_PRODUCT_PAGE_TITLE = "Edit Product";
-    public final static String DELETE_PRODUCT_PAGE_TITLE = "Delete Product";
 
     //UserController Constants
     public final static String CUSTOMER_BALANCE = "customer-balance";
