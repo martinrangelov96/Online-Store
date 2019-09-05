@@ -10,10 +10,8 @@ public final class Constants {
     public static final String ROLE_ROOT = "ROLE_ROOT";
 
     //@PreAuthorize annotation Constants
-    public static final String HAS_ROLE_USER = "ROLE_USER";
     public static final String HAS_ROLE_MODERATOR = "hasRole('ROLE_MODERATOR')";
     public static final String HAS_ROLE_ADMIN = "hasRole('ROLE_ADMIN')";
-    public static final String HAS_ROLE_ROOT = "ROLE_ROOT";
     public static final String IS_ANONYMOUS = "isAnonymous()";
     public static final String IS_AUTHENTICATED = "isAuthenticated()";
 
@@ -80,6 +78,12 @@ public final class Constants {
     public final static String PRODUCT_DETAILS_PAGE_TITLE = "Product Details";
     public final static String EDIT_PRODUCT_PAGE_TITLE = "Edit Product";
     public final static String DELETE_PRODUCT_PAGE_TITLE = "Delete Product";
+    public final static String REGISTER_PAGE_TITLE = "Register";
+    public final static String LOGIN_PAGE_TITLE = "Login";
+    public final static String HOME_PAGE_PAGE_TITLE = "Home Page";
+    public final static String PROFILE_PAGE_TITLE = "Profile";
+    public final static String EDIT_PROFILE_PAGE_TITLE = "Edit Profile";
+    public final static String ALL_USERS_PAGE_TITLE = "All Users";
 
     //UserController Constants
     public final static String CUSTOMER_BALANCE = "customer-balance";
