@@ -1,6 +1,5 @@
 package com.example.onlinestore.validation;
 
-import com.example.onlinestore.constants.Constants;
 import com.example.onlinestore.domain.models.binding.CategoryEditBindingModel;
 import com.example.onlinestore.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
