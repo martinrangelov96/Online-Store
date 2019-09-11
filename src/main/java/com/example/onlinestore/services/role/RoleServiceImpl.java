@@ -1,6 +1,5 @@
 package com.example.onlinestore.services.role;
 
-import com.example.onlinestore.domain.entities.Role;
 import com.example.onlinestore.domain.models.service.RoleServiceModel;
 import com.example.onlinestore.repository.RoleRepository;
 import org.modelmapper.ModelMapper;
@@ -27,10 +26,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void seedRolesInDb() {
         if (this.roleRepository.count() == 0) {
-            this.roleRepository.save(new Role(ROLE_USER));
-            this.roleRepository.save(new Role(ROLE_MODERATOR));
-            this.roleRepository.save(new Role(ROLE_ADMIN));
-            this.roleRepository.save(new Role(ROLE_ROOT));
+            this.roleRepository.save(RoleFactory.createRole(ROLE_USER));
+            this.roleRepository.save(RoleFactory.createRole(ROLE_MODERATOR));
+            this.roleRepository.save(RoleFactory.createRole(ROLE_ADMIN));
+            this.roleRepository.save(RoleFactory.createRole(ROLE_ROOT));
         }
     }
 
