@@ -11,7 +11,7 @@
     <groupId>com.example</groupId>
     <artifactId>onlinestore</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+<!--    <packaging>war</packaging>-->
     <name>onlinestore</name>
     <description>Online Store using Spring MVC, Hibernate, Thymeleaf etc.</description>
 
