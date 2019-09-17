@@ -1,1 +1,1 @@
-web : java -Dserver.port=53221 $JAVA_OPTS -jar target/onlinestore-1.0.0-SNAPSHOT.jar
+web: java $JAVA_OPTS -jar target/dependency/webapp-runner.jar --port $PORT target/*.war
