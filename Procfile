@@ -1,1 +1,1 @@
-web: $JAVA_OPTS -Dserver.port=$PORT -jar target/onlinestore.jar
+web: java $JAVA_OPTS -jar target/dependency/onlinestore.jar --port 44920 target/*.war
