@@ -46,7 +46,7 @@ public class CartController extends BaseController {
     }
 
     @PostMapping(ADD_PRODUCT_POST)
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize(IS_AUTHENTICATED)
     public ModelAndView addToCartConfirm(String id, int quantity, HttpSession session) {
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
         this.productService.updateQuantityAfterAddingToCart(id, quantity);
@@ -64,7 +64,7 @@ public class CartController extends BaseController {
     }
 
     @GetMapping(DETAILS_CART_GET)
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize(IS_AUTHENTICATED)
     @PageTitle(CART_DETAILS_PAGE_TITLE)
     public ModelAndView cartDetails(ModelAndView modelAndView, HttpSession session, Principal principal) {
         var cart = this.retrieveCart(session);
@@ -83,7 +83,7 @@ public class CartController extends BaseController {
     }
 
     @DeleteMapping(REMOVE_PRODUCT_DELETE)
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize(IS_AUTHENTICATED)
     public ModelAndView removeFromCartConfirm(String id, HttpSession session) {
         var cart = this.retrieveCart(session);
 
