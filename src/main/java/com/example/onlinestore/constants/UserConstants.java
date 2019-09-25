@@ -30,7 +30,7 @@ public final class UserConstants {
 //    public static final String SET_USER_BY_ID_POST = "/set-user/{id}";
 //    public static final String SET_MODERATOR_BY_ID_POST = "/set-moderator/{id}";
 //    public static final String SET_ADMIN_BY_ID_POST = "/set-admin/{id}";
-//
+
 //    public static final String USERS_REGISTER_VIEW_NAME = "/users/register";
 //    public static final String USERS_LOGIN_VIEW_NAME = "/users/login";
 //    public static final String USERS_HOME_VIEW_NAME = "/users/home";
