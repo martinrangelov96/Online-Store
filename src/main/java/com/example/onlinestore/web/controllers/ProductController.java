@@ -30,7 +30,7 @@ import static com.example.onlinestore.constants.Constants.*;
 import static com.example.onlinestore.constants.ProductConstants.*;
 
 @Controller
-@RequestMapping(PRODUCTS_REQUEST_MAPPING)
+@RequestMapping("/products")
 public class ProductController extends BaseController {
 
     private final ProductService productService;
@@ -48,14 +48,14 @@ public class ProductController extends BaseController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping(ADD_PRODUCT_GET)
+    @GetMapping("/add-product")
     @PreAuthorize(HAS_ROLE_MODERATOR)
     @PageTitle(ADD_PRODUCT_PAGE_TITLE)
     public ModelAndView addProduct() {
-        return view(ADD_PRODUCT_VIEW_NAME);
+        return view("/products/add-product");
     }
 
-    @PostMapping(ADD_PRODUCT_POST)
+    @PostMapping("/add-product")
     @PreAuthorize(HAS_ROLE_MODERATOR)
     public ModelAndView addProductConfirm(@ModelAttribute(name = MODEL_ATTRIBUTE) ProductAddBindingModel model) throws IOException {
         ProductServiceModel productServiceModel = this.modelMapper.map(model, ProductServiceModel.class);
@@ -68,10 +68,10 @@ public class ProductController extends BaseController {
         productServiceModel.setCategories(categories);
 
         this.productService.addProduct(productServiceModel);
-        return redirect(ALL_PRODUCTS_URL);
+        return redirect("/products/all-products");
     }
 
-    @GetMapping(ALL_PRODUCTS_GET)
+    @GetMapping("/all-products")
     @PreAuthorize(HAS_ROLE_MODERATOR)
     @PageTitle(ALL_PRODUCTS_PAGE_TITLE)
     public ModelAndView allProducts(ModelAndView modelAndView) {
@@ -81,10 +81,10 @@ public class ProductController extends BaseController {
                 .collect(Collectors.toList());
 
         modelAndView.addObject(PRODUCTS_ATTRIBUTE, productViewModels);
-        return view(ALL_PRODUCTS_VIEW_NAME, modelAndView);
+        return view("/products/all-products", modelAndView);
     }
 
-    @GetMapping(DETAILS_PRODUCT_BY_ID_GET)
+    @GetMapping("/details-product/{id}")
     @PreAuthorize(IS_AUTHENTICATED)
     @PageTitle(PRODUCT_DETAILS_PAGE_TITLE)
     public ModelAndView detailsProduct(@PathVariable String id, Principal principal, ModelAndView modelAndView) {
@@ -95,14 +95,14 @@ public class ProductController extends BaseController {
         if (this.wishListService.checkIfProductExists(productServiceModel, userServiceModel)) {
             modelAndView.addObject(PRODUCT_ATTRIBUTE, productDetailsViewModel);
             modelAndView.addObject(ADDED_ATTRIBUTE, String.format(ADDED_MESSAGE, productDetailsViewModel.getName()));
-            return view(DETAILS_PRODUCT_VIEW_NAME, modelAndView);
+            return view("/products/details-product", modelAndView);
         }
 
         modelAndView.addObject(PRODUCT_ATTRIBUTE, productDetailsViewModel);
-        return view(DETAILS_PRODUCT_VIEW_NAME, modelAndView);
+        return view("/products/details-product", modelAndView);
     }
 
-    @PostMapping(ADD_TO_WISHLIST_POST)
+    @PostMapping("/add-to-wishlist")
     @PreAuthorize(IS_AUTHENTICATED)
     @PageTitle(PRODUCT_DETAILS_PAGE_TITLE)
     public ModelAndView addProductToWishlist(@RequestParam String productId, Principal principal, ModelAndView modelAndView) {
@@ -114,10 +114,10 @@ public class ProductController extends BaseController {
         }
 
         this.wishListService.addProductToWishlist(productServiceModel, userServiceModel);
-        return redirect(DETAILS_PRODUCT_URL_WITH_PRODUCT_ID_AFTER + productId);
+        return redirect("/products/details-product/" + productId);
     }
 
-    @GetMapping(EDIT_PRODUCT_BY_ID_GET)
+    @GetMapping("/edit-product/{id}")
     @PreAuthorize(HAS_ROLE_MODERATOR)
     @PageTitle(EDIT_PRODUCT_PAGE_TITLE)
     public ModelAndView editProduct(@PathVariable String id, ModelAndView modelAndView) {
@@ -132,10 +132,10 @@ public class ProductController extends BaseController {
                         .collect(Collectors.toList()));
 
         modelAndView.addObject(PRODUCT_ATTRIBUTE, productEditViewModel);
-        return view(EDIT_PRODUCT_VIEW_NMAE, modelAndView);
+        return view("/products/edit-product", modelAndView);
     }
 
-    @PatchMapping(EDIT_PRODUCT_BY_ID_PATCH)
+    @PatchMapping("/edit-product/{id}")
     @PreAuthorize(HAS_ROLE_MODERATOR)
     public ModelAndView editProductConfirm(@PathVariable String id, @ModelAttribute(name = MODEL_ATTRIBUTE) ProductEditBindingModel model) throws IOException {
         ProductServiceModel productServiceModel = this.modelMapper.map(model, ProductServiceModel.class);
@@ -153,10 +153,10 @@ public class ProductController extends BaseController {
         productServiceModel.setCategories(categories);
 
         this.productService.editProduct(id, productServiceModel);
-        return redirect(ALL_PRODUCTS_URL);
+        return redirect("/products/all-products");
     }
 
-    @GetMapping(DELETE_PRODUCT_BY_ID_GET)
+    @GetMapping("/delete-product/{id}")
     @PreAuthorize(HAS_ROLE_MODERATOR)
     @PageTitle(DELETE_PRODUCT_PAGE_TITLE)
     public ModelAndView deleteProduct(@PathVariable String id, ModelAndView modelAndView) {
@@ -169,17 +169,17 @@ public class ProductController extends BaseController {
                 .collect(Collectors.toList()));
 
         modelAndView.addObject(PRODUCT_ATTRIBUTE, productDeleteViewModel);
-        return view(DELETE_PRODUCT_VIEW_NAME, modelAndView);
+        return view("/products/delete-product", modelAndView);
     }
 
-    @DeleteMapping(DELETE_PRODUCT_BY_ID_DELETE)
+    @DeleteMapping("/delete-product/{id}")
     @PreAuthorize(HAS_ROLE_MODERATOR)
     public ModelAndView deleteProductConfirm(@PathVariable String id) {
         this.productService.deleteProduct(id);
-        return redirect(ALL_PRODUCTS_URL);
+        return redirect("/products/all-products");
     }
 
-    @GetMapping(FETCH_BY_CATEGORY_GET)
+    @GetMapping("/fetch/{category}")
     @ResponseBody
     public List<ProductViewModel> fetchByCategory(@PathVariable String category) {
         if(category.equals(ALL_CONST)) {

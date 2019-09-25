@@ -20,10 +20,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.onlinestore.constants.Constants.*;
-import static com.example.onlinestore.constants.CategoryConstants.*;
 
 @Controller
-@RequestMapping(CATEGORIES_REQUEST_MAPPING)
+@RequestMapping("/categories")
 public class CategoryController extends BaseController {
 
     private final CategoryService categoryService;
@@ -39,29 +38,29 @@ public class CategoryController extends BaseController {
         this.categoryEditValidator = categoryEditValidator;
     }
 
-    @GetMapping(ADD_CATEGORY_GET)
+    @GetMapping("/add-category")
     @PreAuthorize(HAS_ROLE_MODERATOR)
     @PageTitle(ADD_CATEGORY_PAGE_TITLE)
     public ModelAndView addCategory(@ModelAttribute(name = MODEL_ATTRIBUTE) CategoryAddBindingModel model) {
-        return view(ADD_CATEGORY_VIEW_NAME);
+        return view("/categories/add-category");
     }
 
-    @PostMapping(ADD_CATEGORY_POST)
+    @PostMapping("/add-category")
     @PreAuthorize(HAS_ROLE_MODERATOR)
     public ModelAndView addCategoryConfirm(@ModelAttribute(name = MODEL_ATTRIBUTE) CategoryAddBindingModel model, BindingResult bindingResult) {
         this.categoryAddValidator.validate(model, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return view(ADD_CATEGORY_VIEW_NAME);
+            return view("/categories/add-category");
         }
 
         CategoryServiceModel categoryServiceModel = this.modelMapper.map(model, CategoryServiceModel.class);
 
         this.categoryService.addCategory(categoryServiceModel);
-        return redirect(ALL_CATEGORIES_URL);
+        return redirect("/categories/all-categories");
     }
 
-    @GetMapping(ALL_CATEGORIES_GET)
+    @GetMapping("/all-categories")
     @PreAuthorize(HAS_ROLE_MODERATOR)
     @PageTitle(ALL_CATEGORIES_PAGE_TITLE)
     public ModelAndView allCategories(ModelAndView modelAndView) {
@@ -71,10 +70,10 @@ public class CategoryController extends BaseController {
                 .collect(Collectors.toList());
 
         modelAndView.addObject(CATEGORIES_ATTRIBUTE, categoryViewModels);
-        return view(ALL_CATEGORIES_VIEW_NAME, modelAndView);
+        return view("/categories/all-categories", modelAndView);
     }
 
-    @GetMapping(EDIT_CATEGORY_BY_ID_GET)
+    @GetMapping("/edit-category/{id}")
     @PreAuthorize(HAS_ROLE_MODERATOR)
     @PageTitle(EDIT_CATEGORY_PAGE_TITLE)
     public ModelAndView editCategory(@PathVariable String id, ModelAndView modelAndView, CategoryEditBindingModel model) {
@@ -84,10 +83,10 @@ public class CategoryController extends BaseController {
         modelAndView.addObject(ID_CONST, categoryViewModel.getId());
         modelAndView.addObject(NAME_CONST, categoryViewModel.getName());
         modelAndView.addObject(MODEL_ATTRIBUTE, model);
-        return view(EDIT_CATEGORY_VIEW_NAME, modelAndView);
+        return view("/categories/edit-category", modelAndView);
     }
 
-    @PatchMapping(EDIT_CATEGORY_BY_ID_PATCH)
+    @PatchMapping("/edit-category/{id}")
     @PreAuthorize(HAS_ROLE_MODERATOR)
     public ModelAndView editCategoryConfirm(@PathVariable String id, @ModelAttribute(name = MODEL_ATTRIBUTE) CategoryEditBindingModel model, BindingResult bindingResult, ModelAndView modelAndView) {
         this.categoryEditValidator.validate(model, bindingResult);
@@ -97,16 +96,16 @@ public class CategoryController extends BaseController {
             modelAndView.addObject(NAME_CONST, model.getName());
             modelAndView.addObject(MODEL_ATTRIBUTE, model);
 
-            return view(EDIT_CATEGORY_VIEW_NAME, modelAndView);
+            return view("/categories/edit-category", modelAndView);
         }
 
         CategoryServiceModel categoryServiceModel = this.modelMapper.map(model, CategoryServiceModel.class);
 
         this.categoryService.editCategory(id, categoryServiceModel);
-        return redirect(ALL_CATEGORIES_URL);
+        return redirect("/categories/all-categories");
     }
 
-    @GetMapping(DELETE_CATEGORY_BY_ID_GET)
+    @GetMapping("/delete-category/{id}")
     @PreAuthorize(HAS_ROLE_MODERATOR)
     @PageTitle(DELETE_CATEGORY_PAGE_TITLE)
     public ModelAndView deleteCategory(@PathVariable String id, ModelAndView modelAndView) {
@@ -114,17 +113,17 @@ public class CategoryController extends BaseController {
         CategoryViewModel categoryViewModel = this.modelMapper.map(categoryServiceModel, CategoryViewModel.class);
 
         modelAndView.addObject(CATEGORY_ATTRIBUTE, categoryViewModel);
-        return view(DELETE_CATEGORY_VIEW_NAME, modelAndView);
+        return view("/categories/delete-category", modelAndView);
     }
 
-    @DeleteMapping(DELETE_CATEGORY_BY_ID_DELETE)
+    @DeleteMapping("/delete-category/{id}")
     @PreAuthorize(HAS_ROLE_MODERATOR)
     public ModelAndView deleteCategoryConfirm(@PathVariable String id) {
         this.categoryService.deleteCategory(id);
-        return redirect(ALL_CATEGORIES_URL);
+        return redirect("/categories/all-categories");
     }
 
-    @GetMapping(FETCH_GET)
+    @GetMapping("/fetch")
     @PreAuthorize(HAS_ROLE_MODERATOR)
     @ResponseBody
     public List<CategoryViewModel> fetchCategories() {

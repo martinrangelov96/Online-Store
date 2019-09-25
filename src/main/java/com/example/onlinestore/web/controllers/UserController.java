@@ -36,7 +36,7 @@ import static com.example.onlinestore.constants.Constants.*;
 import static com.example.onlinestore.constants.UserConstants.*;
 
 @Controller
-@RequestMapping(USERS_REQUEST_MAPPING)
+@RequestMapping("/users")
 public class UserController extends BaseController {
 
     private final UserService userService;
@@ -56,14 +56,14 @@ public class UserController extends BaseController {
         this.userEditProfileValidator = userEditProfileValidator;
     }
 
-    @GetMapping(REGISTER_GET)
+    @GetMapping("/register")
     @PreAuthorize(IS_ANONYMOUS)
     @PageTitle(REGISTER_PAGE_TITLE)
     public ModelAndView register(@ModelAttribute(name = MODEL_ATTRIBUTE) UserRegisterBindingModel model) {
-        return view(USERS_REGISTER_VIEW_NAME);
+        return view("/users/register");
     }
 
-    @PostMapping(REGISTER_POST)
+    @PostMapping("/register")
     @PreAuthorize(IS_ANONYMOUS)
     public ModelAndView registerConfirm(@ModelAttribute(name = MODEL_ATTRIBUTE) UserRegisterBindingModel model,
                                         @RequestParam(name = G_RECAPTCHA_RESPONSE) String gRecaptchaResponse,
@@ -74,12 +74,12 @@ public class UserController extends BaseController {
         this.userService.existsByEmail(model.getEmail());
         if (!model.getPassword().equals(model.getConfirmPassword())) {
             modelAndView.addObject(PASSWORDS_DONT_MATCH_ATTRIBUTE, PASSWORDS_DONT_MATCH_MESSAGE);
-            return view(USERS_REGISTER_VIEW_NAME, modelAndView);
+            return view("/users/register", modelAndView);
         }
 
         if (this.recaptchaService.verifyRecaptcha(request.getRemoteAddr(), gRecaptchaResponse) == null) {
             modelAndView.addObject(RECAPTCHA_ERROR_ATTRIBUTE, RECAPTCHA_ERROR_MESSAGE);
-            return view(USERS_REGISTER_VIEW_NAME, modelAndView);
+            return view("/users/register", modelAndView);
         }
 
         UserServiceModel userServiceModel = this.modelMapper.map(model, UserServiceModel.class);
@@ -87,17 +87,17 @@ public class UserController extends BaseController {
         this.userService.registerUser(userServiceModel);
         modelAndView.addObject(SUCCESSFUL_REGISTER_ATTRIBUTE, String.format(SUCCESSFUL_REGISTER_MESSAGE, model.getUsername()));
         modelAndView.addObject(YOU_CAN_LOGIN_ATTRIBUTE, YOU_CAN_LOGIN_MESSAGE);
-        return view(USERS_LOGIN_VIEW_NAME, modelAndView);
+        return view("/users/login", modelAndView);
     }
 
-    @GetMapping(LOGIN_GET)
+    @GetMapping("/login")
     @PreAuthorize(IS_ANONYMOUS)
     @PageTitle(LOGIN_PAGE_TITLE)
     public ModelAndView login() {
-        return view(USERS_LOGIN_VIEW_NAME);
+        return view("/users/login");
     }
 
-    @GetMapping(HOME_GET)
+    @GetMapping("/home")
     @PreAuthorize(IS_AUTHENTICATED)
     @PageTitle(HOME_PAGE_PAGE_TITLE)
     public ModelAndView home(ModelAndView modelAndView) {
@@ -109,10 +109,10 @@ public class UserController extends BaseController {
                         .collect(Collectors.toList());
 
         modelAndView.addObject(CATEGORIES_ATTRIBUTE, categories);
-        return super.view(USERS_HOME_VIEW_NAME, modelAndView);
+        return super.view("/users/home", modelAndView);
     }
 
-    @GetMapping(PROFILE_GET)
+    @GetMapping("/profile")
     @PreAuthorize(IS_AUTHENTICATED)
     @PageTitle(PROFILE_PAGE_TITLE)
     public ModelAndView profile(Principal principal, ModelAndView modelAndView) {
@@ -120,19 +120,19 @@ public class UserController extends BaseController {
         UserProfileViewModel userProfileViewModel = this.modelMapper.map(userServiceModel, UserProfileViewModel.class);
 
         modelAndView.addObject(MODEL_ATTRIBUTE, userProfileViewModel);
-        return view(USERS_PROFILE_VIEW_NAME, modelAndView);
+        return view("/users/profile", modelAndView);
     }
 
-    @PostMapping(ADD_MONEY_POST)
+    @PostMapping("/add-money")
     @PreAuthorize(IS_AUTHENTICATED)
     public ModelAndView addMoneyToBalance(Principal principal, BigDecimal moneyToAdd) {
         UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
 
         this.userService.addMoneyToBalance(userServiceModel, moneyToAdd);
-        return redirect(USERS_PROFILE_URL);
+        return redirect("/users/profile");
     }
 
-    @GetMapping(EDIT_PROFILE_GET)
+    @GetMapping("/edit-profile")
     @PreAuthorize(IS_AUTHENTICATED)
     @PageTitle(EDIT_PROFILE_PAGE_TITLE)
     public ModelAndView editProfile(Principal principal, ModelAndView modelAndView) {
@@ -140,15 +140,15 @@ public class UserController extends BaseController {
         UserEditProfileViewModel userEditProfileViewModel = this.modelMapper.map(userServiceModel, UserEditProfileViewModel.class);
 
         modelAndView.addObject(MODEL_ATTRIBUTE, userEditProfileViewModel);
-        return view(USERS_EDIT_PROFILE_VIEW_NAME, modelAndView);
+        return view("/users/edit-profile", modelAndView);
     }
 
-    @PatchMapping(EDIT_PROFILE_PATCH)
+    @PatchMapping("/edit-profile")
     @PreAuthorize(IS_AUTHENTICATED)
     public ModelAndView editProfileConfirm(@ModelAttribute(name = MODEL_ATTRIBUTE) UserEditBindingModel model, BindingResult bindingResult) throws IOException {
         this.userEditProfileValidator.validate(model, bindingResult);
         if (bindingResult.hasErrors()) {
-            return view(USERS_EDIT_PROFILE_VIEW_NAME);
+            return view("/users/edit-profile");
         }
 
         UserServiceModel userServiceModel = this.modelMapper.map(model, UserServiceModel.class);
@@ -160,10 +160,10 @@ public class UserController extends BaseController {
         String oldPassword = model.getOldPassword();
 
         this.userService.editProfile(userServiceModel, oldPassword);
-        return redirect(USERS_PROFILE_URL);
+        return redirect("/users/profile");
     }
 
-    @GetMapping(ALL_USERS_GET)
+    @GetMapping("/all-users")
     @PreAuthorize(HAS_ROLE_ADMIN)
     @PageTitle(ALL_USERS_PAGE_TITLE)
     public ModelAndView allUsers(ModelAndView modelAndView) {
@@ -181,28 +181,28 @@ public class UserController extends BaseController {
                 .collect(Collectors.toList());
 
         modelAndView.addObject(USERS_ATTRIBUTE, users);
-        return view(USERS_ALL_USERS_VIEW_NAME, modelAndView);
+        return view("/users/all-users", modelAndView);
     }
 
-    @PostMapping(SET_USER_BY_ID_POST)
+    @PostMapping("/set-user/{id}")
     @PreAuthorize(HAS_ROLE_ADMIN)
     public ModelAndView setUser(@PathVariable String id) {
         this.userService.setRole(id, USER_STRING);
-        return redirect(USERS_ALL_USERS_URL);
+        return redirect("/users/all-users");
     }
 
-    @PostMapping(SET_MODERATOR_BY_ID_POST)
+    @PostMapping("/set-moderator/{id}")
     @PreAuthorize(HAS_ROLE_ADMIN)
     public ModelAndView setModerator(@PathVariable String id) {
         this.userService.setRole(id, MODERATOR_STRING);
-        return redirect(USERS_ALL_USERS_URL);
+        return redirect("/users/all-users");
     }
 
-    @PostMapping(SET_ADMIN_BY_ID_POST)
+    @PostMapping("/set-admin/{id}")
     @PreAuthorize(HAS_ROLE_ADMIN)
     public ModelAndView setAdmin(@PathVariable String id) {
         this.userService.setRole(id, ADMIN_STRING);
-        return redirect(USERS_ALL_USERS_URL);
+        return redirect("/users/all-users");
     }
 
     //If an user leave a field empty, this method sets its' value to 'null' instead of '' (empty String)

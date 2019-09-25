@@ -19,10 +19,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.onlinestore.constants.Constants.*;
-import static com.example.onlinestore.constants.OrderConstants.*;
 
 @Controller
-@RequestMapping(ORDERS_REQUEST_MAPPING)
+@RequestMapping("/orders")
 public class OrderController extends BaseController {
 
     private final OrderService orderService;
@@ -34,7 +33,7 @@ public class OrderController extends BaseController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping(ALL_ORDERS_GET)
+    @GetMapping("/all-orders")
     @PreAuthorize(HAS_ROLE_ADMIN)
     @PageTitle(ALL_ORDERS_PAGE_TITLE)
     public ModelAndView allOrders(ModelAndView modelAndView) {
@@ -57,10 +56,10 @@ public class OrderController extends BaseController {
         }
 
         modelAndView.addObject(ORDERS_ATTRIBUTE, orderViewModels);
-        return view(LIST_ORDERS_VIEW_NAME, modelAndView);
+        return view("/orders/list-orders", modelAndView);
     }
 
-    @GetMapping(CUSTOMER_ORDERS_GET)
+    @GetMapping("/customer-orders")
     @PreAuthorize(IS_AUTHENTICATED)
     @PageTitle(CUSTOMER_ORDERS_PAGE_TITLE)
     public ModelAndView customerOrders(Principal principal, ModelAndView modelAndView) {
@@ -76,10 +75,10 @@ public class OrderController extends BaseController {
         }
 
         modelAndView.addObject(ORDERS_ATTRIBUTE, orderViewModels);
-        return view(LIST_ORDERS_VIEW_NAME, modelAndView);
+        return view("/orders/list-orders", modelAndView);
     }
 
-    @GetMapping(DETAILS_ORDER_BY_ID_GET)
+    @GetMapping("/details-order/{id}")
     @PreAuthorize(IS_AUTHENTICATED)
     @PageTitle(ORDER_DETAILS_PAGE_TITLE)
     public ModelAndView allOrderDetails(@PathVariable String id, ModelAndView modelAndView) {
@@ -87,7 +86,7 @@ public class OrderController extends BaseController {
         OrderViewModel orderViewModel = this.modelMapper.map(orderServiceModel, OrderViewModel.class);
 
         modelAndView.addObject(ORDER_ATTRIBUTE, orderViewModel);
-        return view(DETAILS_ORDER_VIEW_NAME, modelAndView);
+        return view("/orders/details-order", modelAndView);
     }
 
 }

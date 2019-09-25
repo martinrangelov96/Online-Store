@@ -60,10 +60,10 @@ public final class Constants {
     public final static String PRODUCTS_ATTRIBUTE = "products";
 
     //URL Global Constants
-    public final static String FETCH_GET = "/fetch";
-    public final static String FETCH_BY_CATEGORY_GET = "/fetch/{category}";
-    public final static String INDEX_GET = "/";
-    public final static String INDEX_VIEW_NAME = "index";
+//    public final static String FETCH_GET = "/fetch";
+//    public final static String FETCH_BY_CATEGORY_GET = "/fetch/{category}";
+//    public final static String INDEX_GET = "/";
+//    public final static String INDEX_VIEW_NAME = "index";
 
     //@PageTitle annotation Constants
     public final static String CART_DETAILS_PAGE_TITLE = "Cart Details";

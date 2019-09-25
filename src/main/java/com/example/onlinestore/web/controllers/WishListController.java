@@ -22,10 +22,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.example.onlinestore.constants.Constants.*;
-import static com.example.onlinestore.constants.WishListConstants.*;
 
 @Controller
-@RequestMapping(WISHLIST_REQUEST_MAPPING)
+@RequestMapping("/wishlist")
 public class WishListController extends BaseController {
 
     private final WishListService wishListService;
@@ -39,7 +38,7 @@ public class WishListController extends BaseController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping(CUSTOMER_WISHLIST_GET)
+    @GetMapping("/customer-wishlist")
     @PreAuthorize(IS_AUTHENTICATED)
     @PageTitle(MY_WISHLIST_PAGE_TITLE)
     public ModelAndView customerWishlist(ModelAndView modelAndView, Principal principal) {
@@ -56,16 +55,16 @@ public class WishListController extends BaseController {
         }
 
         modelAndView.addObject(PRODUCTS_ATTRIBUTE, productDetailsViewModels);
-        return view(WISHLIST_CUSTOMER_WISHLIST_VIEW_NAME, modelAndView);
+        return view("/wishlist/customer-wishlist", modelAndView);
     }
 
-    @DeleteMapping(REMOVE_FROM_WISHLIST_DELETE)
+    @DeleteMapping("/remove-from-wishlist")
     @PreAuthorize(IS_AUTHENTICATED)
     public ModelAndView removeProductFromWishlist(@RequestParam String productId, Principal principal) {
         UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
         this.wishListService.removeProductById(productId, userServiceModel);
 
-        return redirect(WISHLIST_CUSTOMER_WISHLIST_URL);
+        return redirect("/wishlist/customer-wishlist");
     }
 
 }

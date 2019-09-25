@@ -11,11 +11,11 @@ import static com.example.onlinestore.constants.Constants.*;
 @Controller
 public class IndexController extends BaseController {
 
-    @GetMapping(INDEX_GET)
+    @GetMapping("/")
     @PreAuthorize(IS_ANONYMOUS)
     @PageTitle(INDEX_PAGE_PAGE_TITLE)
     public ModelAndView index() {
-        return view(INDEX_VIEW_NAME);
+        return view("index");
     }
 
 }
